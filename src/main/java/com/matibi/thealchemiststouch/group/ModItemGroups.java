@@ -1,7 +1,6 @@
 package com.matibi.thealchemiststouch.group;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
-import com.matibi.thealchemiststouch.item.ModItems;
 import com.matibi.thealchemiststouch.rune.ModRunes;
 import com.matibi.thealchemiststouch.rune.Rune;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
