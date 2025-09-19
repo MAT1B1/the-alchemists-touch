@@ -20,13 +20,6 @@ public abstract class PetrificationMixin {
             cir.setReturnValue(true);
     }
 
-    @Inject(method = "jump", at = @At("HEAD"), cancellable = true)
-    private void cancelJumpIfPetrified(CallbackInfo ci) {
-        LivingEntity entity = (LivingEntity)(Object)this;
-        if (entity.hasStatusEffect(ModEffects.PETRIFICATION))
-            ci.cancel();
-    }
-
     @Inject(method = "tickActiveItemStack", at = @At("HEAD"), cancellable = true)
     private void stopUsingItemIfPetrified(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity)(Object)this;

@@ -1,6 +1,6 @@
-package com.matibi.thealchemiststouch.effect.custom;
+package com.matibi.thealchemiststouch.effect.custom.permanent;
 
-import com.matibi.thealchemiststouch.util.HealthUtils;
+import com.matibi.thealchemiststouch.util.AttributeUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -9,9 +9,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 
-public class VitalityEffect extends StatusEffect {
-    public VitalityEffect() {
-        super(StatusEffectCategory.BENEFICIAL, 0xf00000);
+public class PermanentStrengthEffect extends StatusEffect {
+    public PermanentStrengthEffect() {
+        super(StatusEffectCategory.BENEFICIAL, 0xffc933);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class VitalityEffect extends StatusEffect {
 
     private static void applyEffect(ServerWorld world, @Nullable Entity effectEntity, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
         if (target instanceof PlayerEntity player)
-            HealthUtils.changeHealthBy(player, 2.0f);
+            AttributeUtils.changeStrengthBy(player, 0.5f);
     }
 }

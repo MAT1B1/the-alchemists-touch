@@ -55,19 +55,7 @@ public class ModRunes {
         return RUNE_REGISTRY.getEntry(rune);
     }
 
-    private static void customRunes(FabricItemGroupEntries entries) {
-        entries.add(RUNE);
-        for (RegistryEntry<Rune> entry : ModRunes.RUNE_REGISTRY.streamEntries().toList()) {
-            ItemStack stack = Rune.getItemStack(entry);
-            if (!stack.isEmpty())
-                entries.add(stack);
-        }
-    }
-
     public static void register() {
         TheAlchemistsTouch.LOGGER.info("Registering mod runes for " + TheAlchemistsTouch.MOD_ID);
-
-        ItemGroupEvents.modifyEntriesEvent(ModItemGroups.ALCHEMY).register(ModRunes::customRunes);
-
     }
 }

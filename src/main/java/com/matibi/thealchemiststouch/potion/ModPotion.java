@@ -75,9 +75,9 @@
                 ModEffects.PURIFICATION, 20 * 60 * 8, 0);
 
         public static RegistryEntry<Potion> PETRIFICATION = registerPotion("petrification", "petrification",
-                ModEffects.PETRIFICATION, 20 * 60, 0);
+                ModEffects.PETRIFICATION, 20 * 30, 0);
         public static RegistryEntry<Potion> LONG_PETRIFICATION = registerPotion("petrification", "long_petrification",
-                ModEffects.PETRIFICATION, 20 * 60 * 3, 0);
+                ModEffects.PETRIFICATION, 20 * 30 * 3, 0);
 
         public static RegistryEntry<Potion> ACID = registerPotion("acid", "acid",
                 ModEffects.ACID, 20 * 45, 0);
@@ -147,9 +147,6 @@
         public static final RegistryEntry<Potion> LONG_MINING_FATIGUE = registerPotion("mining_fatigue", "long_mining_fatigue",
                 StatusEffects.MINING_FATIGUE, 20 * 60 * 8, 0);
 
-        public static final RegistryEntry<Potion> VITALITY = registerPotion("vitality", "vitality",
-                ModEffects.VITALITY, 1, 0);
-
         public static final RegistryEntry<Potion> LONG_COOLDOWN = registerPotion("long_cooldown", "long_cooldown",
                 ModEffects.LONG_COOLDOWN, 20 * 60 * 3, 0);
         public static final RegistryEntry<Potion> LONG_LONG_COOLDOWN = registerPotion("long_cooldown", "long_long_cooldown",
@@ -174,6 +171,34 @@
                 ModEffects.VAMPIRISM, 20 * 60 * 8, 0);
         public static final RegistryEntry<Potion> STRONG_VAMPIRISM = registerPotion("vampirism", "strong_vampirism",
                 ModEffects.VAMPIRISM, 20 * 60 * 3, 1);
+
+        public static final RegistryEntry<Potion> STUN = registerPotion("stun", "stun",
+                ModEffects.STUN, 20 *  10, 0);
+        public static final RegistryEntry<Potion> LONG_STUN = registerPotion("stun", "long_stun",
+                ModEffects.STUN, 20 *  30, 0);
+
+        public static final RegistryEntry<Potion> NO_INTERACTION = registerPotion("no_interaction", "no_interaction",
+                ModEffects.NO_INTERACTION, 20 *  60 * 3, 0);
+        public static final RegistryEntry<Potion> LONG_NO_INTERACTION = registerPotion("no_interaction", "long_no_interaction",
+                ModEffects.NO_INTERACTION, 20 *  60 * 8, 0);
+
+        public static final RegistryEntry<Potion> BERSERK = registerPotion("berserk", "berserk",
+                ModEffects.BERSERK, 20 *  45, 0);
+        public static final RegistryEntry<Potion> LONG_BERSERK = registerPotion("berserk", "long_berserk",
+                ModEffects.BERSERK, 20 *  30 * 3, 0);
+        public static final RegistryEntry<Potion> STRONG_BERSERK = registerPotion("berserk", "strong_berserk",
+                ModEffects.BERSERK, 20 *  45, 1);
+
+        // Permanent potions -------------------------------------------------------------------------------------------
+
+        public static final RegistryEntry<Potion> PERMANENT_HEALTH = registerPotion("health", "health",
+                ModEffects.PERMANENT_HEALTH, 1, 0);
+
+        public static final RegistryEntry<Potion> PERMANENT_STRENGTH = registerPotion("strength", "strength",
+                ModEffects.PERMANENT_STRENGTH, 1, 0);
+
+        public static final RegistryEntry<Potion> PERMANENT_SPEED = registerPotion("speed", "speed",
+                ModEffects.PERMANENT_SPEED, 1, 0);
 
 
         public static void register() {
@@ -214,11 +239,11 @@
                 builder.registerPotionRecipe(ModPotion.RESURRECTION, Items.CLOCK, ModPotion.INFINITY);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_PICKAXE, ModPotion.HASTE);
                 builder.registerPotionRecipe(ModPotion.HASTE, Items.FERMENTED_SPIDER_EYE, ModPotion.MINING_FATIGUE);
-                builder.registerPotionRecipe(ModPotion.STRONG_DOUBLE_HEALTH, Items.TOTEM_OF_UNDYING, ModPotion.VITALITY);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.CLOCK, ModPotion.SHORT_COOLDOWN);
                 builder.registerPotionRecipe(ModPotion.SHORT_COOLDOWN, Items.FERMENTED_SPIDER_EYE, ModPotion.LONG_COOLDOWN);
                 builder.registerPotionRecipe(Potions.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, ModPotion.MASKING);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_SWORD, ModPotion.VAMPIRISM);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_AXE, ModPotion.STUN);
 
                 // version longue
                 builder.registerPotionRecipe(ModPotion.LEVITATION, Items.REDSTONE, ModPotion.LONG_LEVITATION);
@@ -245,6 +270,9 @@
                 builder.registerPotionRecipe(ModPotion.LONG_COOLDOWN, Items.REDSTONE, ModPotion.LONG_LONG_COOLDOWN);
                 builder.registerPotionRecipe(ModPotion.LONG_SHORT_COOLDOWN, Items.FERMENTED_SPIDER_EYE, ModPotion.LONG_LONG_COOLDOWN);
                 builder.registerPotionRecipe(ModPotion.VAMPIRISM, Items.REDSTONE, ModPotion.LONG_VAMPIRISM);
+                builder.registerPotionRecipe(ModPotion.STUN, Items.REDSTONE, ModPotion.LONG_STUN);
+                builder.registerPotionRecipe(ModPotion.NO_INTERACTION, Items.REDSTONE, ModPotion.LONG_NO_INTERACTION);
+                builder.registerPotionRecipe(ModPotion.BERSERK, Items.REDSTONE, ModPotion.LONG_BERSERK);
 
                 // version strong
                 builder.registerPotionRecipe(ModPotion.ALCOHOL, Items.GLOWSTONE, ModPotion.STRONG_ALCOHOL);
@@ -258,6 +286,7 @@
                 builder.registerPotionRecipe(ModPotion.MINING_FATIGUE, Items.GLOWSTONE, ModPotion.STRONG_MINING_FATIGUE);
                 builder.registerPotionRecipe(ModPotion.UNSTABLE, Items.GLOWSTONE, ModPotion.STRONG_UNSTABLE);
                 builder.registerPotionRecipe(ModPotion.VAMPIRISM, Items.GLOWSTONE, ModPotion.STRONG_VAMPIRISM);
+                builder.registerPotionRecipe(ModPotion.BERSERK, Items.GLOWSTONE, ModPotion.STRONG_BERSERK);
             });
         }
 

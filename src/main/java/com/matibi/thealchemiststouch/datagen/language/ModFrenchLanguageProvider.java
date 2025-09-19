@@ -43,12 +43,20 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("double_health", "Double vie");
         register("resurrection", "Résurrection");
         register("infinity", "Infinité","d'Infinité");
-        register("vitality", "Vitalité");
         register("long_cooldown", "Cooldown allongé");
         register("short_cooldown", "Cooldown réduit");
         register("masking", "Voile d'oublie");
         register("unstable", "Instable", "Instable");
         register("vampirism", "Vampirisme");
+        register("stun", "Étourdissement", "d'Étourdissement");
+        register("no_interaction", "Mains liées");
+        register("aftermath", "Contrecoup");
+        register("berserk", "Berserk");
+
+        // Potions permanentes
+        register("health", "Vie Permanente");
+        register("strength", "Force Permanente");
+        register("speed", "Vitesse Permanente");
 
         // Effets custom avec rune
         registerWithRune("petrification", "Pétrification");

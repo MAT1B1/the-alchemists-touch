@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AcidMixin",
+    "BerserkMixin",
     "HungerManagerAccessor",
     "IgnitionMixin",
     "LiquidWalkerMixin",

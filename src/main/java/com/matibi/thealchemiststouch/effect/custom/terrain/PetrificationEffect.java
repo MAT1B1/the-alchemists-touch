@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.effect.custom;
+package com.matibi.thealchemiststouch.effect.custom.terrain;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.effect.TerrainApplicableEffect;
@@ -17,7 +17,7 @@ public class PetrificationEffect extends StatusEffect implements TerrainApplicab
 
         this.addAttributeModifier(
                 EntityAttributes.MOVEMENT_SPEED,
-                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_movment"),
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_movement"),
                 -1.0D,
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );
@@ -30,6 +30,42 @@ public class PetrificationEffect extends StatusEffect implements TerrainApplicab
         this.addAttributeModifier(
                 EntityAttributes.ATTACK_DAMAGE,
                 Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_knockback"),
+                -1.0D,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+        this.addAttributeModifier(
+                EntityAttributes.JUMP_STRENGTH,
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_jump"),
+                -1.0D,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+        this.addAttributeModifier(
+                EntityAttributes.BLOCK_BREAK_SPEED,
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_break_block"),
+                -1.0D,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+        this.addAttributeModifier(
+                EntityAttributes.BLOCK_INTERACTION_RANGE,
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_interaction"),
+                -1.0D,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+        this.addAttributeModifier(
+                EntityAttributes.ENTITY_INTERACTION_RANGE,
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_entity_interaction"),
+                -1.0D,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+        this.addAttributeModifier(
+                EntityAttributes.GRAVITY,
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_gravity"),
+                1.0D,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+        this.addAttributeModifier(
+                EntityAttributes.MOVEMENT_EFFICIENCY,
+                Identifier.of(TheAlchemistsTouch.MOD_ID, "petrification_movement_efficiency"),
                 -1.0D,
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );

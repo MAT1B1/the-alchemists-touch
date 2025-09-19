@@ -2,6 +2,13 @@ package com.matibi.thealchemiststouch.effect;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.effect.custom.*;
+import com.matibi.thealchemiststouch.effect.custom.permanent.PermanentSpeedEffect;
+import com.matibi.thealchemiststouch.effect.custom.permanent.PermanentStrengthEffect;
+import com.matibi.thealchemiststouch.effect.custom.permanent.PermanentHealthEffect;
+import com.matibi.thealchemiststouch.effect.custom.terrain.AcidEffect;
+import com.matibi.thealchemiststouch.effect.custom.terrain.AlchemistEffect;
+import com.matibi.thealchemiststouch.effect.custom.terrain.IgnitionEffect;
+import com.matibi.thealchemiststouch.effect.custom.terrain.PetrificationEffect;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -67,9 +74,6 @@ public class ModEffects {
     public static final RegistryEntry<StatusEffect> INFINITY = registerStatusEffects("infinity",
             new InfinityEffect());
 
-    public static final RegistryEntry<StatusEffect> VITALITY = registerStatusEffects("vitality",
-            new VitalityEffect());
-
     public static final RegistryEntry<StatusEffect> LONG_COOLDOWN = registerStatusEffects("long_cooldown",
             new LongCooldownEffect());
 
@@ -84,6 +88,27 @@ public class ModEffects {
 
     public static final RegistryEntry<StatusEffect> VAMPIRISM = registerStatusEffects("vampirism",
             new VampirismEffect());
+
+    public static final RegistryEntry<StatusEffect> STUN = registerStatusEffects("stun",
+            new StunEffect());
+
+    public static final RegistryEntry<StatusEffect> NO_INTERACTION = registerStatusEffects("no_interaction",
+            new NoInteractionEffect());
+
+    public static final RegistryEntry<StatusEffect> AFTERMATH = registerStatusEffects("aftermath",
+            new AftermathEffect());
+
+    public static final RegistryEntry<StatusEffect> BERSERK = registerStatusEffects("berserk",
+            new BerserkEffect());
+
+    public static final RegistryEntry<StatusEffect> PERMANENT_HEALTH = registerStatusEffects("health",
+            new PermanentHealthEffect());
+
+    public static final RegistryEntry<StatusEffect> PERMANENT_STRENGTH = registerStatusEffects("strength",
+            new PermanentStrengthEffect());
+
+    public static final RegistryEntry<StatusEffect> PERMANENT_SPEED = registerStatusEffects("speed",
+            new PermanentSpeedEffect());
 
     private static RegistryEntry<StatusEffect> registerStatusEffects(String name, StatusEffect effect) {
         return Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(TheAlchemistsTouch.MOD_ID, name), effect);

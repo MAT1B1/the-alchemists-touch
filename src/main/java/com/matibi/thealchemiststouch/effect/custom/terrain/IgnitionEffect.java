@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.effect.custom;
+package com.matibi.thealchemiststouch.effect.custom.terrain;
 
 import com.matibi.thealchemiststouch.effect.ModEffects;
 import com.matibi.thealchemiststouch.effect.TerrainApplicableEffect;

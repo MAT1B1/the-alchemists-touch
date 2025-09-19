@@ -43,12 +43,20 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("double_health", "Double Health");
         register("resurrection", "Resurrection");
         register("infinity", "Infinity");
-        register("vitality", "Vitality");
         register("long_cooldown", "Long Cooldown");
         register("short_cooldown", "Short Cooldown");
         register("masking", "Hidden Effect");
         registerReverse("unstable", "Unstable");
         register("vampirism", "Vampirism");
+        register("stun", "Stun");
+        register("no_interaction", "Hands Bound");
+        register("aftermath", "Aftermath");
+        register("berserk", "Berserk");
+
+        // Permanent potions
+        register("health", "Permanent Health");
+        register("strength", "Permanent Strength");
+        register("speed", "Permanent Speed");
 
         // Custom effects with rune
         registerWithRune("petrification", "Petrification");

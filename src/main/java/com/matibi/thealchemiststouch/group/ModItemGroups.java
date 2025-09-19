@@ -1,6 +1,9 @@
 package com.matibi.thealchemiststouch.group;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
+import com.matibi.thealchemiststouch.item.ModItems;
+import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.rune.Rune;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemGroup;
@@ -43,6 +46,13 @@ public class ModItemGroups {
                             entries.add(PotionContentsComponent.createStack(Items.LINGERING_POTION, entry));
                         for (RegistryEntry<Potion> entry : all)
                             entries.add(PotionContentsComponent.createStack(Items.TIPPED_ARROW, entry));
+
+                        entries.add(ModRunes.RUNE);
+                        for (RegistryEntry<Rune> entry : ModRunes.RUNE_REGISTRY.streamEntries().toList()) {
+                            ItemStack stack = Rune.getItemStack(entry);
+                            if (!stack.isEmpty())
+                                entries.add(stack);
+                        }
                     })
                     .build()
     );
