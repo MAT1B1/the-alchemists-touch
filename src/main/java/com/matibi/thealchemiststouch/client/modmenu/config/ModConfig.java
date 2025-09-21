@@ -2,7 +2,6 @@ package com.matibi.thealchemiststouch.client.modmenu.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
