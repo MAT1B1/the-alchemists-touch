@@ -31,13 +31,6 @@ public final class ModConfig {
         return id == null || !DISABLED_POTIONS.contains(id);
     }
 
-    public static boolean isPotionStackDisabled(ItemStack stack) {
-        PotionContentsComponent comp = stack.get(DataComponentTypes.POTION_CONTENTS);
-        if (comp == null) return false;
-        var optPotion = comp.potion();
-        return optPotion.isPresent() && isPotionDisabled(optPotion.get().value());
-    }
-
     public static void load() {
         try {
             if (!FILE.exists()) {
