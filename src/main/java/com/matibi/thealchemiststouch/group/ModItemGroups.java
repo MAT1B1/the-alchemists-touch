@@ -1,6 +1,7 @@
 package com.matibi.thealchemiststouch.group;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
+import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
 import com.matibi.thealchemiststouch.rune.ModRunes;
 import com.matibi.thealchemiststouch.rune.Rune;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -38,13 +39,17 @@ public class ModItemGroups {
                                 .toList();
 
                         for (RegistryEntry<Potion> entry : all)
-                            entries.add(PotionContentsComponent.createStack(Items.POTION, entry));
+                            if (ModConfig.isPotionDisabled(entry.value()))
+                                entries.add(PotionContentsComponent.createStack(Items.POTION, entry));
                         for (RegistryEntry<Potion> entry : all)
-                            entries.add(PotionContentsComponent.createStack(Items.SPLASH_POTION, entry));
+                            if (ModConfig.isPotionDisabled(entry.value()))
+                                entries.add(PotionContentsComponent.createStack(Items.SPLASH_POTION, entry));
                         for (RegistryEntry<Potion> entry : all)
-                            entries.add(PotionContentsComponent.createStack(Items.LINGERING_POTION, entry));
+                            if (ModConfig.isPotionDisabled(entry.value()))
+                                entries.add(PotionContentsComponent.createStack(Items.LINGERING_POTION, entry));
                         for (RegistryEntry<Potion> entry : all)
-                            entries.add(PotionContentsComponent.createStack(Items.TIPPED_ARROW, entry));
+                            if (ModConfig.isPotionDisabled(entry.value()))
+                                entries.add(PotionContentsComponent.createStack(Items.TIPPED_ARROW, entry));
 
                         entries.add(ModRunes.RUNE);
                         for (RegistryEntry<Rune> entry : ModRunes.RUNE_REGISTRY.streamEntries().toList()) {

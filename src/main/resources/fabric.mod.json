@@ -24,7 +24,10 @@
 		],
 		"fabric-datagen": [
 			"com.matibi.thealchemiststouch.TheAlchemistsTouchDataGenerator"
-		]
+		],
+        "modmenu": [
+          "com.matibi.thealchemiststouch.client.modmenu.ModMenuIntegration"
+        ]
 	},
 	"mixins": [
 		"the-alchemists-touch.mixins.json"

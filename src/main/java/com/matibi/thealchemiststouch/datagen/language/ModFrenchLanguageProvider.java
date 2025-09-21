@@ -52,6 +52,12 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("no_interaction", "Mains liées");
         register("aftermath", "Contrecoup");
         register("berserk", "Berserk");
+        register("ghost_walk", "Marche spectral");
+        register("dwarf", "Nanisme");
+        register("photosynthesis", "Photosynthèse");
+        register("oblivion", "Oubli", "d'Oubli");
+        register("spider_legs", "Pattes d’araignée");
+        register("rust", "Rouille");
 
         // Potions permanentes
         register("health", "Vie Permanente");
@@ -59,6 +65,7 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("speed", "Vitesse Permanente");
 
         // Effets custom avec rune
+        registerWithRune("giant", "Géant");
         registerWithRune("petrification", "Pétrification");
         registerWithRune("acid", "Acidité", "d'Acidité");
         registerWithRune("ignition", "Ignition", "d'Ignition");

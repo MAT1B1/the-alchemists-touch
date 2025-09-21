@@ -5,6 +5,7 @@
   "mixins": [
     "AcidMixin",
     "BerserkMixin",
+    "GhostWalkMixin",
     "HungerManagerAccessor",
     "IgnitionMixin",
     "LiquidWalkerMixin",

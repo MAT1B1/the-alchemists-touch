@@ -52,6 +52,11 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("no_interaction", "Hands Bound");
         register("aftermath", "Aftermath");
         register("berserk", "Berserk");
+        register("ghost_walk", "Ghost Walk");
+        register("dwarf", "Dwarfism");
+        register("photosynthesis", "Photosynthesis");
+        register("oblivion", "Oblivion");
+        register("rust", "Rust");
 
         // Permanent potions
         register("health", "Permanent Health");
@@ -59,6 +64,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("speed", "Permanent Speed");
 
         // Custom effects with rune
+        registerWithRune("giant", "Giant");
         registerWithRune("petrification", "Petrification");
         registerWithRune("acid", "Acidity");
         registerWithRune("ignition", "Ignition");

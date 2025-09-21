@@ -1,5 +1,6 @@
 package com.matibi.thealchemiststouch;
 
+import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
 import com.matibi.thealchemiststouch.command.ModCommands;
 import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import com.matibi.thealchemiststouch.effect.ModEffects;
@@ -14,6 +15,8 @@ import com.matibi.thealchemiststouch.rune.ModRunes;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Items;
 import org.slf4j.Logger;
@@ -38,11 +41,13 @@ public class TheAlchemistsTouch implements ModInitializer {
         ModEntities.register();
         ModCommands.register();
 
-
 		// max stack des potions
 		DefaultItemComponentEvents.MODIFY.register(context -> context.modify(item ->
                         item == Items.POTION || item == Items.SPLASH_POTION || item == Items.LINGERING_POTION,
                 (builder, item) -> builder.add(DataComponentTypes.MAX_STACK_SIZE, 16)
         ));
+
+        var cfgDir = FabricLoader.getInstance().getConfigDir().toFile();
+        ModConfig.init(cfgDir);
 	}
 }

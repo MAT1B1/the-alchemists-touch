@@ -5,10 +5,7 @@ import com.matibi.thealchemiststouch.effect.custom.*;
 import com.matibi.thealchemiststouch.effect.custom.permanent.PermanentSpeedEffect;
 import com.matibi.thealchemiststouch.effect.custom.permanent.PermanentStrengthEffect;
 import com.matibi.thealchemiststouch.effect.custom.permanent.PermanentHealthEffect;
-import com.matibi.thealchemiststouch.effect.custom.terrain.AcidEffect;
-import com.matibi.thealchemiststouch.effect.custom.terrain.AlchemistEffect;
-import com.matibi.thealchemiststouch.effect.custom.terrain.IgnitionEffect;
-import com.matibi.thealchemiststouch.effect.custom.terrain.PetrificationEffect;
+import com.matibi.thealchemiststouch.effect.custom.terrain.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -44,7 +41,7 @@ public class ModEffects {
     public static final RegistryEntry<StatusEffect> IGNITION = registerStatusEffects("ignition",
             new IgnitionEffect());
 
-    public static final RegistryEntry<StatusEffect> TELEPORTAION = registerStatusEffects("teleportation",
+    public static final RegistryEntry<StatusEffect> TELEPORTATION = registerStatusEffects("teleportation",
             new TeleportationEffect());
 
     public static final RegistryEntry<StatusEffect> THORNS = registerStatusEffects("thorns",
@@ -100,6 +97,27 @@ public class ModEffects {
 
     public static final RegistryEntry<StatusEffect> BERSERK = registerStatusEffects("berserk",
             new BerserkEffect());
+
+    public static final RegistryEntry<StatusEffect> GHOST_WALK = registerStatusEffects("ghost_walk",
+            new GhostWalkEffect());
+
+    public static final RegistryEntry<StatusEffect> GIANT = registerStatusEffects("giant",
+            new GiantEffect());
+
+    public static final RegistryEntry<StatusEffect> DWARF = registerStatusEffects("dwarf",
+            new DwarfEffect());
+
+    public static final RegistryEntry<StatusEffect> PHOTOSYNTHESIS = registerStatusEffects("photosynthesis",
+            new PhotosynthesisEffect());
+
+    public static final RegistryEntry<StatusEffect> OBLIVION = registerStatusEffects("oblivion",
+            new OblivionEffect());
+
+    public static final RegistryEntry<StatusEffect> SPIDER_LEGS = registerStatusEffects("spider_legs",
+            new SpiderLegsEffect());
+
+    public static final RegistryEntry<StatusEffect> RUST = registerStatusEffects("rust",
+            new RustEffect());
 
     public static final RegistryEntry<StatusEffect> PERMANENT_HEALTH = registerStatusEffects("health",
             new PermanentHealthEffect());

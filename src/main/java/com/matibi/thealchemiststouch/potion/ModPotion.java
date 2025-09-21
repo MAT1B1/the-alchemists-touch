@@ -92,7 +92,9 @@
                 ModEffects.IGNITION, 20 * 30 * 3, 0);
 
         public static RegistryEntry<Potion> TELEPORTATION = registerPotion("teleportation", "teleportation",
-                ModEffects.TELEPORTAION, 1, 0);
+                ModEffects.TELEPORTATION, 1, 0);
+        public static RegistryEntry<Potion> STRONG_TELEPORTATION = registerPotion("teleportation", "strong_teleportation",
+                ModEffects.TELEPORTATION, 1, 1);
 
         public static RegistryEntry<Potion> THORNS = registerPotion("thorns", "thorns",
                 ModEffects.THORNS, 20 * 60 * 3, 0);
@@ -189,6 +191,45 @@
         public static final RegistryEntry<Potion> STRONG_BERSERK = registerPotion("berserk", "strong_berserk",
                 ModEffects.BERSERK, 20 *  45, 1);
 
+        public static final RegistryEntry<Potion> GHOST_WALK = registerPotion("ghost_walk", "ghost_walk",
+                ModEffects.GHOST_WALK, 20 * 5, 0);
+        public static final RegistryEntry<Potion> LONG_GHOST_WALK = registerPotion("ghost_walk", "long_ghost_walk",
+                ModEffects.GHOST_WALK, 20 * 10, 0);
+
+        public static final RegistryEntry<Potion> GIANT = registerPotion("giant", "giant",
+                ModEffects.GIANT, 20 * 60 * 3, 0);
+        public static final RegistryEntry<Potion> LONG_GIANT = registerPotion("giant", "long_giant",
+                ModEffects.GIANT, 20 * 60 * 8, 0);
+        public static final RegistryEntry<Potion> STRONG_GIANT = registerPotion("giant", "strong_giant",
+                ModEffects.GIANT, 20 * 60 * 3, 1);
+
+        public static final RegistryEntry<Potion> DWARF = registerPotion("dwarf", "dwarf",
+                ModEffects.DWARF, 20 * 60 * 3, 0);
+        public static final RegistryEntry<Potion> LONG_DWARF = registerPotion("dwarf", "long_dwarf",
+                ModEffects.DWARF, 20 * 60 * 8, 0);
+        public static final RegistryEntry<Potion> STRONG_DWARF = registerPotion("dwarf", "strong_dwarf",
+                ModEffects.DWARF, 20 * 60 * 3, 1);
+
+        public static final RegistryEntry<Potion> PHOTOSYNTHESIS = registerPotion("photosynthesis", "photosynthesis",
+                ModEffects.PHOTOSYNTHESIS, 20 * 60 * 3, 0);
+        public static final RegistryEntry<Potion> LONG_PHOTOSYNTHESIS = registerPotion("photosynthesis", "long_photosynthesis",
+                ModEffects.PHOTOSYNTHESIS, 20 * 60 * 8, 0);
+        public static final RegistryEntry<Potion> STRONG_PHOTOSYNTHESIS = registerPotion("photosynthesis", "strong_photosynthesis",
+                ModEffects.PHOTOSYNTHESIS, 20 * 60 * 3, 1);
+
+        public static final RegistryEntry<Potion> OBLIVION = registerPotion("oblivion", "oblivion",
+                ModEffects.OBLIVION, 1, 0);
+
+        public static final RegistryEntry<Potion> SPIDER_LEGS = registerPotion("spider_legs", "spider_legs",
+                ModEffects.SPIDER_LEGS, 20 * 60 * 3, 0);
+        public static final RegistryEntry<Potion> LONG_SPIDER_LEGS = registerPotion("spider_legs", "long_spider_legs",
+                ModEffects.SPIDER_LEGS, 20 * 60 * 8, 0);
+
+        public static final RegistryEntry<Potion> RUST = registerPotion("rust", "rust",
+                ModEffects.RUST, 20 * 45, 0);
+        public static final RegistryEntry<Potion> LONG_RUST = registerPotion("rust", "long_rust",
+                ModEffects.RUST, 20 * 30 * 3, 0);
+
         // Permanent potions -------------------------------------------------------------------------------------------
 
         public static final RegistryEntry<Potion> PERMANENT_HEALTH = registerPotion("health", "health",
@@ -244,6 +285,9 @@
                 builder.registerPotionRecipe(Potions.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, ModPotion.MASKING);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_SWORD, ModPotion.VAMPIRISM);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_AXE, ModPotion.STUN);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.BONE_MEAL, ModPotion.GIANT);
+                builder.registerPotionRecipe(ModPotion.GIANT, Items.FERMENTED_SPIDER_EYE, ModPotion.DWARF);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.OAK_LEAVES, ModPotion.PHOTOSYNTHESIS);
 
                 // version longue
                 builder.registerPotionRecipe(ModPotion.LEVITATION, Items.REDSTONE, ModPotion.LONG_LEVITATION);
@@ -273,6 +317,12 @@
                 builder.registerPotionRecipe(ModPotion.STUN, Items.REDSTONE, ModPotion.LONG_STUN);
                 builder.registerPotionRecipe(ModPotion.NO_INTERACTION, Items.REDSTONE, ModPotion.LONG_NO_INTERACTION);
                 builder.registerPotionRecipe(ModPotion.BERSERK, Items.REDSTONE, ModPotion.LONG_BERSERK);
+                builder.registerPotionRecipe(ModPotion.GHOST_WALK, Items.REDSTONE, ModPotion.LONG_GHOST_WALK);
+                builder.registerPotionRecipe(ModPotion.GIANT, Items.REDSTONE, ModPotion.LONG_GIANT);
+                builder.registerPotionRecipe(ModPotion.DWARF, Items.REDSTONE, ModPotion.LONG_DWARF);
+                builder.registerPotionRecipe(ModPotion.PHOTOSYNTHESIS, Items.REDSTONE, ModPotion.LONG_PHOTOSYNTHESIS);
+                builder.registerPotionRecipe(ModPotion.SPIDER_LEGS, Items.REDSTONE, ModPotion.LONG_SPIDER_LEGS);
+                builder.registerPotionRecipe(ModPotion.RUST, Items.REDSTONE, ModPotion.LONG_RUST);
 
                 // version strong
                 builder.registerPotionRecipe(ModPotion.ALCOHOL, Items.GLOWSTONE, ModPotion.STRONG_ALCOHOL);
@@ -287,6 +337,10 @@
                 builder.registerPotionRecipe(ModPotion.UNSTABLE, Items.GLOWSTONE, ModPotion.STRONG_UNSTABLE);
                 builder.registerPotionRecipe(ModPotion.VAMPIRISM, Items.GLOWSTONE, ModPotion.STRONG_VAMPIRISM);
                 builder.registerPotionRecipe(ModPotion.BERSERK, Items.GLOWSTONE, ModPotion.STRONG_BERSERK);
+                builder.registerPotionRecipe(ModPotion.TELEPORTATION, Items.GLOWSTONE, ModPotion.STRONG_TELEPORTATION);
+                builder.registerPotionRecipe(ModPotion.GIANT, Items.GLOWSTONE, ModPotion.STRONG_GIANT);
+                builder.registerPotionRecipe(ModPotion.DWARF, Items.GLOWSTONE, ModPotion.STRONG_DWARF);
+                builder.registerPotionRecipe(ModPotion.PHOTOSYNTHESIS, Items.GLOWSTONE, ModPotion.STRONG_PHOTOSYNTHESIS);
             });
         }
 

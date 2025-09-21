@@ -41,6 +41,8 @@ public class ModRunes {
 
     public static RegistryEntry<Rune> RUNE_IGNITION = registerRunes("ignition", ModEffects.IGNITION, 0);
 
+    public static RegistryEntry<Rune> RUNE_GIANT = registerRunes("giant", ModEffects.GIANT, 0);
+
     public static RegistryEntry<Rune> registerRunes(String name, RegistryEntry<StatusEffect> effect, int amplifier) {
         Identifier id = Identifier.of(TheAlchemistsTouch.MOD_ID, name + "_rune");
         Rune rune = new Rune(id, effect, amplifier);
