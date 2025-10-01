@@ -6,6 +6,9 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.tint.PotionTintSource;
+import net.minecraft.item.Item;
+
+import java.util.List;
 
 public class ModModelProvider extends FabricModelProvider {
 
@@ -20,9 +23,18 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ModItems.POISONOUS_BEETROOT, Models.GENERATED);
-        itemModelGenerator.register(ModItems.POISONOUS_CARROT, Models.GENERATED);
-        itemModelGenerator.register(ModItems.ALCHEMIST_CORE, Models.GENERATED);
+        List<Item> items = List.of(
+                ModItems.BAT_WING,
+                ModItems.CLAW,
+                ModItems.WITCH_S_FINGER,
+                ModItems.ZOMBIE_BRAIN,
+                ModItems.LEAF,
+                ModItems.POISONOUS_BEETROOT,
+                ModItems.POISONOUS_CARROT,
+                ModItems.ALCHEMIST_CORE);
+
+        items.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
+
         itemModelGenerator.registerWithTintedOverlay(ModRunes.RUNE, new PotionTintSource(0x8a8a8a));
     }
 }

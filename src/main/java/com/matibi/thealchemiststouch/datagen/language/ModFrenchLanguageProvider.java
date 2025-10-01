@@ -60,9 +60,9 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("rust", "Rouille");
 
         // Potions permanentes
-        register("health", "Vie Permanente");
-        register("strength", "Force Permanente");
-        register("speed", "Vitesse Permanente");
+        register("perm_health", "Vie Permanente");
+        register("perm_strength", "Force Permanente");
+        register("perm_speed", "Vitesse Permanente");
 
         // Effets custom avec rune
         registerWithRune("giant", "Géant");
@@ -75,6 +75,11 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.poisonous_carrot", "Carotte empoisonnée");
         t.add("item.the-alchemists-touch.poisonous_beetroot", "Betterave empoisonnée");
         t.add("item.the-alchemists-touch.alchemist_core", "Noyau d'Alchimiste");
+        t.add("item.the-alchemists-touch.claw", "Griffe");
+        t.add("item.the-alchemists-touch.bat_wing", "Aile de chauve-souris");
+        t.add("item.the-alchemists-touch.zombie_brain", "Cerveau de zombie");
+        t.add("item.the-alchemists-touch.leaf", "Feuille");
+        t.add("item.the-alchemists-touch.witch_finger", "Doigt de sorcière");
         t.add("item.the-alchemists-touch.rune.effect.empty", "Pierre alchimique");
         t.add("item.the-alchemists-touch.rune.effect.mixed", "Pierre alchimique multi-effest");
         registerVanilla("mixed", "multi-effets");

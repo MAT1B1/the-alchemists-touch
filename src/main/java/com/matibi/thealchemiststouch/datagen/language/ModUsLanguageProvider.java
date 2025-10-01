@@ -56,12 +56,13 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("dwarf", "Dwarfism");
         register("photosynthesis", "Photosynthesis");
         register("oblivion", "Oblivion");
+        register("spider_legs", "Spider Legs");
         register("rust", "Rust");
 
         // Permanent potions
-        register("health", "Permanent Health");
-        register("strength", "Permanent Strength");
-        register("speed", "Permanent Speed");
+        register("perm_health", "Permanent Health");
+        register("perm_strength", "Permanent Strength");
+        register("perm_speed", "Permanent Speed");
 
         // Custom effects with rune
         registerWithRune("giant", "Giant");
@@ -74,6 +75,11 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.poisonous_carrot", "Poisonous Carrot");
         t.add("item.the-alchemists-touch.poisonous_beetroot", "Poisonous Beetroot");
         t.add("item.the-alchemists-touch.alchemist_core", "Alchemist Core");
+        t.add("item.the-alchemists-touch.claw", "Claw");
+        t.add("item.the-alchemists-touch.bat_wing", "Bat Wing");
+        t.add("item.the-alchemists-touch.zombie_brain", "Zombie's brain");
+        t.add("item.the-alchemists-touch.leaf", "Leaf");
+        t.add("item.the-alchemists-touch.witch_finger", "Witches' Finger");
         t.add("item.the-alchemists-touch.rune.effect.empty", "Alchemical Stones");
         t.add("item.the-alchemists-touch.rune.effect.mixed", "Multi-effect Alchemical Stones");
         registerVanillaReverse("mixed", "Multi-effect");

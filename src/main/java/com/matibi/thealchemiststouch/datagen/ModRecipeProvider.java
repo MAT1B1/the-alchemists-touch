@@ -36,10 +36,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input(Items.FERMENTED_SPIDER_EYE)
                         .input(Items.BONE_MEAL)
                         .input(Items.ROTTEN_FLESH)
-                        .input(Items.RESIN_CLUMP)
-                        .criterion(hasItem(ModItems.POISONOUS_BEETROOT), conditionsFromItem(ModItems.POISONOUS_BEETROOT))
-                        .criterion(hasItem(ModItems.POISONOUS_CARROT), conditionsFromItem(ModItems.POISONOUS_CARROT))
-                        .criterion(hasItem(Items.POISONOUS_POTATO), conditionsFromItem(Items.POISONOUS_POTATO))
+                        .input(ModItems.WITCH_S_FINGER)
+                        .criterion(hasItem(ModItems.WITCH_S_FINGER), conditionsFromItem(ModItems.WITCH_S_FINGER))
                         .offerTo(exporter);
 
                 createShaped(RecipeCategory.BREWING, ModRunes.RUNE, 8)

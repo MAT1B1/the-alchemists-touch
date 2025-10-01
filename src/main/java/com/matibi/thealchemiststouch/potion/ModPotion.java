@@ -134,9 +134,6 @@
         public static RegistryEntry<Potion> RESURRECTION = registerPotion("resurrection", "resurrection",
                 ModEffects.RESURRECTION, -1, 0);
 
-        public static RegistryEntry<Potion> INFINITY = registerPotion("infinity", "infinity",
-                ModEffects.INFINITY, 1, 0);
-
         public static final RegistryEntry<Potion> HASTE = registerPotion("haste", "haste",
                 StatusEffects.HASTE, 20 * 60 * 3, 0);
         public static final RegistryEntry<Potion> LONG_HASTE = registerPotion("haste", "long_haste",
@@ -232,14 +229,17 @@
 
         // Permanent potions -------------------------------------------------------------------------------------------
 
-        public static final RegistryEntry<Potion> PERMANENT_HEALTH = registerPotion("health", "health",
+        public static final RegistryEntry<Potion> PERMANENT_HEALTH = registerPotion("perm_health", "perm_health",
                 ModEffects.PERMANENT_HEALTH, 1, 0);
 
-        public static final RegistryEntry<Potion> PERMANENT_STRENGTH = registerPotion("strength", "strength",
+        public static final RegistryEntry<Potion> PERMANENT_STRENGTH = registerPotion("perm_strength", "perm_strength",
                 ModEffects.PERMANENT_STRENGTH, 1, 0);
 
-        public static final RegistryEntry<Potion> PERMANENT_SPEED = registerPotion("speed", "speed",
+        public static final RegistryEntry<Potion> PERMANENT_SPEED = registerPotion("perm_speed", "perm_speed",
                 ModEffects.PERMANENT_SPEED, 1, 0);
+
+        public static RegistryEntry<Potion> INFINITY = registerPotion("infinity", "infinity",
+                ModEffects.INFINITY, 1, 0);
 
 
         public static void register() {
@@ -263,31 +263,31 @@
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.LILY_PAD, ModPotion.LIQUID_WALKER);
                 builder.registerPotionRecipe(Potions.NIGHT_VISION, Items.IRON_ORE, ModPotion.ORE_SENSE);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.ECHO_SHARD, ModPotion.RESONANCE);
-                builder.registerPotionRecipe(ModPotion.SHORT_COOLDOWN, Items.CLOCK, ModPotion.REACTIVATION);
+                builder.registerPotionRecipe(ModPotion.SHORT_COOLDOWN, Items.SUNFLOWER, ModPotion.REACTIVATION);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.MILK_BUCKET, ModPotion.PURIFICATION);
                 builder.registerPotionRecipe(Potions.TURTLE_MASTER, Items.OBSIDIAN, ModPotion.PETRIFICATION);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.ROTTEN_FLESH, ModPotion.ACID);
                 builder.registerPotionRecipe(Potions.FIRE_RESISTANCE, Items.FERMENTED_SPIDER_EYE, ModPotion.IGNITION);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.ENDER_PEARL, ModPotion.TELEPORTATION);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.CACTUS, ModPotion.THORNS);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.AMETHYST_SHARD, ModPotion.BRAIN_WASHING);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.ZOMBIE_BRAIN, ModPotion.BRAIN_WASHING);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.SNOWBALL, ModPotion.FROST);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.COPPER_INGOT, ModPotion.ALCHEMIST);
-                builder.registerPotionRecipe(ModPotion.RESURRECTION, Items.FERMENTED_SPIDER_EYE, ModPotion.DEATH);
+                builder.registerPotionRecipe(ModPotion.RESURRECTION, Items.WITHER_ROSE, ModPotion.DEATH);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.BEETROOT, ModPotion.SATURATION);
                 builder.registerPotionRecipe(Potions.STRONG_HEALING, Items.GOLDEN_APPLE, ModPotion.DOUBLE_HEALTH);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.TOTEM_OF_UNDYING, ModPotion.RESURRECTION);
-                builder.registerPotionRecipe(ModPotion.RESURRECTION, Items.CLOCK, ModPotion.INFINITY);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_PICKAXE, ModPotion.HASTE);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.CLAW, ModPotion.HASTE);
                 builder.registerPotionRecipe(ModPotion.HASTE, Items.FERMENTED_SPIDER_EYE, ModPotion.MINING_FATIGUE);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.CLOCK, ModPotion.SHORT_COOLDOWN);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.SUNFLOWER, ModPotion.SHORT_COOLDOWN);
                 builder.registerPotionRecipe(ModPotion.SHORT_COOLDOWN, Items.FERMENTED_SPIDER_EYE, ModPotion.LONG_COOLDOWN);
                 builder.registerPotionRecipe(Potions.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, ModPotion.MASKING);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_SWORD, ModPotion.VAMPIRISM);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.IRON_AXE, ModPotion.STUN);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.BAT_WING, ModPotion.VAMPIRISM);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.TORCHFLOWER, ModPotion.STUN);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.BONE_MEAL, ModPotion.GIANT);
                 builder.registerPotionRecipe(ModPotion.GIANT, Items.FERMENTED_SPIDER_EYE, ModPotion.DWARF);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.OAK_LEAVES, ModPotion.PHOTOSYNTHESIS);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.LEAF, ModPotion.PHOTOSYNTHESIS);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.PITCHER_PLANT, ModPotion.OBLIVION);
 
                 // version longue
                 builder.registerPotionRecipe(ModPotion.LEVITATION, Items.REDSTONE, ModPotion.LONG_LEVITATION);

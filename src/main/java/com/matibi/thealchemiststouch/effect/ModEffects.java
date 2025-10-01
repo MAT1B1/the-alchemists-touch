@@ -119,13 +119,13 @@ public class ModEffects {
     public static final RegistryEntry<StatusEffect> RUST = registerStatusEffects("rust",
             new RustEffect());
 
-    public static final RegistryEntry<StatusEffect> PERMANENT_HEALTH = registerStatusEffects("health",
+    public static final RegistryEntry<StatusEffect> PERMANENT_HEALTH = registerStatusEffects("perm_health",
             new PermanentHealthEffect());
 
-    public static final RegistryEntry<StatusEffect> PERMANENT_STRENGTH = registerStatusEffects("strength",
+    public static final RegistryEntry<StatusEffect> PERMANENT_STRENGTH = registerStatusEffects("perm_strength",
             new PermanentStrengthEffect());
 
-    public static final RegistryEntry<StatusEffect> PERMANENT_SPEED = registerStatusEffects("speed",
+    public static final RegistryEntry<StatusEffect> PERMANENT_SPEED = registerStatusEffects("perm_speed",
             new PermanentSpeedEffect());
 
     private static RegistryEntry<StatusEffect> registerStatusEffects(String name, StatusEffect effect) {

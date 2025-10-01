@@ -6,6 +6,7 @@ import com.matibi.thealchemiststouch.rune.ModRunes;
 import com.matibi.thealchemiststouch.rune.Rune;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -38,18 +39,9 @@ public class ModItemGroups {
                                 .filter(e -> !SKIP.contains(e.value()))
                                 .toList();
 
-                        for (RegistryEntry<Potion> entry : all)
-                            if (ModConfig.isPotionDisabled(entry.value()))
-                                entries.add(PotionContentsComponent.createStack(Items.POTION, entry));
-                        for (RegistryEntry<Potion> entry : all)
-                            if (ModConfig.isPotionDisabled(entry.value()))
-                                entries.add(PotionContentsComponent.createStack(Items.SPLASH_POTION, entry));
-                        for (RegistryEntry<Potion> entry : all)
-                            if (ModConfig.isPotionDisabled(entry.value()))
-                                entries.add(PotionContentsComponent.createStack(Items.LINGERING_POTION, entry));
-                        for (RegistryEntry<Potion> entry : all)
-                            if (ModConfig.isPotionDisabled(entry.value()))
-                                entries.add(PotionContentsComponent.createStack(Items.TIPPED_ARROW, entry));
+                        addPotionType(Items.POTION, entries, all);
+                        addPotionType(Items.SPLASH_POTION, entries, all);
+                        addPotionType(Items.LINGERING_POTION, entries, all);
 
                         entries.add(ModRunes.RUNE);
                         for (RegistryEntry<Rune> entry : ModRunes.RUNE_REGISTRY.streamEntries().toList()) {
@@ -63,5 +55,15 @@ public class ModItemGroups {
 
     public static void register() {
         TheAlchemistsTouch.LOGGER.info("Registering mod groups for " + TheAlchemistsTouch.MOD_ID);
+    }
+
+    public static void addPotionType(Item item, ItemGroup.Entries entries, List<RegistryEntry.Reference<Potion>> all) {
+        entries.add(PotionContentsComponent.createStack(item, Potions.WATER));
+        entries.add(PotionContentsComponent.createStack(item, Potions.AWKWARD));
+        entries.add(PotionContentsComponent.createStack(item, Potions.MUNDANE));
+        entries.add(PotionContentsComponent.createStack(item, Potions.THICK));
+        for (RegistryEntry<Potion> entry : all)
+            if (!ModConfig.isPotionDisabled(entry.value()))
+                entries.add(PotionContentsComponent.createStack(item, entry));
     }
 }

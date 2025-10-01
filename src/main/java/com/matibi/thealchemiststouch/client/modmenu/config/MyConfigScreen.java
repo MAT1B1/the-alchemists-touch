@@ -15,22 +15,20 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class MyConfigScreen extends Screen {
     private final Screen parent;
-
-    // UI
     private TextFieldWidget search;
     private final List<Row> rows = new ArrayList<>();
-    private int contentHeight;   // hauteur totale des lignes
-    private int scroll;          // offset de scroll en px
+    private int contentHeight;
+    private int scroll;
     private int listTop, listBottom, listLeft, listRight;
-
-    // Scrollbar (drag)
     private boolean draggingBar = false;
-    private int dragOffsetY = 0;         // distance souris → top du thumb au moment du clic
+    private int dragOffsetY = 0;
     private int lastBarY = 0, lastBarH = 0;
     private boolean hasScrollbar = false;
 
@@ -44,10 +42,10 @@ public final class MyConfigScreen extends Screen {
         listTop = 36;
         listBottom = this.height - 40;
         listLeft = 16;
-        listRight = this.width - 16;   // pleine largeur
+        listRight = this.width - 16;
 
         search = new TextFieldWidget(this.textRenderer, listLeft, 10, this.width - 32, 16, Text.of("Search"));
-        search.setPlaceholder(Text.of("Rechercher par nom ou id…"));
+        search.setPlaceholder(Text.of("Rechercher par nom…"));
         search.setChangedListener(s -> rebuild());
         this.addSelectableChild(search);
         this.setInitialFocus(search);
@@ -58,7 +56,6 @@ public final class MyConfigScreen extends Screen {
         rebuild();
     }
 
-    /** Nom lisible/localisé à partir d'une entrée de registre. */
     private static String displayNameOf(RegistryEntry<Potion> entry) {
         ItemStack stack = PotionContentsComponent.createStack(Items.POTION, entry);
         return stack.getName().getString();
@@ -71,26 +68,41 @@ public final class MyConfigScreen extends Screen {
         List<RegistryEntry<Potion>> all = new ArrayList<>();
         Registries.POTION.getIndexedEntries().forEach(all::add);
 
-        // Tri par nom lisible puis ID
-        all.sort(Comparator
-                .comparing((RegistryEntry<Potion> e) -> displayNameOf(e).toLowerCase(Locale.ROOT))
-                .thenComparing(RegistryEntry::getIdAsString));
+        // Regroupement: une entrée par "baseId" (sans prefixes long_/strong_)
+        Map<Identifier, RegistryEntry<Potion>> byBase = new LinkedHashMap<>();
+        for (RegistryEntry<Potion> e : all) {
+            Identifier id = Identifier.of(e.getIdAsString());
+            Identifier base = ModConfig.basePotionId(id);
+            RegistryEntry<Potion> current = byBase.get(base);
+            if (current == null) {
+                byBase.put(base, e);
+            } else {
+                // Préférer l'entrée "base" si elle existe
+                if (id.equals(base)) byBase.put(base, e);
+            }
+        }
 
+        List<Map.Entry<Identifier, RegistryEntry<Potion>>> families = new ArrayList<>(byBase.entrySet());
+        families.sort(Comparator
+                .comparing((Map.Entry<Identifier, RegistryEntry<Potion>> en) -> displayNameOf(en.getValue()).toLowerCase(Locale.ROOT))
+                .thenComparing(en -> en.getKey().toString()));
 
         int y = 0;
-        for (RegistryEntry<Potion> entry : all) {
-            Identifier id = Identifier.of(entry.getIdAsString());
-            String idStr = id.toString();
+        for (var en : families) {
+            Identifier baseId = en.getKey();
+            RegistryEntry<Potion> entry = en.getValue();
             String name = displayNameOf(entry);
             String nameLower = name.toLowerCase(Locale.ROOT);
 
-            // filtre par nom OU par id
-            if (!q.isEmpty() && !(nameLower.contains(q) || idStr.contains(q))) continue;
+            if (!q.isEmpty() && !nameLower.contains(q)) continue;
 
-            boolean checked = ModConfig.DISABLED_POTIONS.contains(id);
-            rows.add(new Row(entry, id, idStr, name, nameLower, y, checked));
+            boolean disabledFamily = ModConfig.DISABLED_POTIONS.contains(baseId);
+            boolean enabled = !disabledFamily;
+
+            rows.add(new Row(entry, baseId, name, nameLower, y, enabled));
             y += 20;
         }
+
         contentHeight = y;
         clampScroll();
     }
@@ -114,7 +126,6 @@ public final class MyConfigScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        // clic sur case à cocher
         if (button == 0 && mouseY >= listTop && mouseY <= listBottom &&
                 mouseX >= listLeft && mouseX <= listRight) {
             int yStart = listTop - scroll;
@@ -122,26 +133,26 @@ public final class MyConfigScreen extends Screen {
                 int y = yStart + r.y;
                 int boxX = listLeft + 6, boxY = y + 2;
                 if (mouseX >= boxX && mouseX < boxX + 12 && mouseY >= boxY && mouseY < boxY + 12) {
-                    r.checked = !r.checked;
-                    if (r.checked) ModConfig.DISABLED_POTIONS.add(r.id);
-                    else ModConfig.DISABLED_POTIONS.remove(r.id);
+                    r.enabled = !r.enabled;
+                    if (r.enabled) {
+                        ModConfig.DISABLED_POTIONS.remove(r.baseId);
+                    } else {
+                        ModConfig.DISABLED_POTIONS.add(r.baseId);
+                    }
                     ModConfig.save();
                     return true;
                 }
             }
         }
 
-        // clic sur la barre de scroll → activer le drag
         if (button == 0 && hasScrollbar) {
             int barX1 = listRight - 6, barX2 = listRight - 2;
             if (mouseX >= barX1 && mouseX <= barX2 && mouseY >= listTop && mouseY <= listBottom) {
                 draggingBar = true;
-                // si on clique dans le thumb, garder l'offset; sinon, centrer
                 if (mouseY >= lastBarY && mouseY <= lastBarY + lastBarH) {
                     dragOffsetY = (int) (mouseY - lastBarY);
                 } else {
                     dragOffsetY = lastBarH / 2;
-                    // sauter directement à cette position
                     updateScrollFromMouse((int) mouseY);
                 }
                 return true;
@@ -178,7 +189,6 @@ public final class MyConfigScreen extends Screen {
         int thumbH = Math.max(20, (int) (trackHeight * (trackHeight / (float) contentHeight)));
         int thumbY = mouseY - dragOffsetY;
 
-        // clamp thumb dans la piste
         int maxY = minY + trackHeight - thumbH;
         if (thumbY < minY) thumbY = minY;
         if (thumbY > maxY) thumbY = maxY;
@@ -190,18 +200,14 @@ public final class MyConfigScreen extends Screen {
 
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
-        // pas de renderBackground() → pas de double blur
         ctx.fill(0, 0, this.width, this.height, 0x90000000);
-
-        // Titre + cadre liste
-        ctx.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 2, 0xFFFFFF);
+        ctx.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 2, 0xFFFFFFFF);
         ctx.fill(listLeft - 2, listTop - 2, listRight + 2, listBottom + 2, 0x40FFFFFF);
         ctx.fill(listLeft, listTop, listRight, listBottom, 0x80000000);
 
         super.render(ctx, mouseX, mouseY, delta);
         search.render(ctx, mouseX, mouseY, delta);
 
-        // Liste
         ctx.enableScissor(listLeft, listTop, listRight, listBottom);
         int yStart = listTop - scroll;
 
@@ -212,23 +218,21 @@ public final class MyConfigScreen extends Screen {
             int boxX = listLeft + 6;
             int boxY = y + 2;
 
-            // survol
             if (mouseX >= listLeft && mouseX <= listRight && mouseY >= y && mouseY <= y + 18) {
                 ctx.fill(listLeft + 1, y, listRight - 1, y + 18, 0x30FFFFFF);
             }
 
-            // case à cocher
             ctx.fill(boxX, boxY, boxX + 12, boxY + 12, 0xFF202020);
-            if (!r.checked) ctx.fill(boxX + 2, boxY + 2, boxX + 10, boxY + 10, 0xFF60C060);
+            if (r.enabled) {
+                ctx.fill(boxX + 2, boxY + 2, boxX + 10, boxY + 10, 0xFF60C060);
+            }
 
-            // Nom lisible + ID
             int textX = boxX + 16;
-            ctx.drawText(this.textRenderer, r.name,  textX, y - 4,  0xFFFFFF, false);
-            ctx.drawText(this.textRenderer, r.idStr, textX, y + 5, 0xFFAAAAAA, false);
+            int nameColor = r.enabled ? 0xFFFFFFFF : 0xFFAAAAAA;
+            ctx.drawTextWithShadow(this.textRenderer, r.name, textX, y + 5, nameColor);
         }
         ctx.disableScissor();
 
-        // Scrollbar (avec drag)
         int visible = listBottom - listTop;
         hasScrollbar = contentHeight > visible;
         if (hasScrollbar) {
@@ -238,12 +242,9 @@ public final class MyConfigScreen extends Screen {
             int barY = listTop + (int) ((scroll / (float) maxScroll) * (visible - barH));
             int barX1 = listRight - 6, barX2 = listRight - 2;
 
-            // piste
             ctx.fill(barX1, listTop, barX2, listBottom, 0x40000000);
-            // thumb
             ctx.fill(barX1, barY,   barX2, barY + barH, draggingBar ? 0xC0FFFFFF : 0x80FFFFFF);
 
-            // mémoriser pour le drag
             lastBarY = barY;
             lastBarH = barH;
         } else {
@@ -257,25 +258,22 @@ public final class MyConfigScreen extends Screen {
             this.client.setScreen(parent);
     }
 
-    /** Une ligne de la liste (basée sur RegistryEntry<Potion>). */
     private static final class Row {
         final RegistryEntry<Potion> entry;
-        final Identifier id;
-        final String idStr;
+        final Identifier baseId;
         final String name;
         final String nameLower;
         final int y;
-        boolean checked;
+        boolean enabled;
 
-        Row(RegistryEntry<Potion> entry, Identifier id, String idStr,
-            String name, String nameLower, int y, boolean checked) {
+        Row(RegistryEntry<Potion> entry, Identifier baseId,
+            String name, String nameLower, int y, boolean enabled) {
             this.entry = entry;
-            this.id = id;
-            this.idStr = idStr;
+            this.baseId = baseId;
             this.name = name;
             this.nameLower = nameLower;
             this.y = y;
-            this.checked = checked;
+            this.enabled = enabled;
         }
     }
 }

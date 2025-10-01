@@ -2,6 +2,8 @@ package com.matibi.thealchemiststouch.client.modmenu.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -25,13 +27,46 @@ public final class ModConfig {
 
     public static boolean isPotionDisabled(Potion potion) {
         var id = Registries.POTION.getId(potion);
-        return id == null || !DISABLED_POTIONS.contains(id);
+        if (id == null) return false;
+        var base = basePotionId(id);
+        // désactivée si l’id exact OU la base est dans la liste
+        return DISABLED_POTIONS.contains(id) || DISABLED_POTIONS.contains(base);
+    }
+
+    public static boolean isPotionDisabled(ItemStack stack) {
+        // Vérifie si l’item contient une potion
+        var contents = stack.get(DataComponentTypes.POTION_CONTENTS);
+        if (contents == null) return false;
+
+        // Potion associée à l’ItemStack
+        if (contents.potion().isEmpty()) return false;
+        Potion potion = contents.potion().get().value();
+        Identifier id = Registries.POTION.getId(potion);
+        if (id == null) return false;
+
+        // Identifiant de base (sans suffixe long/strong)
+        Identifier base = basePotionId(id);
+
+        // Désactivée si l’id exact OU la base est dans la liste
+        return DISABLED_POTIONS.contains(id) || DISABLED_POTIONS.contains(base);
+    }
+
+    public static Identifier basePotionId(Identifier id) {
+        String ns = id.getNamespace();
+        String p = id.getPath();
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            if (p.startsWith("long_"))   { p = p.substring(5); changed = true; }
+            if (p.startsWith("strong_")) { p = p.substring(7); changed = true; }
+        }
+        return Identifier.of(ns, p);
     }
 
     public static void load() {
         try {
             if (!FILE.exists()) {
-                save(); // crée fichier par défaut
+                save();
                 return;
             }
             try (var r = new FileReader(FILE)) {
