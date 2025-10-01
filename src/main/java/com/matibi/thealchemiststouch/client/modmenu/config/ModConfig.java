@@ -33,24 +33,6 @@ public final class ModConfig {
         return DISABLED_POTIONS.contains(id) || DISABLED_POTIONS.contains(base);
     }
 
-    public static boolean isPotionDisabled(ItemStack stack) {
-        // Vérifie si l’item contient une potion
-        var contents = stack.get(DataComponentTypes.POTION_CONTENTS);
-        if (contents == null) return false;
-
-        // Potion associée à l’ItemStack
-        if (contents.potion().isEmpty()) return false;
-        Potion potion = contents.potion().get().value();
-        Identifier id = Registries.POTION.getId(potion);
-        if (id == null) return false;
-
-        // Identifiant de base (sans suffixe long/strong)
-        Identifier base = basePotionId(id);
-
-        // Désactivée si l’id exact OU la base est dans la liste
-        return DISABLED_POTIONS.contains(id) || DISABLED_POTIONS.contains(base);
-    }
-
     public static Identifier basePotionId(Identifier id) {
         String ns = id.getNamespace();
         String p = id.getPath();
