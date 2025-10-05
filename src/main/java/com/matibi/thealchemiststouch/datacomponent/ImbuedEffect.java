@@ -2,7 +2,6 @@ package com.matibi.thealchemiststouch.datacomponent;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.component.ComponentsAccess;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
