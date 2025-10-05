@@ -1,7 +1,6 @@
 package com.matibi.thealchemiststouch.datagen;
 
 import com.matibi.thealchemiststouch.util.ModTags;
-import com.mojang.datafixers.types.templates.Tag;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
