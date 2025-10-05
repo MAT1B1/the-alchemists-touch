@@ -14,6 +14,7 @@ import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -53,6 +54,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input(Items.GLASS_BOTTLE)
                         .input(Items.IRON_NUGGET)
                         .criterion(hasItem(Items.GLASS_BOTTLE), conditionsFromItem(Items.GLASS_BOTTLE))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, ModItems.LEAF, 9)
+                        .input(ItemTags.LEAVES)
+                        .criterion("has_leaves", conditionsFromTag(ItemTags.LEAVES))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, Items.LEAF_LITTER, 1)
+                        .input(ModItems.LEAF, 9)
+                        .criterion(hasItem(ModItems.LEAF), conditionsFromItem(ModItems.LEAF))
                         .offerTo(exporter);
 
                 // Génère la recette spéciale pour la rune à partir d'une potion

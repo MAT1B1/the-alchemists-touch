@@ -29,14 +29,13 @@ public class ModLootTable {
                     addDrop(key, tableBuilder, EntityType.ZOMBIE,
                             ModItems.ZOMBIE_BRAIN, 1, 0.5f, wrapperLookup);
                     addDrop(key, tableBuilder, EntityType.WITCH,
-                            ModItems.WITCH_S_FINGER, 1, 0.7f, wrapperLookup);
-                    addVariableDrop(key, tableBuilder, EntityType.CAT,
-                            ModItems.CLAW, 0, 5, 0.5f, wrapperLookup);
-                    addVariableDrop(key, tableBuilder, EntityType.OCELOT,
-                            ModItems.CLAW, 0, 5, 1.0f, wrapperLookup);
-                    addVariableDrop(key, tableBuilder, EntityType.WOLF,
-                            ModItems.CLAW, 0, 5, 0.3f, wrapperLookup);
-
+                            ModItems.WITCH_S_FINGER, 1, 5, 0.7f, wrapperLookup);
+                    addDrop(key, tableBuilder, EntityType.CAT,
+                            ModItems.CLAW, 1, 5, 0.5f, wrapperLookup);
+                    addDrop(key, tableBuilder, EntityType.OCELOT,
+                            ModItems.CLAW, 1, 5, 1.0f, wrapperLookup);
+                    addDrop(key, tableBuilder, EntityType.WOLF,
+                            ModItems.CLAW, 1, 5, 0.3f, wrapperLookup);
             });
     }
 
@@ -44,10 +43,10 @@ public class ModLootTable {
                                 EntityType<?> entityType, Item item, int number, float chance,
                                 RegistryWrapper.WrapperLookup wrapperLookup
     ) {
-        addVariableDrop(key, tableBuilder, entityType, item, number, number, chance, wrapperLookup);
+        addDrop(key, tableBuilder, entityType, item, number, number, chance, wrapperLookup);
     }
 
-    private static void addVariableDrop(RegistryKey<LootTable> key, LootTable.Builder tableBuilder,
+    private static void addDrop(RegistryKey<LootTable> key, LootTable.Builder tableBuilder,
                                         EntityType<?> entityType, Item item, int min, int max, float chance,
                                         RegistryWrapper.WrapperLookup wrapperLookup
     ) {
