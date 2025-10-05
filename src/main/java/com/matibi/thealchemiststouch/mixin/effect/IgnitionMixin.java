@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.mixin;
+package com.matibi.thealchemiststouch.mixin.effect;
 
 import com.matibi.thealchemiststouch.network.ShootFireballC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

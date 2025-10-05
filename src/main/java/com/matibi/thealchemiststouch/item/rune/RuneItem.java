@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.rune;
+package com.matibi.thealchemiststouch.item.rune;
 
 import com.matibi.thealchemiststouch.effect.TerrainApplicableEffect;
 import net.minecraft.component.DataComponentTypes;
@@ -51,7 +51,7 @@ public class RuneItem extends PotionItem {
                     terrainEffect.applyOnBlock(serverWorld, pos, effect.getDuration(), effect.getAmplifier());
             }
         }
-        stack.decrement(1);
+        stack.decrementUnlessCreative(1, context.getPlayer());
         return ActionResult.SUCCESS;
     }
 }

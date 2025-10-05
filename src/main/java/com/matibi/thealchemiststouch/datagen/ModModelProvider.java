@@ -1,7 +1,7 @@
 package com.matibi.thealchemiststouch.datagen;
 
 import com.matibi.thealchemiststouch.item.ModItems;
-import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.rune.ModRunes;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
@@ -24,17 +24,18 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         List<Item> items = List.of(
-                ModItems.BAT_WING,
                 ModItems.CLAW,
                 ModItems.WITCH_S_FINGER,
                 ModItems.ZOMBIE_BRAIN,
                 ModItems.LEAF,
                 ModItems.POISONOUS_BEETROOT,
                 ModItems.POISONOUS_CARROT,
-                ModItems.ALCHEMIST_CORE);
+                ModItems.ALCHEMIST_CORE,
+                ModItems.BLOOD_BAG);
 
         items.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
 
         itemModelGenerator.registerWithTintedOverlay(ModRunes.RUNE, new PotionTintSource(0x8a8a8a));
+        itemModelGenerator.registerWithTintedOverlay(ModItems.SYRINGE, new PotionTintSource(0xc7dcff));
     }
 }

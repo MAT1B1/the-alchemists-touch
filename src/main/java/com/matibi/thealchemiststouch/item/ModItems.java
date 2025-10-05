@@ -1,7 +1,10 @@
 package com.matibi.thealchemiststouch.item;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
+import com.matibi.thealchemiststouch.datacomponent.BloodType;
+import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import com.matibi.thealchemiststouch.effect.ModEffects;
+import com.matibi.thealchemiststouch.item.syringe.SyringeItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
@@ -52,11 +55,6 @@ public class ModItems {
         }
     });
 
-    public static final Item BAT_WING = register("bat_wing", new Item(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "bat_wing")))
-            .food(new FoodComponent(1, 1, false))
-    ));
-
     public static final Item LEAF = register("leaf", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "leaf")))
     ));
@@ -75,6 +73,18 @@ public class ModItems {
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "witch_finger")))
             .food(new FoodComponent(1, 1, false))
     ));
+
+    public static final Item BLOOD_BAG = register("blood_bag", new Item(new Item.Settings()
+            .component(ModDataComponents.BLOOD_TYPE, BloodType.UNKNOWN)
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "blood_bag")))
+    ));
+
+    public static final Item SYRINGE = register("syringe",
+            new SyringeItem(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID,"syringe")))
+                    .maxCount(16)
+                    .component(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT)
+            ));
 
     /*
     public static final Item STINGER = register("stinger", new Item(new Item.Settings()
@@ -121,7 +131,6 @@ public class ModItems {
         entries.addAfter(Items.NETHER_WART, ModItems.ALCHEMIST_CORE);
 
         List<Item> items = List.of(
-                ModItems.BAT_WING,
                 ModItems.CLAW,
                 ModItems.WITCH_S_FINGER,
                 ModItems.ZOMBIE_BRAIN,

@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.mixin.petrification;
+package com.matibi.thealchemiststouch.mixin.effect.petrification;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.effect.ModEffects;

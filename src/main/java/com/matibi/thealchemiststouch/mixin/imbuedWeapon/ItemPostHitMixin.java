@@ -1,6 +1,6 @@
 package com.matibi.thealchemiststouch.mixin.imbuedWeapon;
 
-import com.matibi.thealchemiststouch.datacomponent.ImbuedEffectComponent;
+import com.matibi.thealchemiststouch.datacomponent.ImbuedEffect;
 import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
@@ -20,7 +20,7 @@ public abstract class ItemPostHitMixin {
                                      LivingEntity attacker, CallbackInfo ci) {
         if (attacker.getWorld().isClient()) return;
 
-        ImbuedEffectComponent imbued = stack.get(ModDataComponents.IMBUED_EFFECT);
+        ImbuedEffect imbued = stack.get(ModDataComponents.IMBUED_EFFECT);
         if (imbued == null) return;
 
         int duration = (imbued.effect().value().isInstant()) ? 1 : 20 * 10;
@@ -31,7 +31,7 @@ public abstract class ItemPostHitMixin {
         int remaining = imbued.hitsRemaining() - 1;
         if (remaining > 0)
             stack.set(ModDataComponents.IMBUED_EFFECT,
-                    new ImbuedEffectComponent(imbued.effect(), remaining, imbued.amplifier()));
+                    new ImbuedEffect(imbued.effect(), remaining, imbued.amplifier()));
         else {
             stack.remove(ModDataComponents.IMBUED_EFFECT);
             stack.remove(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE);

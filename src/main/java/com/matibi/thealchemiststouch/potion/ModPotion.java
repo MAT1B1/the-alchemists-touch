@@ -282,7 +282,7 @@
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.SUNFLOWER, ModPotion.SHORT_COOLDOWN);
                 builder.registerPotionRecipe(ModPotion.SHORT_COOLDOWN, Items.FERMENTED_SPIDER_EYE, ModPotion.LONG_COOLDOWN);
                 builder.registerPotionRecipe(Potions.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, ModPotion.MASKING);
-                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.BAT_WING, ModPotion.VAMPIRISM);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.BLOOD_BAG, ModPotion.VAMPIRISM);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.TORCHFLOWER, ModPotion.STUN);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.BONE_MEAL, ModPotion.GIANT);
                 builder.registerPotionRecipe(ModPotion.GIANT, Items.FERMENTED_SPIDER_EYE, ModPotion.DWARF);

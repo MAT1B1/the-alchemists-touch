@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.rune;
+package com.matibi.thealchemiststouch.item.rune;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.effect.ModEffects;

@@ -1,6 +1,6 @@
 package com.matibi.thealchemiststouch.recipe;
 
-import com.matibi.thealchemiststouch.datacomponent.ImbuedEffectComponent;
+import com.matibi.thealchemiststouch.datacomponent.ImbuedEffect;
 import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import com.matibi.thealchemiststouch.util.ModTags;
 import net.minecraft.component.DataComponentTypes;
@@ -90,7 +90,7 @@ public class ImbuedEffectRecipe extends SpecialCraftingRecipe {
         int hits = DEFAULT_HITS + chosen.getDuration() / (20 * 60) * 2;
 
         result.set(ModDataComponents.IMBUED_EFFECT,
-                new ImbuedEffectComponent(chosen.getEffectType(), hits, chosen.getAmplifier()));
+                new ImbuedEffect(chosen.getEffectType(), hits, chosen.getAmplifier()));
         result.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
 
         return result;

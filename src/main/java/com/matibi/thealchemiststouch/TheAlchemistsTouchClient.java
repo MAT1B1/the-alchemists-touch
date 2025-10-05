@@ -20,6 +20,8 @@ public class TheAlchemistsTouchClient implements ClientModInitializer {
                 DataComponentTypes.ENCHANTMENTS,
                 ModDataComponents.IMBUED_EFFECT
         );
+        ComponentTooltipAppenderRegistry.addFirst(ModDataComponents.BLOOD_TYPE);
+
         EntityRendererRegistry.register(ModEntities.EFFECT_CLOUD, EmptyEntityRenderer::new);
         ParticleFactoryRegistry.getInstance().register(ModParticle.CLOUD_EFFECT, CloudEffectParticle.Factory::new);
     }

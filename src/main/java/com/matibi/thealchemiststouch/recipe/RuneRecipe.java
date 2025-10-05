@@ -1,7 +1,7 @@
 package com.matibi.thealchemiststouch.recipe;
 
-import com.matibi.thealchemiststouch.rune.ModRunes;
-import com.matibi.thealchemiststouch.rune.Rune;
+import com.matibi.thealchemiststouch.item.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.rune.Rune;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

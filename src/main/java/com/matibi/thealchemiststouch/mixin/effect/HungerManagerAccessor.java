@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.mixin;
+package com.matibi.thealchemiststouch.mixin.effect;
 
 import net.minecraft.entity.player.HungerManager;
 import org.spongepowered.asm.mixin.Mixin;

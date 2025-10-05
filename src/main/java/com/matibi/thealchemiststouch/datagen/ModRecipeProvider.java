@@ -5,13 +5,14 @@ import com.matibi.thealchemiststouch.recipe.CombinationRecipe;
 import com.matibi.thealchemiststouch.recipe.FoodWithEffectRecipe;
 import com.matibi.thealchemiststouch.recipe.ImbuedEffectRecipe;
 import com.matibi.thealchemiststouch.recipe.RuneRecipe;
-import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.rune.ModRunes;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -47,6 +48,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input('A', ModItems.ALCHEMIST_CORE)
                         .input('S', Items.COBBLESTONE)
                         .criterion(hasItem(ModItems.ALCHEMIST_CORE), conditionsFromItem(ModItems.ALCHEMIST_CORE))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.BREWING, ModItems.SYRINGE)
+                        .input(Items.GLASS_BOTTLE)
+                        .input(Items.IRON_NUGGET)
+                        .criterion(hasItem(Items.GLASS_BOTTLE), conditionsFromItem(Items.GLASS_BOTTLE))
                         .offerTo(exporter);
 
                 // Génère la recette spéciale pour la rune à partir d'une potion

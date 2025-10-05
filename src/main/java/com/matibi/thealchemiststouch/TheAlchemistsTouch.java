@@ -11,7 +11,7 @@ import com.matibi.thealchemiststouch.network.ModNetworking;
 import com.matibi.thealchemiststouch.particle.ModParticle;
 import com.matibi.thealchemiststouch.potion.ModPotion;
 import com.matibi.thealchemiststouch.recipe.ModRecipeSerializer;
-import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.rune.ModRunes;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;

@@ -1,5 +1,5 @@
 // src/main/java/com/matibi/thealchemiststouch/mixin/PotionContentsAppendTooltipMixin.java
-package com.matibi.thealchemiststouch.mixin;
+package com.matibi.thealchemiststouch.mixin.effect;
 
 import com.matibi.thealchemiststouch.effect.ModEffects;
 import net.minecraft.component.ComponentsAccess;

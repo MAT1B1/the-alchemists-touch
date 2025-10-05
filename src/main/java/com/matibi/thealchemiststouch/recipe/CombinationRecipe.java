@@ -1,6 +1,6 @@
 package com.matibi.thealchemiststouch.recipe;
 
-import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.rune.ModRunes;
 import com.matibi.thealchemiststouch.util.CombinationUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;

@@ -2,7 +2,12 @@ package com.matibi.thealchemiststouch.datagen.language;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -76,13 +81,27 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.poisonous_beetroot", "Betterave empoisonnée");
         t.add("item.the-alchemists-touch.alchemist_core", "Noyau d'Alchimiste");
         t.add("item.the-alchemists-touch.claw", "Griffe");
-        t.add("item.the-alchemists-touch.bat_wing", "Aile de chauve-souris");
         t.add("item.the-alchemists-touch.zombie_brain", "Cerveau de zombie");
         t.add("item.the-alchemists-touch.leaf", "Feuille");
         t.add("item.the-alchemists-touch.witch_finger", "Doigt de sorcière");
+        t.add("item.the-alchemists-touch.blood_bag", "Poche de sang");
         t.add("item.the-alchemists-touch.rune.effect.empty", "Pierre alchimique");
         t.add("item.the-alchemists-touch.rune.effect.mixed", "Pierre alchimique multi-effest");
         registerVanilla("mixed", "multi-effets");
+
+        // Seringue
+        for (var entry : Registries.STATUS_EFFECT) {
+            Identifier id = Registries.STATUS_EFFECT.getId(entry);
+            if (id == null || !id.getNamespace().equals("minecraft")) continue;
+            String translationKey = "item.the-alchemists-touch.syringe.effect." + id.toTranslationKey();
+            String effectName = Text.translatable(entry.getTranslationKey()).getString();
+            t.add(translationKey, "Seringue de " + effectName);
+        }
+        t.add("item.the-alchemists-touch.syringe", "Seringue");
+        t.add("item.the-alchemists-touch.syringe.effect.empty", "Seringue");
+        t.add("the-alchemists-touch.blood_type.unknown", "Inconnu");
+        t.add("the-alchemists-touch.blood_type.human", "Sang humain");
+        t.add("the-alchemists-touch.blood_type.monster", "Sang de monstre");
 
         // Messages spéciaux
         t.add("item.the-alchemists-touch.rune.block_only", "Les pierres alchimiques ne peuvent être utilisées que sur des blocs");
@@ -116,5 +135,6 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
     private void register(String id, String effect_name, String name) {
         registerVanilla(id, name);
         t.add("effect.the-alchemists-touch." + id, effect_name);
+        t.add("item.the-alchemists-touch.syringe.effect.the-alchemists-touch." + id, "Seringue " + name);
     }
 }

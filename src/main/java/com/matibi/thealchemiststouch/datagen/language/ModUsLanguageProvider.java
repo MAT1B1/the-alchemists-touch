@@ -2,7 +2,10 @@ package com.matibi.thealchemiststouch.datagen.language;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -76,13 +79,27 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.poisonous_beetroot", "Poisonous Beetroot");
         t.add("item.the-alchemists-touch.alchemist_core", "Alchemist Core");
         t.add("item.the-alchemists-touch.claw", "Claw");
-        t.add("item.the-alchemists-touch.bat_wing", "Bat Wing");
         t.add("item.the-alchemists-touch.zombie_brain", "Zombie's brain");
         t.add("item.the-alchemists-touch.leaf", "Leaf");
         t.add("item.the-alchemists-touch.witch_finger", "Witches' Finger");
+        t.add("item.the-alchemists-touch.blood_bag", "Blood Bag");
         t.add("item.the-alchemists-touch.rune.effect.empty", "Alchemical Stones");
         t.add("item.the-alchemists-touch.rune.effect.mixed", "Multi-effect Alchemical Stones");
         registerVanillaReverse("mixed", "Multi-effect");
+
+        // Seringue
+        for (var entry : Registries.STATUS_EFFECT) {
+            Identifier id = Registries.STATUS_EFFECT.getId(entry);
+            if (id == null || !id.getNamespace().equals("minecraft")) continue;
+            String translationKey = "item.the-alchemists-touch.syringe.effect." + id.toTranslationKey();
+            String effectName = Text.translatable(entry.getTranslationKey()).getString();
+            t.add(translationKey, "Syringe of " + effectName);
+        }
+        t.add("item.the-alchemists-touch.syringe", "Syringe");
+        t.add("item.the-alchemists-touch.syringe.effect.empty", "Syringe");
+        t.add("the-alchemists-touch.blood_type.unknown", "Unknown");
+        t.add("the-alchemists-touch.blood_type.human", "Human Blood");
+        t.add("the-alchemists-touch.blood_type.monster", "Monster Blood");
 
         // Special messages
         t.add("item.the-alchemists-touch.rune.block_only", "Runes can only be used on blocks");
@@ -110,6 +127,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("item.minecraft.splash_potion.effect." + id, name + " Splash Potion");
         t.add("item.minecraft.lingering_potion.effect." + id, name + " Lingering Potion");
         t.add("item.minecraft.tipped_arrow.effect." + id, name + " Arrow");
+        t.add("item.the-alchemists-touch.syringe.effect." + id, name + " Syringe");
     }
 
     private void registerReverse(String id, String name) {
@@ -120,5 +138,6 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
     private void register(String id, String name) {
         registerVanilla(id, name);
         t.add("effect.the-alchemists-touch." + id, name);
+        t.add("item.the-alchemists-touch.syringe.effect.the-alchemists-touch." + id, "Syringe of " + name);
     }
 }

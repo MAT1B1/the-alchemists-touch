@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.mixin.petrification;
+package com.matibi.thealchemiststouch.mixin.effect.petrification;
 
 import com.matibi.thealchemiststouch.client.render.state.PetrifiedFlag;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;

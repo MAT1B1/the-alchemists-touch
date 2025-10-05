@@ -2,8 +2,9 @@ package com.matibi.thealchemiststouch.group;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
-import com.matibi.thealchemiststouch.rune.ModRunes;
-import com.matibi.thealchemiststouch.rune.Rune;
+import com.matibi.thealchemiststouch.item.ModItems;
+import com.matibi.thealchemiststouch.item.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.rune.Rune;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.Item;
@@ -49,6 +50,8 @@ public class ModItemGroups {
                             if (!stack.isEmpty())
                                 entries.add(stack);
                         }
+
+                        entries.add(ModItems.SYRINGE);
                     })
                     .build()
     );
