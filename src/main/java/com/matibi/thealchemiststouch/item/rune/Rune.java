@@ -4,7 +4,7 @@ import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.effect.TerrainApplicableEffect;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.DyedColorComponent;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.effect.StatusEffect;
@@ -12,7 +12,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
@@ -66,16 +68,27 @@ public record Rune(Identifier id, RegistryEntry<StatusEffect> effect, int amplif
             String effectId = Objects.requireNonNull(Registries.STATUS_EFFECT.getId(effect.value())).getPath();
             String translationKey = "item.the-alchemists-touch.rune.effect." + effectId;
             stack.set(DataComponentTypes.CUSTOM_NAME,
-                    Text.empty().append(Text.translatable(translationKey)).styled(style -> style.withItalic(false)));
-
-            // Couleur selon l'effet
-            stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(effect.value().getColor()));
+                    Text.empty().append(Text.translatable(translationKey))
+                            .styled(style -> style.withItalic(false)));
 
             // Cache certains composants dans le tooltip
             SequencedSet<ComponentType<?>> hidden = new LinkedHashSet<>();
-            hidden.add(DataComponentTypes.ATTRIBUTE_MODIFIERS);
-            hidden.add(DataComponentTypes.DYED_COLOR);
+            hidden.add(DataComponentTypes.POTION_CONTENTS);
             stack.set(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(false, hidden));
+
+            Formatting color = switch (effect.value().getCategory()) {
+                case BENEFICIAL, NEUTRAL -> Formatting.BLUE;
+                case HARMFUL    -> Formatting.RED;
+            };
+
+            MutableText effectName = Text.translatable(effect.value().getTranslationKey());
+            if (amplifier > 0) {
+                effectName = effectName.append(Text.literal(" "))
+                        .append(Text.translatable("potion.potency." + amplifier));
+            }
+
+            stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(effectName.styled(style ->
+                    style.withColor(color).withItalic(false)))));
 
             return stack;
         }
