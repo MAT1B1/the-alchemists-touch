@@ -56,7 +56,6 @@ public record Rune(Identifier id, RegistryEntry<StatusEffect> effect, int amplif
 
             ItemStack stack = new ItemStack(ModRunes.RUNE, number);
 
-            // Applique l'effet de potion
             stack.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(
                     Optional.empty(),
                     Optional.empty(),
@@ -64,34 +63,36 @@ public record Rune(Identifier id, RegistryEntry<StatusEffect> effect, int amplif
                     Optional.empty()
             ));
 
-            // Nom personnalisé basé sur l'effet
             String effectId = Objects.requireNonNull(Registries.STATUS_EFFECT.getId(effect.value())).getPath();
             String translationKey = "item.the-alchemists-touch.rune.effect." + effectId;
             stack.set(DataComponentTypes.CUSTOM_NAME,
                     Text.empty().append(Text.translatable(translationKey))
                             .styled(style -> style.withItalic(false)));
 
-            // Cache certains composants dans le tooltip
-            SequencedSet<ComponentType<?>> hidden = new LinkedHashSet<>();
-            hidden.add(DataComponentTypes.POTION_CONTENTS);
-            stack.set(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(false, hidden));
-
-            Formatting color = switch (effect.value().getCategory()) {
-                case BENEFICIAL, NEUTRAL -> Formatting.BLUE;
-                case HARMFUL    -> Formatting.RED;
-            };
-
-            MutableText effectName = Text.translatable(effect.value().getTranslationKey());
-            if (amplifier > 0) {
-                effectName = effectName.append(Text.literal(" "))
-                        .append(Text.translatable("potion.potency." + amplifier));
-            }
-
-            stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(effectName.styled(style ->
-                    style.withColor(color).withItalic(false)))));
+            createTooltip(stack, effect, amplifier);
 
             return stack;
         }
         return ItemStack.EMPTY;
+    }
+
+    private static void createTooltip(ItemStack stack, RegistryEntry<StatusEffect> effect, int amplifier) {
+        SequencedSet<ComponentType<?>> hidden = new LinkedHashSet<>();
+        hidden.add(DataComponentTypes.POTION_CONTENTS);
+        stack.set(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(false, hidden));
+
+        Formatting color = switch (effect.value().getCategory()) {
+            case BENEFICIAL, NEUTRAL -> Formatting.BLUE;
+            case HARMFUL    -> Formatting.RED;
+        };
+
+        MutableText effectName = Text.translatable(effect.value().getTranslationKey());
+        if (amplifier > 0) {
+            effectName = effectName.append(Text.literal(" "))
+                    .append(Text.translatable("potion.potency." + amplifier));
+        }
+
+        stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(effectName.styled(style ->
+                style.withColor(color).withItalic(false)))));
     }
 }
