@@ -112,7 +112,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
 
     private void registerWithAlchemicalStone(String id, String name) {
         register(id, name);
-        t.add("item.the-alchemists-touch.alchemical_stone.effect." + id, "Alchemical Stone of " + name);
+        t.add("item.the-alchemists-touch.alchemical_stone.effect." + id, name + " Stone");
     }
 
     private void registerVanilla(String id, String name) {
