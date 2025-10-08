@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.item.rune;
+package com.matibi.thealchemiststouch.item.alchemicalStone;
 
 import com.matibi.thealchemiststouch.effect.TerrainApplicableEffect;
 import net.minecraft.component.DataComponentTypes;
@@ -16,16 +16,16 @@ import net.minecraft.world.World;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 
-public class RuneItem extends PotionItem {
+public class AlchemicalStoneItem extends PotionItem {
 
-    public RuneItem(Settings settings) {
+    public AlchemicalStoneItem(Settings settings) {
         super(settings);
     }
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient)
-            user.sendMessage(Text.translatable("item.the-alchemists-touch.rune.block_only"), true);
+            user.sendMessage(Text.translatable("item.the-alchemists-touch.alchemical_stone.block_only"), true);
         return ActionResult.FAIL;
     }
 
@@ -46,7 +46,7 @@ public class RuneItem extends PotionItem {
             StatusEffect effectType = effect.getEffectType().value();
             if (effectType instanceof TerrainApplicableEffect terrainEffect) {
                 if (!terrainEffect.isBlockApplicable(serverWorld, pos) && user != null)
-                    user.sendMessage(Text.translatable("item.the-alchemists-touch.rune.block_not_good"), true);
+                    user.sendMessage(Text.translatable("item.the-alchemists-touch.alchemical_stone.block_not_good"), true);
                 else
                     terrainEffect.applyOnBlock(serverWorld, pos, effect.getDuration(), effect.getAmplifier());
             }

@@ -68,11 +68,11 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("perm_speed", "Permanent Speed");
 
         // Custom effects with rune
-        registerWithRune("giant", "Giant");
-        registerWithRune("petrification", "Petrification");
-        registerWithRune("acid", "Acidity");
-        registerWithRune("ignition", "Ignition");
-        registerWithRune("alchemist", "Alchemist");
+        registerWithAlchemicalStone("giant", "Giant");
+        registerWithAlchemicalStone("petrification", "Petrification");
+        registerWithAlchemicalStone("acid", "Acidity");
+        registerWithAlchemicalStone("ignition", "Ignition");
+        registerWithAlchemicalStone("alchemist", "Alchemist");
 
         // ---- Other non-effect items ----
         t.add("item.the-alchemists-touch.poisonous_carrot", "Poisonous Carrot");
@@ -83,8 +83,8 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.leaf", "Leaf");
         t.add("item.the-alchemists-touch.witch_finger", "Witches' Finger");
         t.add("item.the-alchemists-touch.blood_bag", "Blood Bag");
-        t.add("item.the-alchemists-touch.rune.effect.empty", "Alchemical Stones");
-        t.add("item.the-alchemists-touch.rune.effect.mixed", "Multi-effect Alchemical Stones");
+        t.add("item.the-alchemists-touch.alchemical_stone.effect.empty", "Alchemical Stone");
+        t.add("item.the-alchemists-touch.alchemical_stone.effect.mixed", "Multi-effect Alchemical Stone");
         registerVanillaReverse("mixed", "Multi-effect");
 
         // Seringue
@@ -102,17 +102,17 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("the-alchemists-touch.blood_type.monster", "Monster Blood");
 
         // Special messages
-        t.add("item.the-alchemists-touch.rune.block_only", "Runes can only be used on blocks");
-        t.add("item.the-alchemists-touch.rune.block_not_good", "The block is not compatible");
+        t.add("item.the-alchemists-touch.alchemical_stone.block_only", "Runes can only be used on blocks");
+        t.add("item.the-alchemists-touch.alchemical_stone.block_not_good", "The block is not compatible");
         t.add("itemGroup.the-alchemists-touch.alchemy", "Alchemy");
         t.add("splash.the-alchemists-touch.magic", "Alchemy is power !!!");
         t.add("splash.the-alchemists-touch.thanks", "Thank you for supporting me LivelyBadGood");
         t.add("tooltip.the-alchemists-touch.imbued_line", "%s (%s hits remaining)");
     }
 
-    private void registerWithRune(String id, String name) {
+    private void registerWithAlchemicalStone(String id, String name) {
         register(id, name);
-        t.add("item.the-alchemists-touch.rune.effect." + id, "Alchemical Stones of " + name);
+        t.add("item.the-alchemists-touch.alchemical_stone.effect." + id, "Alchemical Stone of " + name);
     }
 
     private void registerVanilla(String id, String name) {

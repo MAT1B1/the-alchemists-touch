@@ -1,6 +1,6 @@
 package com.matibi.thealchemiststouch.recipe;
 
-import com.matibi.thealchemiststouch.item.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
 import com.matibi.thealchemiststouch.util.CombinationUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -52,7 +52,7 @@ public class CombinationRecipe extends SpecialCraftingRecipe {
         return stack.isOf(Items.POTION)
                 || stack.isOf(Items.SPLASH_POTION)
                 || stack.isOf(Items.LINGERING_POTION)
-                || stack.isOf(ModRunes.RUNE);
+                || stack.isOf(ModAlchemicalStone.ALCHEMICAL_STONE);
     }
 
     public ItemStack craft(CraftingRecipeInput craftingRecipeInput, RegistryWrapper.WrapperLookup wrapperLookup) {

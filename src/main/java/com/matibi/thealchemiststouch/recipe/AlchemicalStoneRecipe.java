@@ -1,7 +1,7 @@
 package com.matibi.thealchemiststouch.recipe;
 
-import com.matibi.thealchemiststouch.item.rune.ModRunes;
-import com.matibi.thealchemiststouch.item.rune.Rune;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
+import com.matibi.thealchemiststouch.item.alchemicalStone.AlchemicalStone;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,8 +13,8 @@ import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
-public class RuneRecipe extends SpecialCraftingRecipe {
-    public RuneRecipe(CraftingRecipeCategory category) {
+public class AlchemicalStoneRecipe extends SpecialCraftingRecipe {
+    public AlchemicalStoneRecipe(CraftingRecipeCategory category) {
         super(category);
     }
 
@@ -31,7 +31,7 @@ public class RuneRecipe extends SpecialCraftingRecipe {
                     if (j == 1 && i == 1) {
                         if (!itemStack.isOf(Items.POTION))
                             return false;
-                    } else if (!itemStack.isOf(ModRunes.RUNE))
+                    } else if (!itemStack.isOf(ModAlchemicalStone.ALCHEMICAL_STONE))
                         return false;
                 }
             }
@@ -50,11 +50,11 @@ public class RuneRecipe extends SpecialCraftingRecipe {
         if (!itemStack.isOf(Items.POTION))
             return ItemStack.EMPTY;
         else
-            return Rune.getItemStack(itemStack.get(DataComponentTypes.POTION_CONTENTS), 8);
+            return AlchemicalStone.getItemStack(itemStack.get(DataComponentTypes.POTION_CONTENTS), 8);
     }
 
     @Override
-    public RecipeSerializer<RuneRecipe> getSerializer() {
+    public RecipeSerializer<AlchemicalStoneRecipe> getSerializer() {
         return ModRecipeSerializer.RUNE_FROM_POTION;
     }
 }

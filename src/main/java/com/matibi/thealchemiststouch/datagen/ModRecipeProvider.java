@@ -4,8 +4,8 @@ import com.matibi.thealchemiststouch.item.ModItems;
 import com.matibi.thealchemiststouch.recipe.CombinationRecipe;
 import com.matibi.thealchemiststouch.recipe.FoodWithEffectRecipe;
 import com.matibi.thealchemiststouch.recipe.ImbuedEffectRecipe;
-import com.matibi.thealchemiststouch.recipe.RuneRecipe;
-import com.matibi.thealchemiststouch.item.rune.ModRunes;
+import com.matibi.thealchemiststouch.recipe.AlchemicalStoneRecipe;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipe.ComplexRecipeJsonBuilder;
@@ -41,7 +41,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(hasItem(ModItems.WITCH_S_FINGER), conditionsFromItem(ModItems.WITCH_S_FINGER))
                         .offerTo(exporter);
 
-                createShaped(RecipeCategory.BREWING, ModRunes.RUNE, 8)
+                createShaped(RecipeCategory.BREWING, ModAlchemicalStone.ALCHEMICAL_STONE, 8)
                         .pattern("SSS")
                         .pattern("SAS")
                         .pattern("SSS")
@@ -67,7 +67,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .offerTo(exporter);
 
                 // Génère la recette spéciale pour la rune à partir d'une potion
-                ComplexRecipeJsonBuilder.create(RuneRecipe::new)
+                ComplexRecipeJsonBuilder.create(AlchemicalStoneRecipe::new)
                         .offerTo(exporter, "rune_recipe");
                 ComplexRecipeJsonBuilder.create(CombinationRecipe::new)
                         .offerTo(exporter, "combination_recipe");

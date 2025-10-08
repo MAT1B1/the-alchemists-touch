@@ -12,7 +12,7 @@ import com.matibi.thealchemiststouch.network.ModNetworking;
 import com.matibi.thealchemiststouch.particle.ModParticle;
 import com.matibi.thealchemiststouch.potion.ModPotion;
 import com.matibi.thealchemiststouch.recipe.ModRecipeSerializer;
-import com.matibi.thealchemiststouch.item.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
@@ -33,7 +33,7 @@ public class TheAlchemistsTouch implements ModInitializer {
         ModPotion.register();
 		ModEffects.register();
 		ModItems.register();
-		ModRunes.register();
+		ModAlchemicalStone.register();
 		ModRecipeSerializer.register();
         ModItemGroups.register();
         ModDataComponents.register();

@@ -1,7 +1,7 @@
 package com.matibi.thealchemiststouch.datagen;
 
 import com.matibi.thealchemiststouch.item.ModItems;
-import com.matibi.thealchemiststouch.item.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
@@ -35,7 +35,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         items.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
 
-        itemModelGenerator.registerWithTintedOverlay(ModRunes.RUNE, new PotionTintSource(0x8a8a8a));
+        itemModelGenerator.registerWithTintedOverlay(ModAlchemicalStone.ALCHEMICAL_STONE, new PotionTintSource(0x8a8a8a));
         itemModelGenerator.registerWithTintedOverlay(ModItems.SYRINGE, new PotionTintSource(0xc7dcff));
     }
 }

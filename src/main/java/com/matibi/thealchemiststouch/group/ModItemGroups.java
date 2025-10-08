@@ -3,8 +3,8 @@ package com.matibi.thealchemiststouch.group;
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
 import com.matibi.thealchemiststouch.item.ModItems;
-import com.matibi.thealchemiststouch.item.rune.ModRunes;
-import com.matibi.thealchemiststouch.item.rune.Rune;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
+import com.matibi.thealchemiststouch.item.alchemicalStone.AlchemicalStone;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.Item;
@@ -44,9 +44,9 @@ public class ModItemGroups {
                         addPotionType(Items.SPLASH_POTION, entries, all);
                         addPotionType(Items.LINGERING_POTION, entries, all);
 
-                        entries.add(ModRunes.RUNE);
-                        for (RegistryEntry<Rune> entry : ModRunes.RUNE_REGISTRY.streamEntries().toList()) {
-                            ItemStack stack = Rune.getItemStack(entry);
+                        entries.add(ModAlchemicalStone.ALCHEMICAL_STONE);
+                        for (RegistryEntry<AlchemicalStone> entry : ModAlchemicalStone.ALCHEMICAL_STONE_REGISTRY.streamEntries().toList()) {
+                            ItemStack stack = AlchemicalStone.getItemStack(entry);
                             if (!stack.isEmpty())
                                 entries.add(stack);
                         }

@@ -1,4 +1,4 @@
-package com.matibi.thealchemiststouch.item.rune;
+package com.matibi.thealchemiststouch.item.alchemicalStone;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.effect.TerrainApplicableEffect;
@@ -19,10 +19,10 @@ import net.minecraft.util.Identifier;
 
 import java.util.*;
 
-public record Rune(Identifier id, RegistryEntry<StatusEffect> effect, int amplifier) {
+public record AlchemicalStone(Identifier id, RegistryEntry<StatusEffect> effect, int amplifier) {
 
-    public static ItemStack getItemStack(RegistryEntry<Rune> entry) {
-        Rune rune = entry.value();
+    public static ItemStack getItemStack(RegistryEntry<AlchemicalStone> entry) {
+        AlchemicalStone rune = entry.value();
 
         return getItemStack(rune.effect(), rune.amplifier());
     }
@@ -54,7 +54,7 @@ public record Rune(Identifier id, RegistryEntry<StatusEffect> effect, int amplif
                 Objects.requireNonNull(Registries.STATUS_EFFECT.getId(effect.value())).getNamespace()
                         .equals(TheAlchemistsTouch.MOD_ID)) {
 
-            ItemStack stack = new ItemStack(ModRunes.RUNE, number);
+            ItemStack stack = new ItemStack(ModAlchemicalStone.ALCHEMICAL_STONE, number);
 
             stack.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(
                     Optional.empty(),
@@ -64,7 +64,7 @@ public record Rune(Identifier id, RegistryEntry<StatusEffect> effect, int amplif
             ));
 
             String effectId = Objects.requireNonNull(Registries.STATUS_EFFECT.getId(effect.value())).getPath();
-            String translationKey = "item.the-alchemists-touch.rune.effect." + effectId;
+            String translationKey = "item.the-alchemists-touch.alchemical_stone.effect." + effectId;
             stack.set(DataComponentTypes.CUSTOM_NAME,
                     Text.empty().append(Text.translatable(translationKey))
                             .styled(style -> style.withItalic(false)));
