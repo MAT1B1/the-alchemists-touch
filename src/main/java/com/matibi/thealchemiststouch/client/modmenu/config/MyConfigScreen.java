@@ -94,7 +94,8 @@ public final class MyConfigScreen extends Screen {
             String name = displayNameOf(entry);
             String nameLower = name.toLowerCase(Locale.ROOT);
 
-            if (!q.isEmpty() && !nameLower.contains(q)) continue;
+            if ((!q.isEmpty() && !nameLower.contains(q))
+                    || ModConfig.PROTECTED_POTIONS.contains(entry)) continue;
 
             boolean disabledFamily = ModConfig.DISABLED_POTIONS.contains(baseId);
             boolean enabled = !disabledFamily;

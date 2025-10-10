@@ -2,8 +2,12 @@ package com.matibi.thealchemiststouch.client.modmenu.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.matibi.thealchemiststouch.TheAlchemistsTouch;
+import com.matibi.thealchemiststouch.potion.ModPotion;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 import java.io.File;
@@ -18,6 +22,15 @@ public final class ModConfig {
 
     public static final Set<Identifier> DISABLED_POTIONS = new HashSet<>();
 
+    public static final Set<RegistryEntry<Potion>> PROTECTED_POTIONS = Set.of(
+            Potions.WATER,
+            Potions.AWKWARD,
+            Potions.THICK,
+            Potions.MUNDANE,
+            Potions.LUCK,
+            ModPotion.UNSTABLE
+    );
+
     public static void init(File configDir) {
         FILE = new File(configDir, "the_alchemists_touch.json");
         load();
@@ -26,8 +39,12 @@ public final class ModConfig {
     public static boolean isPotionDisabled(Potion potion) {
         var id = Registries.POTION.getId(potion);
         if (id == null) return false;
+
+        for (var protectedEntry : PROTECTED_POTIONS)
+            if (protectedEntry.matchesKey(Registries.POTION.getKey(potion).orElseThrow()))
+                return false;
+
         var base = basePotionId(id);
-        // désactivée si l’id exact OU la base est dans la liste
         return DISABLED_POTIONS.contains(id) || DISABLED_POTIONS.contains(base);
     }
 
@@ -59,7 +76,7 @@ public final class ModConfig {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            TheAlchemistsTouch.LOGGER.error("Failed to load config", e);
         }
     }
 
@@ -67,12 +84,21 @@ public final class ModConfig {
         try (var w = new FileWriter(FILE)) {
             Dto dto = new Dto();
             dto.disabledPotions = DISABLED_POTIONS.stream()
+                    .filter(id -> !isProtectedId(id))
                     .map(Identifier::toString)
                     .toList();
             GSON.toJson(dto, w);
         } catch (Exception e) {
-            e.printStackTrace();
+            TheAlchemistsTouch.LOGGER.error("Failed to load config", e);
         }
+    }
+
+    private static boolean isProtectedId(Identifier id) {
+        for (var entry : PROTECTED_POTIONS) {
+            var entryId = Registries.POTION.getId(entry.value());
+            if (id.equals(entryId)) return true;
+        }
+        return false;
     }
 
     private static final class Dto {

@@ -1,6 +1,7 @@
 package com.matibi.thealchemiststouch.mixin.effect;
 
 import com.matibi.thealchemiststouch.network.ShootFireballC2SPayload;
+import com.matibi.thealchemiststouch.network.ShootSnowballC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftClient.class)
-public abstract class IgnitionMixin {
+public abstract class IgnitionFrostMixin {
     @Shadow @Nullable public HitResult crosshairTarget;
 
     @Inject(method = "doAttack()Z", at = @At("HEAD"))
@@ -26,6 +27,7 @@ public abstract class IgnitionMixin {
 
         if (crosshairTarget == null || crosshairTarget.getType() == HitResult.Type.MISS) {
             ClientPlayNetworking.send(new ShootFireballC2SPayload());
+            ClientPlayNetworking.send(new ShootSnowballC2SPayload());
         }
     }
 }

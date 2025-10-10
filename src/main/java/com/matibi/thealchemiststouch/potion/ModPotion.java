@@ -10,6 +10,7 @@
     import net.minecraft.item.Items;
     import net.minecraft.potion.Potion;
     import net.minecraft.potion.Potions;
+    import net.minecraft.recipe.BrewingRecipeRegistry;
     import net.minecraft.registry.Registries;
     import net.minecraft.registry.Registry;
     import net.minecraft.registry.entry.RegistryEntry;
@@ -283,11 +284,12 @@
                 builder.registerPotionRecipe(ModPotion.SHORT_COOLDOWN, Items.FERMENTED_SPIDER_EYE, ModPotion.LONG_COOLDOWN);
                 builder.registerPotionRecipe(Potions.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, ModPotion.MASKING);
                 builder.registerPotionRecipe(Potions.AWKWARD, ModItems.BLOOD_BAG, ModPotion.VAMPIRISM);
-                builder.registerPotionRecipe(Potions.AWKWARD, Items.TORCHFLOWER, ModPotion.STUN);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.TORCHFLOWER, ModPotion.BERSERK);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.BONE_MEAL, ModPotion.GIANT);
                 builder.registerPotionRecipe(ModPotion.GIANT, Items.FERMENTED_SPIDER_EYE, ModPotion.DWARF);
                 builder.registerPotionRecipe(Potions.AWKWARD, ModItems.LEAF, ModPotion.PHOTOSYNTHESIS);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.PITCHER_PLANT, ModPotion.OBLIVION);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.GHAST_TEAR, ModPotion.GHOST_WALK);
 
                 // version longue
                 builder.registerPotionRecipe(ModPotion.LEVITATION, Items.REDSTONE, ModPotion.LONG_LEVITATION);
