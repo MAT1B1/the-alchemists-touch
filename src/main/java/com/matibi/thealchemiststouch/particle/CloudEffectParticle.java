@@ -10,6 +10,7 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
     private static final float WOBBLE = 0.015f;       // wobble réduit
     private static final float ROT_SPEED_MAX = 0.008f;// rotation très lente
 
+    private final SpriteProvider sprites;
     private final float baseScale;
     private final float spin;
     private final float wobblePhaseX;
@@ -20,6 +21,7 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
     public CloudEffectParticle(ClientWorld world, double x, double y, double z,
                                double vx, double vy, double vz, int color, SpriteProvider sprites) {
         super(world, x, y, z, vx, vy, vz);
+        this.sprites = sprites;
         this.setSpriteForAge(sprites);
 
         float r = ((color >> 16) & 0xFF) / 255f;
@@ -29,7 +31,7 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
 
         this.baseScale = 0.03f + random.nextFloat() * 0.05f;
         this.scale = baseScale;
-        this.maxAge = 100 + random.nextInt(60); // vit plus longtemps (5–8s)
+        this.maxAge = 20 * 2 + random.nextInt(60);
 
         // vitesses initiales très réduites
         float speed = 0.02f;
@@ -54,6 +56,7 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
     @Override
     public void tick() {
         super.tick();
+        this.setSpriteForAge(sprites);
 
         this.velocityY += BUOYANCY;
 
@@ -88,11 +91,12 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
         public Particle createParticle(CloudEffectData data, ClientWorld world,
                                        double x, double y, double z,
                                        double vx, double vy, double vz) {
-            double s = 0.003 + world.random.nextDouble() * 0.003; // vitesse initiale très réduite
+            double s = 0.003 + world.random.nextDouble() * 0.003;
             double jx = (world.random.nextDouble() - 0.5) * s;
             double jy = (world.random.nextDouble() - 0.5) * s * 0.3;
             double jz = (world.random.nextDouble() - 0.5) * s;
-            return new CloudEffectParticle(world, x, y, z, vx + jx, vy + jy, vz + jz, data.color(), sprites);
+            return new CloudEffectParticle(world, x, y, z,
+                    vx + jx, vy + jy, vz + jz, data.color(), this.sprites);
         }
     }
 }

@@ -142,16 +142,14 @@ public class EffectCloud extends Entity {
 
                 if (inside) {
                     boolean needApply =
-                            active == null
-                                    || !active.isAmbient()
-                                    || active.getAmplifier() != amp;
+                            active == null || active.getAmplifier() != amp;
 
                     if (needApply)
                         le.addStatusEffect(new StatusEffectInstance(
                                 type,
                                 -1,
                                 amp,
-                                false,
+                                true,
                                 false,
                                 true
                         ));
