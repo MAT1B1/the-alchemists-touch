@@ -56,7 +56,7 @@ public class AlchemistEffect extends StatusEffect implements TerrainApplicableEf
     }
 
     @Override
-    public void applyOnBlock(ServerWorld world, BlockPos block, int duration, int amplifier) {
+    public void useOnBlock(ServerWorld world, BlockPos block, int duration, int amplifier) {
         var state = world.getBlockState(block);
         var blockType = state.getBlock();
 
@@ -69,11 +69,11 @@ public class AlchemistEffect extends StatusEffect implements TerrainApplicableEf
     }
 
     @Override
-    public boolean isBlockApplicable(ServerWorld world, BlockPos block) {
+    public boolean isBlockNonApplicable(ServerWorld world, BlockPos block) {
         BlockState state = world.getBlockState(block);
-        return state.getBlock() == net.minecraft.block.Blocks.COAL_BLOCK
-                || state.getBlock() == net.minecraft.block.Blocks.COAL_ORE
-                || state.getBlock() == net.minecraft.block.Blocks.DEEPSLATE_COAL_ORE;
+        return state.getBlock() != net.minecraft.block.Blocks.COAL_BLOCK
+                && state.getBlock() != net.minecraft.block.Blocks.COAL_ORE
+                && state.getBlock() != net.minecraft.block.Blocks.DEEPSLATE_COAL_ORE;
     }
 }
 

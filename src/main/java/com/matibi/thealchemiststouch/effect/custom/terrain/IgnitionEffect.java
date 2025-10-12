@@ -54,7 +54,7 @@ public class IgnitionEffect extends StatusEffect implements TerrainApplicableEff
     }
 
     @Override
-    public void applyOnBlock(ServerWorld world, BlockPos blockPos, int duration, int amplifier) {
+    public void useOnBlock(ServerWorld world, BlockPos blockPos, int duration, int amplifier) {
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
 
@@ -73,9 +73,9 @@ public class IgnitionEffect extends StatusEffect implements TerrainApplicableEff
     }
 
     @Override
-    public boolean isBlockApplicable(ServerWorld world, BlockPos blockPos) {
+    public boolean isBlockNonApplicable(ServerWorld world, BlockPos blockPos) {
         BlockState state = world.getBlockState(blockPos);
         Block block = state.getBlock();
-        return SMELLABLE.containsKey(block) || block.getDefaultState().isIn(BlockTags.LOGS);
+        return !SMELLABLE.containsKey(block) && !block.getDefaultState().isIn(BlockTags.LOGS);
     }
 }

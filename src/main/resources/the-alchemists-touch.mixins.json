@@ -20,7 +20,6 @@
     "effect.MobEntityMixin",
     "effect.MouseMixin",
     "effect.ReactivationMixin",
-    "effect.ResurrectionMixin",
     "effect.VampirismMixin",
     "effect.petrification.PetrificationMixin",
     "effect.petrification.PetrifiedTrackedFlagMixin",

@@ -113,8 +113,8 @@
         public static final RegistryEntry<StatusEffect> OBLIVION = registerStatusEffects("oblivion",
                 new OblivionEffect());
 
-        public static final RegistryEntry<StatusEffect> SPIDER_LEGS = registerStatusEffects("spider_legs",
-                new SpiderLegsEffect());
+        public static final RegistryEntry<StatusEffect> ADHESION = registerStatusEffects("adhesion",
+                new AdhesionEffect());
 
         public static final RegistryEntry<StatusEffect> RUST = registerStatusEffects("rust",
                 new RustEffect());

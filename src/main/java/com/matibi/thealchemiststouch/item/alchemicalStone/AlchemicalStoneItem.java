@@ -12,6 +12,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.profiling.jfr.sample.CpuLoadSample;
 import net.minecraft.world.World;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -45,10 +46,10 @@ public class AlchemicalStoneItem extends PotionItem {
         for (StatusEffectInstance effect : contents.getEffects()) {
             StatusEffect effectType = effect.getEffectType().value();
             if (effectType instanceof TerrainApplicableEffect terrainEffect) {
-                if (!terrainEffect.isBlockApplicable(serverWorld, pos) && user != null)
+                if (terrainEffect.isBlockNonApplicable(serverWorld, pos) && user != null)
                     user.sendMessage(Text.translatable("item.the-alchemists-touch.alchemical_stone.block_not_good"), true);
                 else
-                    terrainEffect.applyOnBlock(serverWorld, pos, effect.getDuration(), effect.getAmplifier());
+                    terrainEffect.useOnBlock(serverWorld, user, pos, effect.getDuration(), effect.getAmplifier());
             }
         }
         stack.decrementUnlessCreative(1, context.getPlayer());

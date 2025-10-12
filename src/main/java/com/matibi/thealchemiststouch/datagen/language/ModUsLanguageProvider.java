@@ -44,7 +44,6 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("frost", "Frost");
         register("death", "Death");
         register("double_health", "Double Health");
-        register("resurrection", "Resurrection");
         register("infinity", "Infinity");
         register("long_cooldown", "Long Cooldown");
         register("short_cooldown", "Short Cooldown");
@@ -59,7 +58,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         register("dwarf", "Dwarfism");
         register("photosynthesis", "Photosynthesis");
         register("oblivion", "Oblivion");
-        register("spider_legs", "Spider Legs");
+        register("adhesion", "Adhesion");
         register("rust", "Rust");
 
         // Permanent potions
@@ -69,6 +68,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
 
         // Custom effects with rune
         registerWithAlchemicalStone("giant", "Giant");
+        registerWithAlchemicalStone("resurrection", "Resurrection");
         registerWithAlchemicalStone("petrification", "Petrification");
         registerWithAlchemicalStone("acid", "Acidity");
         registerWithAlchemicalStone("ignition", "Ignition");
@@ -83,6 +83,8 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.leaf", "Leaf");
         t.add("item.the-alchemists-touch.witch_finger", "Witches' Finger");
         t.add("item.the-alchemists-touch.blood_bag", "Blood Bag");
+        t.add("item.the-alchemists-touch.oxydation", "Oxidation Fragment");
+        t.add("item.the-alchemists-touch.charged_copper", "Charged Copper");
         t.add("item.the-alchemists-touch.alchemical_stone.effect.empty", "Alchemical Stone");
         t.add("item.the-alchemists-touch.alchemical_stone.effect.mixed", "Multi-effect Alchemical Stone");
         registerVanillaReverse("mixed", "Multi-effect");

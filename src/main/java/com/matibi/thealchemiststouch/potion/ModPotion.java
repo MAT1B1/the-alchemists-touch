@@ -7,6 +7,7 @@
     import net.minecraft.entity.effect.StatusEffect;
     import net.minecraft.entity.effect.StatusEffectInstance;
     import net.minecraft.entity.effect.StatusEffects;
+    import net.minecraft.item.Item;
     import net.minecraft.item.Items;
     import net.minecraft.potion.Potion;
     import net.minecraft.potion.Potions;
@@ -217,10 +218,10 @@
         public static final RegistryEntry<Potion> OBLIVION = registerPotion("oblivion", "oblivion",
                 ModEffects.OBLIVION, 1, 0);
 
-        public static final RegistryEntry<Potion> SPIDER_LEGS = registerPotion("spider_legs", "spider_legs",
-                ModEffects.SPIDER_LEGS, 20 * 60 * 3, 0);
-        public static final RegistryEntry<Potion> LONG_SPIDER_LEGS = registerPotion("spider_legs", "long_spider_legs",
-                ModEffects.SPIDER_LEGS, 20 * 60 * 8, 0);
+        public static final RegistryEntry<Potion> ADHESION = registerPotion("adhesion", "adhesion",
+                ModEffects.ADHESION, 20 * 60 * 3, 0);
+        public static final RegistryEntry<Potion> LONG_ADHESION = registerPotion("adhesion", "long_adhesion",
+                ModEffects.ADHESION, 20 * 60 * 8, 0);
 
         public static final RegistryEntry<Potion> RUST = registerPotion("rust", "rust",
                 ModEffects.RUST, 20 * 45, 0);
@@ -289,6 +290,10 @@
                 builder.registerPotionRecipe(Potions.AWKWARD, ModItems.LEAF, ModPotion.PHOTOSYNTHESIS);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.PITCHER_PLANT, ModPotion.OBLIVION);
                 builder.registerPotionRecipe(Potions.AWKWARD, Items.GHAST_TEAR, ModPotion.GHOST_WALK);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.CHARGED_COPPER, ModPotion.STUN);
+                builder.registerPotionRecipe(Potions.AWKWARD, ModItems.OXYDATION, ModPotion.RUST);
+                builder.registerPotionRecipe(Potions.AWKWARD, Items.RESIN_CLUMP, ModPotion.ADHESION);
+                builder.registerPotionRecipe(ModPotion.BRAIN_WASHING, Items.RABBIT_FOOT, ModPotion.NO_INTERACTION);
 
                 // version longue
                 builder.registerPotionRecipe(ModPotion.LEVITATION, Items.REDSTONE, ModPotion.LONG_LEVITATION);
@@ -322,7 +327,7 @@
                 builder.registerPotionRecipe(ModPotion.GIANT, Items.REDSTONE, ModPotion.LONG_GIANT);
                 builder.registerPotionRecipe(ModPotion.DWARF, Items.REDSTONE, ModPotion.LONG_DWARF);
                 builder.registerPotionRecipe(ModPotion.PHOTOSYNTHESIS, Items.REDSTONE, ModPotion.LONG_PHOTOSYNTHESIS);
-                builder.registerPotionRecipe(ModPotion.SPIDER_LEGS, Items.REDSTONE, ModPotion.LONG_SPIDER_LEGS);
+                builder.registerPotionRecipe(ModPotion.ADHESION, Items.REDSTONE, ModPotion.LONG_ADHESION);
                 builder.registerPotionRecipe(ModPotion.RUST, Items.REDSTONE, ModPotion.LONG_RUST);
 
                 // version strong

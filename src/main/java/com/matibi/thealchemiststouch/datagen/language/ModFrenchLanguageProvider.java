@@ -44,7 +44,6 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("frost", "Givre");
         register("death", "Mort");
         register("double_health", "Double vie");
-        register("resurrection", "Résurrection");
         register("infinity", "Infinité","d'Infinité");
         register("long_cooldown", "Cooldown allongé");
         register("short_cooldown", "Cooldown réduit");
@@ -59,7 +58,7 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("dwarf", "Nanisme");
         register("photosynthesis", "Photosynthèse");
         register("oblivion", "Oubli", "d'Oubli");
-        register("spider_legs", "Pattes d’araignée");
+        register("adhesion", "Adhésion", "d'Adhésion");
         register("rust", "Rouille");
 
         // Potions permanentes
@@ -68,6 +67,7 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("perm_speed", "Vitesse Permanente");
 
         // Effets custom avec rune
+        registerWithAlchemicalStone("resurrection", "Résurrection");
         registerWithAlchemicalStone("giant", "Géant");
         registerWithAlchemicalStone("petrification", "Pétrification");
         registerWithAlchemicalStone("acid", "Acidité", "d'Acidité");
@@ -83,6 +83,8 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.leaf", "Feuille");
         t.add("item.the-alchemists-touch.witch_finger", "Doigt de sorcière");
         t.add("item.the-alchemists-touch.blood_bag", "Poche de sang");
+        t.add("item.the-alchemists-touch.oxydation", "Fragment d'oxydation");
+        t.add("item.the-alchemists-touch.charged_copper", "Cuivre chargé");
         t.add("item.the-alchemists-touch.alchemical_stone.effect.empty", "Pierre alchimique");
         t.add("item.the-alchemists-touch.alchemical_stone.effect.mixed", "Pierre alchimique multi-effest");
         registerVanilla("mixed", "multi-effets");

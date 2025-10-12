@@ -7,8 +7,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 
 // Climbing Effect by SameDifferent
-public class SpiderLegsEffect extends StatusEffect {
-    public SpiderLegsEffect() {
+public class AdhesionEffect extends StatusEffect {
+    public AdhesionEffect() {
         super(StatusEffectCategory.BENEFICIAL, 0x3B8B3B);
     }
 

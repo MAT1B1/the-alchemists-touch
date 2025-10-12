@@ -32,7 +32,7 @@ public class AcidEffect extends StatusEffect implements TerrainApplicableEffect 
     }
 
     @Override
-    public void applyOnBlock(ServerWorld world, BlockPos center, int duration, int amplifier) {
+    public void useOnBlock(ServerWorld world, BlockPos center, int duration, int amplifier) {
         int radius = 1 + amplifier;
         int depth = 1 + amplifier;
 

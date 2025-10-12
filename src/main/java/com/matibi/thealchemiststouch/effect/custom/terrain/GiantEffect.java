@@ -72,7 +72,7 @@ public class GiantEffect extends StatusEffect implements TerrainApplicableEffect
     }
 
     @Override
-    public void applyOnBlock(ServerWorld world, BlockPos pos, int duration, int amplifier) {
+    public void useOnBlock(ServerWorld world, BlockPos pos, int duration, int amplifier) {
         var state = world.getBlockState(pos);
         var block = state.getBlock();
         var rand = world.random;

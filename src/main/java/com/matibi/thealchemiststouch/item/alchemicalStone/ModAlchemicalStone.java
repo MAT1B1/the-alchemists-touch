@@ -29,19 +29,29 @@ public class ModAlchemicalStone {
                     .component(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT)
             ));
 
-    public static RegistryEntry<AlchemicalStone> ACID = registerAlchemicalStone("acid", ModEffects.ACID, 0);
+    public static RegistryEntry<AlchemicalStone> ACID =
+            registerAlchemicalStone("acid", ModEffects.ACID, 0);
 
-    public static RegistryEntry<AlchemicalStone> ACID_STRONG = registerAlchemicalStone("strong_acid", ModEffects.ACID, 1);
+    public static RegistryEntry<AlchemicalStone> ACID_STRONG =
+            registerAlchemicalStone("strong_acid", ModEffects.ACID, 1);
 
-    public static RegistryEntry<AlchemicalStone> PETRIFICATION = registerAlchemicalStone("petrification", ModEffects.PETRIFICATION, 0);
+    public static RegistryEntry<AlchemicalStone> PETRIFICATION =
+            registerAlchemicalStone("petrification", ModEffects.PETRIFICATION, 0);
 
-    public static RegistryEntry<AlchemicalStone> PETRIFICATION_STRONG = registerAlchemicalStone("strong_petrification", ModEffects.PETRIFICATION, 1);
+    public static RegistryEntry<AlchemicalStone> PETRIFICATION_STRONG =
+            registerAlchemicalStone("strong_petrification", ModEffects.PETRIFICATION, 1);
 
-    public static RegistryEntry<AlchemicalStone> ALCHEMIST = registerAlchemicalStone("alchemist", ModEffects.ALCHEMIST, 0);
+    public static RegistryEntry<AlchemicalStone> ALCHEMIST =
+            registerAlchemicalStone("alchemist", ModEffects.ALCHEMIST, 0);
 
-    public static RegistryEntry<AlchemicalStone> IGNITION = registerAlchemicalStone("ignition", ModEffects.IGNITION, 0);
+    public static RegistryEntry<AlchemicalStone> IGNITION =
+            registerAlchemicalStone("ignition", ModEffects.IGNITION, 0);
 
-    public static RegistryEntry<AlchemicalStone> GIANT = registerAlchemicalStone("giant", ModEffects.GIANT, 0);
+    public static RegistryEntry<AlchemicalStone> GIANT =
+            registerAlchemicalStone("giant", ModEffects.GIANT, 0);
+
+    public static RegistryEntry<AlchemicalStone> RESURRECTION =
+            registerAlchemicalStone("resurrection", ModEffects.RESURRECTION, 0);
 
     public static RegistryEntry<AlchemicalStone> registerAlchemicalStone(String name, RegistryEntry<StatusEffect> effect, int amplifier) {
         Identifier id = Identifier.of(TheAlchemistsTouch.MOD_ID, name + "_alchemical_stone");

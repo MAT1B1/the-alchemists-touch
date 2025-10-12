@@ -39,12 +39,12 @@ public final class MyConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        listTop = 36;
+        listTop = 56;
         listBottom = this.height - 40;
         listLeft = 16;
         listRight = this.width - 16;
 
-        search = new TextFieldWidget(this.textRenderer, listLeft, 10, this.width - 32, 16, Text.of("Search"));
+        search = new TextFieldWidget(this.textRenderer, listLeft, 30, this.width - 32, 16, Text.of("Search"));
         search.setPlaceholder(Text.of("Rechercher par nom…"));
         search.setChangedListener(s -> rebuild());
         this.addSelectableChild(search);
@@ -202,7 +202,7 @@ public final class MyConfigScreen extends Screen {
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
         ctx.fill(0, 0, this.width, this.height, 0x90000000);
-        ctx.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 2, 0xFFFFFFFF);
+        ctx.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 15, 0xFFFFFFFF);
         ctx.fill(listLeft - 2, listTop - 2, listRight + 2, listBottom + 2, 0x40FFFFFF);
         ctx.fill(listLeft, listTop, listRight, listBottom, 0x80000000);
 

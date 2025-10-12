@@ -86,6 +86,14 @@ public class ModItems {
                     .component(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT)
             ));
 
+    public static final Item CHARGED_COPPER = register("charged_copper", new Item(new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "charged_copper")))
+    ));
+
+    public static final Item OXYDATION = register("oxydation", new Item(new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "oxydation")))
+    ));
+
     /*
     public static final Item STINGER = register("stinger", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "stinger")))

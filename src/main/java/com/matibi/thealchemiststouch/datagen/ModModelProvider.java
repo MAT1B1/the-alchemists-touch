@@ -31,7 +31,9 @@ public class ModModelProvider extends FabricModelProvider {
                 ModItems.POISONOUS_BEETROOT,
                 ModItems.POISONOUS_CARROT,
                 ModItems.ALCHEMIST_CORE,
-                ModItems.BLOOD_BAG);
+                ModItems.BLOOD_BAG,
+                ModItems.CHARGED_COPPER,
+                ModItems.OXYDATION);
 
         items.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
 
