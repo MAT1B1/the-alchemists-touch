@@ -8,7 +8,8 @@ import com.mojang.blaze3d.platform.DepthTestFunction;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRenderEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
@@ -92,39 +93,34 @@ public final class OreESP {
                 pulseAlpha = 0f;
             }
         });
-
-        // Rendu boîtes translucides SANS depth-test (via layer GUI), donc visibles à travers les murs
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(ctx -> {
-            MinecraftClient mc = MinecraftClient.getInstance();
-            if (mc.world == null || mc.player == null) return;
-            if (!mc.player.hasStatusEffect(ModEffects.ORE_SENSE) || !pulseActive || cached.isEmpty()) return;
-            if (pulseAlpha <= 0.01f) return;
-
-            R = 5 + 5 * Objects.requireNonNull(mc.player.getStatusEffect(ModEffects.ORE_SENSE)).getAmplifier();
-
-            MatrixStack matrices = ctx.matrixStack();
-            if (matrices == null) return;
-
-            Vec3d cam = mc.gameRenderer.getCamera().getPos();
-            matrices.push();
-            matrices.translate(-cam.x, -cam.y, -cam.z);
-
-            // Layer GUI = pas de depth-test en monde -> parfait pour "x-ray"
-            VertexConsumerProvider.Immediate buf = mc.getBufferBuilders().getEntityVertexConsumers();
-            VertexConsumer vc = buf.getBuffer(XRAY);
-
-            float r = 253 / 255f, g = 255 / 255f, b = 112 / 255f, a = 0.35f * pulseAlpha; // teinte + fondu
-
-            for (BlockPos pos : cached) {
-                // boîte très légèrement plus petite pour éviter scintillement
-                Box box = new Box(pos).expand(-0.03);
-                fillBox(matrices, vc, box, r, g, b, a);
-            }
-
-            matrices.pop();
-            buf.draw(); // flush
-        });
     }
+
+    public static void render(MatrixStack matrices, Camera camera) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (mc.world == null || mc.player == null) return;
+        if (!mc.player.hasStatusEffect(ModEffects.ORE_SENSE) || !pulseActive || cached.isEmpty()) return;
+        if (pulseAlpha <= 0.01f) return;
+
+        R = 5 + 5 * Objects.requireNonNull(mc.player.getStatusEffect(ModEffects.ORE_SENSE)).getAmplifier();
+
+        Vec3d cam = camera.getPos();
+        matrices.push();
+        matrices.translate(-cam.x, -cam.y, -cam.z);
+
+        VertexConsumerProvider.Immediate buf = mc.getBufferBuilders().getEntityVertexConsumers();
+        VertexConsumer vc = buf.getBuffer(XRAY);
+
+        float r = 253 / 255f, g = 255 / 255f, b = 112 / 255f, a = 0.35f * pulseAlpha;
+
+        for (BlockPos pos : cached) {
+            Box box = new Box(pos).expand(-0.03);
+            fillBox(matrices, vc, box, r, g, b, a);
+        }
+
+        matrices.pop();
+        buf.draw();
+    }
+
 
     private static List<BlockPos> scanOres(ClientWorld w, BlockPos c) {
         List<BlockPos> out = new ArrayList<>();

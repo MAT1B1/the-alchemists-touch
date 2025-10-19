@@ -37,7 +37,7 @@ public abstract class PetrifiedTrackedFlagMixin implements PetrifiedTracker {
     @Inject(method = "tickStatusEffects", at = @At("TAIL"))
     private void tat$syncFromEffects(CallbackInfo ci) {
         LivingEntity self = (LivingEntity)(Object)this;
-        if (!self.getWorld().isClient()) {
+        if (!self.getEntityWorld().isClient()) {
             boolean has = self.hasStatusEffect(ModEffects.PETRIFICATION);
             if (has != self.getDataTracker().get(TAT_PETRIFIED)) {
                 self.getDataTracker().set(TAT_PETRIFIED, has);

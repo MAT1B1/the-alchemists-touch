@@ -73,7 +73,7 @@ public class EffectCloud extends Entity {
     public void tick() {
         super.tick();
 
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             int life = getLifetimeTicks();
             if (life > 0) {
                 setLifetimeTicks(life - 1);
@@ -117,8 +117,8 @@ public class EffectCloud extends Entity {
 
     // true si le bloc est solide (a une collision)
     private boolean isSolid(BlockPos pos) {
-        BlockState state = getWorld().getBlockState(pos);
-        VoxelShape shape = state.getCollisionShape(getWorld(), pos);
+        BlockState state = getEntityWorld().getBlockState(pos);
+        VoxelShape shape = state.getCollisionShape(getEntityWorld(), pos);
         return !shape.isEmpty();
     }
 
@@ -126,7 +126,7 @@ public class EffectCloud extends Entity {
         if (occupied.isEmpty() || effects.isEmpty()) return;
 
         Box bounds = computeBounds(occupied).expand(1.0);
-        List<LivingEntity> list = getWorld().getEntitiesByClass(
+        List<LivingEntity> list = getEntityWorld().getEntitiesByClass(
                 LivingEntity.class, bounds, e -> e.isAlive() && !e.isSpectator()
         );
 
@@ -175,8 +175,8 @@ public class EffectCloud extends Entity {
     }
 
     private void spawnParticlesClient() {
-        if (!getWorld().isClient || occupied.isEmpty()) return;
-        ClientWorld world = (ClientWorld) getWorld();
+        if (!getEntityWorld().isClient() || occupied.isEmpty()) return;
+        ClientWorld world = (ClientWorld) getEntityWorld();
 
         var r = world.random;
         int rgb = PotionContentsComponent.mixColors(this.effects).orElse(0xECEFB1);

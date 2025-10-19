@@ -29,7 +29,7 @@ public class MerchantEntityMixin {
                 ItemStack firstStack = discounted.getFirstBuyItem().itemStack();
                 int baseFirst = firstStack.getCount();
                 if (baseFirst > 2) {
-                    int discount = merchant.getWorld().getRandom().nextInt(baseFirst - 2) + 1;
+                    int discount = merchant.getEntityWorld().getRandom().nextInt(baseFirst - 2) + 1;
                     discounted.setSpecialPrice(-discount);
                 }
                 discountedOffers.add(discounted);

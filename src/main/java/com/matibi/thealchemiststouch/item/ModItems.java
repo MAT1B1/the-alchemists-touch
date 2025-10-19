@@ -74,7 +74,8 @@ public class ModItems {
             .food(new FoodComponent(1, 1, false))
     ));
 
-    public static final Item BLOOD_BAG = register("blood_bag", new Item(new Item.Settings()
+    public static final Item BLOOD_BAG = register("blood_bag",
+            new Item(new Item.Settings()
             .component(ModDataComponents.BLOOD_TYPE, BloodType.UNKNOWN)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "blood_bag")))
     ));

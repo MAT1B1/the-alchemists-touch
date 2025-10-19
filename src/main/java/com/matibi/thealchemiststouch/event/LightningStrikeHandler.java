@@ -15,7 +15,7 @@ import net.minecraft.world.event.GameEvent;
 public final class LightningStrikeHandler {
     public static void register() {
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (!(entity instanceof LightningEntity lightning) || world.isClient) return;
+            if (!(entity instanceof LightningEntity lightning) || world.isClient()) return;
             TickUtil.runLater(world, 20, () -> {
                 BlockPos center = BlockPos.ofFloored(lightning.getX(), lightning.getY(), lightning.getZ());
                 BlockPos rodPos = findRodBelow(world, center);

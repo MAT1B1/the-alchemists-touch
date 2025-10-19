@@ -1,5 +1,6 @@
 package com.matibi.thealchemiststouch.client.modmenu.config;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -13,12 +14,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public final class MyConfigScreen extends Screen {
     private final Screen parent;
@@ -51,7 +47,8 @@ public final class MyConfigScreen extends Screen {
         this.setInitialFocus(search);
 
         this.addDrawableChild(ButtonWidget.builder(Text.of("Done"), b -> this.close())
-                .dimensions(this.width / 2 - 40, this.height - 28, 80, 20).build());
+                .dimensions(this.width / 2 - 40, this.height - 28, 80, 20)
+                .build());
 
         rebuild();
     }
@@ -68,23 +65,21 @@ public final class MyConfigScreen extends Screen {
         List<RegistryEntry<Potion>> all = new ArrayList<>();
         Registries.POTION.getIndexedEntries().forEach(all::add);
 
-        // Regroupement: une entrée par "baseId" (sans prefixes long_/strong_)
+        // Regroupement par baseId (exclut long_/strong_)
         Map<Identifier, RegistryEntry<Potion>> byBase = new LinkedHashMap<>();
         for (RegistryEntry<Potion> e : all) {
             Identifier id = Identifier.of(e.getIdAsString());
             Identifier base = ModConfig.basePotionId(id);
             RegistryEntry<Potion> current = byBase.get(base);
-            if (current == null) {
+            if (current == null || id.equals(base)) {
                 byBase.put(base, e);
-            } else {
-                // Préférer l'entrée "base" si elle existe
-                if (id.equals(base)) byBase.put(base, e);
             }
         }
 
         List<Map.Entry<Identifier, RegistryEntry<Potion>>> families = new ArrayList<>(byBase.entrySet());
         families.sort(Comparator
-                .comparing((Map.Entry<Identifier, RegistryEntry<Potion>> en) -> displayNameOf(en.getValue()).toLowerCase(Locale.ROOT))
+                .comparing((Map.Entry<Identifier, RegistryEntry<Potion>> en) ->
+                        displayNameOf(en.getValue()).toLowerCase(Locale.ROOT))
                 .thenComparing(en -> en.getKey().toString()));
 
         int y = 0;
@@ -111,8 +106,7 @@ public final class MyConfigScreen extends Screen {
     private void clampScroll() {
         int visible = listBottom - listTop;
         int max = Math.max(0, contentHeight - visible);
-        if (scroll < 0) scroll = 0;
-        if (scroll > max) scroll = max;
+        scroll = Math.max(0, Math.min(scroll, max));
     }
 
     @Override
@@ -125,8 +119,13 @@ public final class MyConfigScreen extends Screen {
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
+    // ---- NOUVELLES SIGNATURES CLICK API ----
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean dragged) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
+
         if (button == 0 && mouseY >= listTop && mouseY <= listBottom &&
                 mouseX >= listLeft && mouseX <= listRight) {
             int yStart = listTop - scroll;
@@ -160,26 +159,29 @@ public final class MyConfigScreen extends Screen {
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, dragged);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
+    public boolean mouseDragged(Click click, double dx, double dy) {
+        double mouseY = click.y();
         if (draggingBar) {
             updateScrollFromMouse((int) mouseY);
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dx, dy);
+        return super.mouseDragged(click, dx, dy);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(Click click) {
+        int button = click.button();
         if (button == 0 && draggingBar) {
             draggingBar = false;
             return true;
         }
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(click);
     }
+    // ----------------------------------------
 
     private void updateScrollFromMouse(int mouseY) {
         int trackHeight = listBottom - listTop;
@@ -191,8 +193,7 @@ public final class MyConfigScreen extends Screen {
         int thumbY = mouseY - dragOffsetY;
 
         int maxY = minY + trackHeight - thumbH;
-        if (thumbY < minY) thumbY = minY;
-        if (thumbY > maxY) thumbY = maxY;
+        thumbY = Math.max(minY, Math.min(thumbY, maxY));
 
         float t = (thumbY - minY) / (float) (trackHeight - thumbH);
         scroll = (int) (t * maxScroll);
@@ -244,7 +245,7 @@ public final class MyConfigScreen extends Screen {
             int barX1 = listRight - 6, barX2 = listRight - 2;
 
             ctx.fill(barX1, listTop, barX2, listBottom, 0x40000000);
-            ctx.fill(barX1, barY,   barX2, barY + barH, draggingBar ? 0xC0FFFFFF : 0x80FFFFFF);
+            ctx.fill(barX1, barY, barX2, barY + barH, draggingBar ? 0xC0FFFFFF : 0x80FFFFFF);
 
             lastBarY = barY;
             lastBarH = barH;

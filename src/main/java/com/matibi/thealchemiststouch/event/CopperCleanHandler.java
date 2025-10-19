@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 public final class CopperCleanHandler {
     public static void register() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            if (world.isClient) return ActionResult.PASS;
+            if (world.isClient()) return ActionResult.PASS;
 
             ItemStack heldItem = player.getStackInHand(hand);
             if (!(heldItem.getItem() instanceof AxeItem)) return ActionResult.PASS;

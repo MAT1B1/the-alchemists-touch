@@ -18,7 +18,7 @@ public abstract class ItemPostHitMixin {
     @Inject(method = "postHit", at = @At("TAIL"))
     private void att$applyImbueOnHit(ItemStack stack, LivingEntity target,
                                      LivingEntity attacker, CallbackInfo ci) {
-        if (attacker.getWorld().isClient()) return;
+        if (attacker.getEntityWorld().isClient()) return;
 
         ImbuedEffect imbued = stack.get(ModDataComponents.IMBUED_EFFECT);
         if (imbued == null) return;

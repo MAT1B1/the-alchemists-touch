@@ -44,11 +44,10 @@ public class TeleportationEffect extends StatusEffect {
             ServerPlayerEntity.Respawn r = sp.getRespawn();
 
             if (r != null) {
-                MinecraftServer serv = sp.getServer();
-                if (serv == null) return;
-                ServerWorld targetWorld = serv.getWorld(r.dimension());
+                MinecraftServer serv = sp.getEntityWorld().getServer();
+                var targetWorld = serv.getWorld(r.respawnData().getDimension());
                 if (targetWorld != null) {
-                    BlockPos p = r.pos();
+                    BlockPos p = r.respawnData().getPos();
                     double x = p.getX() + 0.5;
                     double y = p.getY();
                     double z = p.getZ() + 0.5;

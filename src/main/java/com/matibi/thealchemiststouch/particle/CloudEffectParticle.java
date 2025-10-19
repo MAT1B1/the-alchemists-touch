@@ -2,8 +2,10 @@ package com.matibi.thealchemiststouch.particle;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.NotNull;
 
-public class CloudEffectParticle extends SpriteBillboardParticle {
+public class CloudEffectParticle extends BillboardParticle {
 
     private static final float DRAG = 0.98f;          // frottements plus forts → ralentit
     private static final float BUOYANCY = 0.0002f;    // monte très doucement
@@ -20,9 +22,8 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
 
     public CloudEffectParticle(ClientWorld world, double x, double y, double z,
                                double vx, double vy, double vz, int color, SpriteProvider sprites) {
-        super(world, x, y, z, vx, vy, vz);
+        super(world, x, y, z, vx, vy, vz, sprites.getFirst());
         this.sprites = sprites;
-        this.setSpriteForAge(sprites);
 
         float r = ((color >> 16) & 0xFF) / 255f;
         float g = ((color >> 8) & 0xFF) / 255f;
@@ -56,7 +57,6 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
     @Override
     public void tick() {
         super.tick();
-        this.setSpriteForAge(sprites);
 
         this.velocityY += BUOYANCY;
 
@@ -71,8 +71,6 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
         this.velocityY *= DRAG;
         this.velocityZ *= DRAG;
 
-        this.angle += spin * 0.2f; // rotation très lente
-
         float life = (float) this.age / (float) this.maxAge;
         float fadeIn = Math.min(1f, this.age / 20f); // fondu plus long (20 ticks)
         float fadeOut = 1f - Math.max(0f, (life - 0.8f) / 0.2f);
@@ -82,21 +80,22 @@ public class CloudEffectParticle extends SpriteBillboardParticle {
     }
 
     @Override
-    public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+    protected RenderType getRenderType() {
+        return null;
     }
 
     public record Factory(SpriteProvider sprites) implements ParticleFactory<CloudEffectData> {
         @Override
-        public Particle createParticle(CloudEffectData data, ClientWorld world,
-                                       double x, double y, double z,
-                                       double vx, double vy, double vz) {
+        public @NotNull Particle createParticle(CloudEffectData parameters, ClientWorld world,
+                                                double x, double y, double z,
+                                                double velocityX, double velocityY, double velocityZ,
+                                                Random random) {
             double s = 0.003 + world.random.nextDouble() * 0.003;
             double jx = (world.random.nextDouble() - 0.5) * s;
             double jy = (world.random.nextDouble() - 0.5) * s * 0.3;
             double jz = (world.random.nextDouble() - 0.5) * s;
             return new CloudEffectParticle(world, x, y, z,
-                    vx + jx, vy + jy, vz + jz, data.color(), this.sprites);
+                    velocityX + jx, velocityY + jy, velocityZ + jz, parameters.color(), this.sprites);
         }
     }
 }

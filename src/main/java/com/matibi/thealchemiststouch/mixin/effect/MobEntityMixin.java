@@ -25,13 +25,13 @@ public class MobEntityMixin {
         if (target == null || target instanceof net.minecraft.entity.player.PlayerEntity) {
             // Cherche un autre mob hostile dans le coin
             Box box = mob.getBoundingBox().expand(10);
-            List<LivingEntity> allies = mob.getWorld().getEntitiesByClass(
+            List<LivingEntity> allies = mob.getEntityWorld().getEntitiesByClass(
                     LivingEntity.class, box,
                     e -> e instanceof Monster && e != mob && mob.canSee(e)
             );
 
             if (!allies.isEmpty()) {
-                LivingEntity newTarget = allies.get(mob.getWorld().random.nextInt(allies.size()));
+                LivingEntity newTarget = allies.get(mob.getEntityWorld().random.nextInt(allies.size()));
                 mob.setTarget(newTarget);
                 ci.cancel(); // empêche la cible d'origine
             }

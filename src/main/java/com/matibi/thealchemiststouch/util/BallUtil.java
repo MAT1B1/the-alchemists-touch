@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class BallUtil {
     public static void spawnFireball(PlayerEntity player) {
-        World world = player.getWorld();
+        World world = player.getEntityWorld();
         if (world.isClient()
                 || !player.hasStatusEffect(ModEffects.IGNITION)
                 || player.hasStatusEffect(ModEffects.FROST)) return;
@@ -27,7 +27,7 @@ public class BallUtil {
     }
 
     public static void spawnSnowball(PlayerEntity player) {
-        World world = player.getWorld();
+        World world = player.getEntityWorld();
         if (world.isClient()
                 || !player.hasStatusEffect(ModEffects.FROST)
                 || player.hasStatusEffect(ModEffects.IGNITION)) return;

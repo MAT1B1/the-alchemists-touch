@@ -30,6 +30,7 @@
   },
   "client": [
     "effect.FrostMixin",
+    "effect.OreSenseMixin",
     "effect.petrification.PetrificationArmMixin",
     "effect.petrification.PetrifiedStateDuck",
     "effect.petrification.PetrifiedTextureMixin"

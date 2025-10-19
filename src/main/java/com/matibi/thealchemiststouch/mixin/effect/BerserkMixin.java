@@ -37,7 +37,7 @@ public abstract class BerserkMixin {
     )
     private void tat$onStatusEffectsRemoved(Collection<StatusEffectInstance> effects, CallbackInfo ci) {
         LivingEntity self = (LivingEntity) (Object) this;
-        if (self.getWorld().isClient()) return;
+        if (self.getEntityWorld().isClient()) return;
 
         boolean berserkRemoved = false;
         for (StatusEffectInstance inst : effects) {

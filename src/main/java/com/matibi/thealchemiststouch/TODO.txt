@@ -1,5 +1,3 @@
 – rallonger les jambes avec long leg
 - faire en sorte que teleportation teleporte proche et pas que sur la surface
-- copper chargé drop  du la lightning rod
-- copper corrosion drop quand on désoxyde
 

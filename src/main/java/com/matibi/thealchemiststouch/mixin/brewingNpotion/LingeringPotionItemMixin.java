@@ -18,7 +18,7 @@ public abstract class LingeringPotionItemMixin {
 
     @Inject(method = "use", at = @At("HEAD"))
     private void applyCooldownOnUse(World world, PlayerEntity user, Hand hand,  CallbackInfoReturnable<ActionResult> cir) {
-        if (!world.isClient) {
+        if (!world.isClient()) {
             int time = 5 * 20;
             if (user.hasStatusEffect(ModEffects.LONG_COOLDOWN)) time *= 2;
             if (user.hasStatusEffect(ModEffects.SHORT_COOLDOWN)) time /= 2;

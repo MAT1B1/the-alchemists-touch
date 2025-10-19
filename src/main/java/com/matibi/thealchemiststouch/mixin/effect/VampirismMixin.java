@@ -19,7 +19,7 @@ public abstract class VampirismMixin {
     private void tat$vampirismAfterDamage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity) (Object) this;
 
-        if (self.getWorld().isClient() || !cir.getReturnValueZ()) return;
+        if (self.getEntityWorld().isClient() || !cir.getReturnValueZ()) return;
 
         Entity attacker = source.getAttacker();
         if (!(attacker instanceof LivingEntity living)) return;

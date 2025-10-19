@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 import net.minecraft.client.render.entity.EmptyEntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactories;
 import net.minecraft.component.DataComponentTypes;
 
 public class TheAlchemistsTouchClient implements ClientModInitializer {
@@ -21,8 +22,7 @@ public class TheAlchemistsTouchClient implements ClientModInitializer {
                 ModDataComponents.IMBUED_EFFECT
         );
         ComponentTooltipAppenderRegistry.addFirst(ModDataComponents.BLOOD_TYPE);
-
-        EntityRendererRegistry.register(ModEntities.EFFECT_CLOUD, EmptyEntityRenderer::new);
+        EntityRendererFactories.register(ModEntities.EFFECT_CLOUD, EmptyEntityRenderer::new);
         ParticleFactoryRegistry.getInstance().register(ModParticle.CLOUD_EFFECT, CloudEffectParticle.Factory::new);
     }
 

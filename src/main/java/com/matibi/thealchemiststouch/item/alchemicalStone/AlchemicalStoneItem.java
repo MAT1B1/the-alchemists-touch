@@ -24,7 +24,7 @@ public class AlchemicalStoneItem extends PotionItem {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient)
+        if (!world.isClient())
             user.sendMessage(Text.translatable("item.the-alchemists-touch.alchemical_stone.block_only"), true);
         return ActionResult.FAIL;
     }

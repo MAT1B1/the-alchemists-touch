@@ -31,7 +31,7 @@ public abstract class LiquidWalkerMixin {
 
         if (self.hasStatusEffect(ModEffects.LIQUID_WALKER)) {
             BlockPos below = self.getBlockPos().down();
-            BlockState state = self.getWorld().getBlockState(below);
+            BlockState state = self.getEntityWorld().getBlockState(below);
 
             boolean inLiquid = (state.getFluidState().isOf(Fluids.WATER) || state.getFluidState().isOf(Fluids.LAVA))
                     && !self.isSubmergedInWater();

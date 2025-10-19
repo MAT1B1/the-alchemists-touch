@@ -37,7 +37,7 @@ public class ResurrectionEffect extends StatusEffect implements TerrainApplicabl
             if (!player.hasStatusEffect(ModEffects.RESURRECTION)) return true;
 
             Vec3d anchor = ANCHOR_POSITIONS.remove(player.getUuid());
-            ServerWorld world = (ServerWorld) player.getWorld();
+            ServerWorld world = (ServerWorld) player.getEntityWorld();
             totemLogic(world, player);
 
             if (anchor != null) {
