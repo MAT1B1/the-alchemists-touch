@@ -28,12 +28,10 @@ public class SpawnEntityAction implements RitualAction {
         Entity entity = type.spawn(world, pos.up(), SpawnReason.MOB_SUMMONED);
 
         if (entity != null && lifetime > 0) {
-            world.getServer().execute(() -> {
-                TickUtil.runLater(world, lifetime, () -> {
-                    if (entity.isAlive())
-                        entity.discard(); // supprime l’entité proprement
-                });
-            });
+            world.getServer().execute(() -> TickUtil.runLater(world, lifetime, () -> {
+                if (entity.isAlive())
+                    entity.discard();
+            }));
         }
     }
 }
