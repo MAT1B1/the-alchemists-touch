@@ -1,7 +1,6 @@
 package com.matibi.thealchemiststouch.group;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
-import com.matibi.thealchemiststouch.block.ModBlocks;
 import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
 import com.matibi.thealchemiststouch.item.ModItems;
 import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
@@ -53,8 +52,7 @@ public class ModItemGroups {
                         }
 
                         entries.add(ModItems.SYRINGE);
-
-                        //entries.add(ModBlocks.RITUAL_CIRCLE);
+                        entries.add(ModItems.BLOOD_BAG);
                     })
                     .build()
     );
