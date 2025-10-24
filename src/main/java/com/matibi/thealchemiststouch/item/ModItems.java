@@ -1,6 +1,7 @@
 package com.matibi.thealchemiststouch.item;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
+import com.matibi.thealchemiststouch.block.ModBlocks;
 import com.matibi.thealchemiststouch.datacomponent.BloodType;
 import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import com.matibi.thealchemiststouch.effect.ModEffects;
@@ -75,7 +76,7 @@ public class ModItems {
     ));
 
     public static final Item BLOOD_BAG = register("blood_bag",
-            new Item(new Item.Settings()
+            new BlockItem(ModBlocks.RITUAL_CIRCLE, new Item.Settings()
             .component(ModDataComponents.BLOOD_TYPE, BloodType.UNKNOWN)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TheAlchemistsTouch.MOD_ID, "blood_bag")))
     ));
@@ -143,7 +144,9 @@ public class ModItems {
                 ModItems.CLAW,
                 ModItems.WITCH_S_FINGER,
                 ModItems.ZOMBIE_BRAIN,
-                ModItems.LEAF).reversed();
+                ModItems.LEAF,
+                ModItems.OXYDATION,
+                ModItems.CHARGED_COPPER).reversed();
 
         items.forEach(i -> entries.addAfter(Items.PHANTOM_MEMBRANE, i));
     }

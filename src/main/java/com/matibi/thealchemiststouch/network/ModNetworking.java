@@ -10,6 +10,8 @@ public class ModNetworking {
                ShootFireballC2SPayload.ID, ShootFireballC2SPayload.CODEC);
        PayloadTypeRegistry.playC2S().register(
                ShootSnowballC2SPayload.ID, ShootSnowballC2SPayload.CODEC);
+       PayloadTypeRegistry.playS2C().register(
+               RitualCircleSyncS2CPayload.ID, RitualCircleSyncS2CPayload.CODEC);
 
        ServerPlayNetworking.registerGlobalReceiver(
                 ShootFireballC2SPayload.ID,
@@ -23,5 +25,5 @@ public class ModNetworking {
                        BallUtil.spawnSnowball(context.player())
                )
        );
-    }
+   }
 }

@@ -85,7 +85,7 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.blood_bag", "Poche de sang");
         t.add("item.the-alchemists-touch.oxydation", "Fragment d'oxydation");
         t.add("item.the-alchemists-touch.charged_copper", "Cuivre chargé");
-        t.add("item.the-alchemists-touch.alchemical_stone.effect.empty", "Pierre alchimique");
+        t.add("item.the-alchemists-touch.alchemical_stone.effect.isEmpty", "Pierre alchimique");
         t.add("item.the-alchemists-touch.alchemical_stone.effect.mixed", "Pierre alchimique multi-effest");
         registerVanilla("mixed", "multi-effets");
 
@@ -98,7 +98,7 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
             t.add(translationKey, "Seringue de " + effectName);
         }
         t.add("item.the-alchemists-touch.syringe", "Seringue");
-        t.add("item.the-alchemists-touch.syringe.effect.empty", "Seringue");
+        t.add("item.the-alchemists-touch.syringe.effect.isEmpty", "Seringue");
         t.add("the-alchemists-touch.blood_type.unknown", "Inconnu");
         t.add("the-alchemists-touch.blood_type.human", "Sang humain");
         t.add("the-alchemists-touch.blood_type.monster", "Sang de monstre");

@@ -50,6 +50,15 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(hasItem(ModItems.ALCHEMIST_CORE), conditionsFromItem(ModItems.ALCHEMIST_CORE))
                         .offerTo(exporter);
 
+                createShaped(RecipeCategory.BREWING, ModAlchemicalStone.ALCHEMICAL_STONE, 8)
+                        .pattern("SSS")
+                        .pattern("SAS")
+                        .pattern("SSS")
+                        .input('A', Items.NETHER_WART)
+                        .input('S', Items.COBBLESTONE)
+                        .criterion(hasItem(ModItems.ALCHEMIST_CORE), conditionsFromItem(ModItems.ALCHEMIST_CORE))
+                        .offerTo(exporter);
+
                 createShapeless(RecipeCategory.BREWING, ModItems.SYRINGE)
                         .input(Items.GLASS_BOTTLE)
                         .input(Items.IRON_NUGGET)

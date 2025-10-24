@@ -85,7 +85,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
         t.add("item.the-alchemists-touch.blood_bag", "Blood Bag");
         t.add("item.the-alchemists-touch.oxydation", "Oxidation Fragment");
         t.add("item.the-alchemists-touch.charged_copper", "Charged Copper");
-        t.add("item.the-alchemists-touch.alchemical_stone.effect.empty", "Alchemical Stone");
+        t.add("item.the-alchemists-touch.alchemical_stone.effect.isEmpty", "Alchemical Stone");
         t.add("item.the-alchemists-touch.alchemical_stone.effect.mixed", "Multi-effect Alchemical Stone");
         registerVanillaReverse("mixed", "Multi-effect");
 
@@ -98,7 +98,7 @@ public class ModUsLanguageProvider extends FabricLanguageProvider {
             t.add(translationKey, "Syringe of " + effectName);
         }
         t.add("item.the-alchemists-touch.syringe", "Syringe");
-        t.add("item.the-alchemists-touch.syringe.effect.empty", "Syringe");
+        t.add("item.the-alchemists-touch.syringe.effect.isEmpty", "Syringe");
         t.add("the-alchemists-touch.blood_type.unknown", "Unknown");
         t.add("the-alchemists-touch.blood_type.human", "Human Blood");
         t.add("the-alchemists-touch.blood_type.monster", "Monster Blood");

@@ -1,5 +1,7 @@
 package com.matibi.thealchemiststouch;
 
+import com.matibi.thealchemiststouch.block.ModBlocks;
+import com.matibi.thealchemiststouch.block.entity.ModBlockEntities;
 import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
 import com.matibi.thealchemiststouch.command.ModCommands;
 import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
@@ -14,6 +16,7 @@ import com.matibi.thealchemiststouch.particle.ModParticle;
 import com.matibi.thealchemiststouch.potion.ModPotion;
 import com.matibi.thealchemiststouch.recipe.ModRecipeSerializer;
 import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
+import com.matibi.thealchemiststouch.screen.ModScreenHandlers;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
@@ -43,6 +46,9 @@ public class TheAlchemistsTouch implements ModInitializer {
         ModCommands.register();
         ModLootTable.register();
         ModEvent.register();
+        ModBlocks.register();
+        ModBlockEntities.register();
+        ModScreenHandlers.register();
 
 		// max stack des potions
 		DefaultItemComponentEvents.MODIFY.register(context -> context.modify(item ->

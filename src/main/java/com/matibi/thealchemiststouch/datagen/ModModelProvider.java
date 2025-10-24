@@ -16,8 +16,9 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-
     }
+
+
 
     @Override
     public void generateItemModels(net.minecraft.client.data.ItemModelGenerator itemModelGenerator) {
@@ -29,9 +30,9 @@ public class ModModelProvider extends FabricModelProvider {
                 ModItems.POISONOUS_BEETROOT,
                 ModItems.POISONOUS_CARROT,
                 ModItems.ALCHEMIST_CORE,
-                ModItems.BLOOD_BAG,
                 ModItems.CHARGED_COPPER,
-                ModItems.OXYDATION
+                ModItems.OXYDATION,
+                ModItems.BLOOD_BAG
         );
 
         items.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
