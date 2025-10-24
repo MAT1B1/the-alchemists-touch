@@ -3,7 +3,7 @@ package com.matibi.thealchemiststouch.client.modmenu.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
-import com.matibi.thealchemiststouch.potion.ModPotion;
+import com.matibi.thealchemiststouch.potion.ModPotions;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
@@ -28,7 +28,7 @@ public final class ModConfig {
             Potions.THICK,
             Potions.MUNDANE,
             Potions.LUCK,
-            ModPotion.UNSTABLE
+            ModPotions.UNSTABLE
     );
 
     public static void init(File configDir) {

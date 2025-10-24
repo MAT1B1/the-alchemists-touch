@@ -1,10 +1,13 @@
 package com.matibi.thealchemiststouch.block;
 
+import com.matibi.thealchemiststouch.block.entity.ModBlockEntities;
 import com.matibi.thealchemiststouch.block.entity.RitualCircleBlockEntity;
 import com.matibi.thealchemiststouch.item.ModItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -69,7 +72,8 @@ public class RitualCircleBlock extends BlockWithEntity implements BlockEntityPro
             }
 
             // --- Utilisation du blood bag ---
-            if (stack.getItem() == ModItems.BLOOD_BAG) {
+            if (stack.getItem() == ModItems.BLOOD_BAG
+                    && circleEntity.getMaxBlood() > circleEntity.getBlood() + 1) {
                 circleEntity.addBlood(1);
                 stack.decrement(1);
                 syncAndSound(world, player, pos, state, circleEntity);
@@ -174,4 +178,8 @@ public class RitualCircleBlock extends BlockWithEntity implements BlockEntityPro
         super.onStateReplaced(state, world, pos, moved);
     }
 
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return type == ModBlockEntities.RITUAL_CIRCLE_BE ? RitualCircleBlockEntity::tick : null;
+    }
 }
