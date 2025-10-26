@@ -16,7 +16,6 @@ import com.matibi.thealchemiststouch.particle.ModParticle;
 import com.matibi.thealchemiststouch.potion.ModPotions;
 import com.matibi.thealchemiststouch.recipe.ModRecipeSerializer;
 import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
-import com.matibi.thealchemiststouch.ritual.ModRitualRecipes;
 import com.matibi.thealchemiststouch.ritual.ModRituals;
 import com.matibi.thealchemiststouch.screen.ModScreenHandlers;
 import net.fabricmc.api.ModInitializer;
@@ -51,7 +50,6 @@ public class TheAlchemistsTouch implements ModInitializer {
         ModBlocks.register();
         ModBlockEntities.register();
         ModScreenHandlers.register();
-        ModRitualRecipes.register();
         ModRituals.register();
 
 		// max stack des potions

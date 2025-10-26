@@ -179,7 +179,10 @@ public class RitualCircleBlock extends BlockWithEntity implements BlockEntityPro
     }
 
     @Override
+    @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return type == ModBlockEntities.RITUAL_CIRCLE_BE ? RitualCircleBlockEntity::tick : null;
+        return world.isClient() ? null :
+                validateTicker(type, ModBlockEntities.RITUAL_CIRCLE_BE, RitualCircleBlockEntity::tick);
     }
+
 }

@@ -2,18 +2,19 @@ package com.matibi.thealchemiststouch.block.entity;
 
 import com.matibi.thealchemiststouch.TheAlchemistsTouch;
 import com.matibi.thealchemiststouch.network.RitualCircleSyncS2CPayload;
-import com.matibi.thealchemiststouch.ritual.RitualManager;
-import com.matibi.thealchemiststouch.ritual.RitualRecipe;
-import com.matibi.thealchemiststouch.ritual.RitualSettings;
+import com.matibi.thealchemiststouch.ritual.Ritual;
+import com.matibi.thealchemiststouch.ritual.RitualRegistry;
 import com.matibi.thealchemiststouch.screen.RitualCircleScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -28,153 +29,130 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class RitualCircleBlockEntity extends BlockEntity
         implements ImplementedInventory, ExtendedScreenHandlerFactory<BlockPos> {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-    private int bloodAmount = 0;
-    private static final int MAX_BLOOD = 100;
+    private int bloodAmount = 1; // initial amount
+    private static final int MAX_BLOOD = 1000;
 
-    private int progress = 0;
-    private int maxProgress = 0;
-    private boolean isRunning = false;
-    private RitualRecipe currentRecipe = null;
+    private Ritual currentRitual = null;
+    private int ritualTicks = 0;
+    private boolean isPerforming = false;
+
 
     public RitualCircleBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RITUAL_CIRCLE_BE, pos, state);
     }
 
     // =============================================
-    // ================ TICK LOGIC =================
+    // ================ RITUAL LOGIC =================
     // =============================================
-    public static <T extends BlockEntity> void tick(World world, BlockPos pos, BlockState state, T blockEntity) {
-        if (!(blockEntity instanceof RitualCircleBlockEntity be)) return;
 
-        // --- Client-side: show particles only ---
-        if (world.isClient()) {
-            if (be.isRunning()) {
-                double x = pos.getX() + 0.5;
-                double y = pos.getY() + 0.1;
-                double z = pos.getZ() + 0.5;
-                world.addParticleClient(
-                        net.minecraft.particle.ParticleTypes.ENCHANT,
-                        x + world.getRandom().nextGaussian() * 0.2,
-                        y,
-                        z + world.getRandom().nextGaussian() * 0.2,
-                        0, 0.02, 0
-                );
+    public void tryTriggerRitual(ServerWorld world, RitualCircleBlockEntity circle, PlayerEntity player) {
+        for (Ritual ritual : RitualRegistry.RITUAL) {
+            if (ritual.checkConditions(world, circle, player)) {
+                if (circle.getBlood() < ritual.bloodCost() || player.experienceLevel < ritual.xpLvlCost())
+                    continue;
+
+                this.bloodAmount -= ritual.bloodCost();
+                player.addExperienceLevels(-ritual.xpLvlCost());
+
+                // Démarre le rituel
+                this.currentRitual = ritual;
+                this.ritualTicks = 0;
+                this.isPerforming = true;
+
+                markDirty();
+                world.syncWorldEvent(WorldEvents.BREWING_STAND_BREWS, pos, 0);
+                TheAlchemistsTouch.LOGGER.info("Rituel commencé : {}", ritual.getClass().getSimpleName());
+                return;
             }
-            return;
-        }
-
-        // --- Server-side logic ---
-        if (be.isRunning()) {
-            be.progress++;
-            if (be.progress >= be.maxProgress)
-                be.finishRitual((ServerWorld) world);
-            return;
-        }
-
-        if (be.getBlood() > 0 && !be.getStack(0).isEmpty())
-            be.tryStartRitual((ServerWorld) world, pos);
-    }
-
-    private void tryStartRitual(ServerWorld world, BlockPos pos) {
-        ItemStack input = inventory.getFirst();
-        if (input.isEmpty()) return;
-
-        Optional<RitualRecipe> opt = RitualManager.findRitual(input);
-        if (opt.isEmpty()) return;
-
-        RitualRecipe recipe = opt.get();
-        RitualSettings settings = recipe.getSettings();
-
-        if (conditionMet(world, settings, pos)) {
-            TheAlchemistsTouch.LOGGER.info("Ritual started: {}", recipe.getId());
-            this.isRunning = true;
-            this.currentRecipe = recipe;
-            this.progress = 0;
-            this.maxProgress = settings.duration();
-
-            world.playSound(null, pos,
-                    SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
-                    SoundCategory.BLOCKS, 1f, 1.2f);
         }
     }
 
-    private boolean conditionMet(ServerWorld world, RitualSettings settings, BlockPos pos) {
-        if (!consumeBlood(settings.bloodCost()))
-            return false;
-
-        if (settings.matchesEnvironment(world, pos))
-            return false;
-
-        if (settings.time() != -1) {
-            long time = world.getTimeOfDay() % 24000L;
-            return Math.abs(time - settings.time()) <= 20 * 30;
-        }
-
-        return true;
-    }
-
-
-    private void finishRitual(ServerWorld world) {
-        if (currentRecipe == null) return;
-        RitualSettings settings = currentRecipe.getSettings();
-
-        RitualManager.perform(world, pos, currentRecipe);
-
-        if (settings.consumeItem())
-            inventory.set(0, ItemStack.EMPTY);
-
-        world.playSound(null, pos,
-                SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL,
-                SoundCategory.BLOCKS, 1f, 1.1f);
-
-        world.spawnParticles(
-                net.minecraft.particle.ParticleTypes.EXPLOSION,
-                pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
-                5, 0, 0, 0, 0.1
-        );
-
-        if (bloodAmount <= 0) {
-            world.playSound(null, pos,
-                    SoundEvents.BLOCK_FIRE_EXTINGUISH,
-                    SoundCategory.BLOCKS, 1f, 0.8f);
-
-            world.spawnParticles(
-                    net.minecraft.particle.ParticleTypes.SMOKE,
-                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                    10, 0.3, 0.3, 0.3, 0.02
-            );
-
-            world.breakBlock(pos, false);
+    public static void tick(World world, BlockPos pos, BlockState state, RitualCircleBlockEntity circle) {
+        if (world.isClient() || !circle.isPerforming || circle.currentRitual == null) return;
+        if (!(world instanceof ServerWorld serverWorld)) return;
+        PlayerEntity ritualPlayer = serverWorld.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 6, false);
+        if (ritualPlayer == null) {
+            circle.currentRitual.onFailure(serverWorld, pos, null);
+            circle.finishRitual();
             return;
         }
 
-        this.isRunning = false;
-        this.currentRecipe = null;
-        this.progress = 0;
-        markDirty();
+        // Vérifie si le rituel est encore valide
+        if (!circle.currentRitual.checkConditions(serverWorld, circle, ritualPlayer)) {
+            serverWorld.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    2.5f, World.ExplosionSourceType.BLOCK);
+            circle.currentRitual.onFailure(serverWorld, pos, ritualPlayer);
+            circle.finishRitual();
+            return;
+        }
+
+        circle.ritualTicks++;
+
+        float progress = (float) circle.ritualTicks / circle.currentRitual.duration();
+        progress = Math.min(progress, 1f);
+
+        circle.currentRitual.playEffects(serverWorld, pos, progress);
+
+        if (circle.ritualTicks >= circle.currentRitual.duration()) {
+            if (world.random.nextFloat() <= circle.currentRitual.successChance(serverWorld, ritualPlayer))
+                circle.currentRitual.completeRitual(serverWorld, pos, ritualPlayer);
+            else
+                circle.currentRitual.onFailure(serverWorld, pos, ritualPlayer);
+
+            if (circle.currentRitual.consumeItem())
+                circle.inventory.getFirst().decrement(1);
+
+            circle.finishRitual();
+            serverWorld.syncWorldEvent(WorldEvents.END_PORTAL_FRAME_FILLED, pos, 0);
+
+            if (circle.getBlood() <= 0) {
+                serverWorld.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state));
+                serverWorld.removeBlock(pos, false);
+                serverWorld.playSound(
+                        null,
+                        pos.getX() + 0.5,
+                        pos.getY() + 0.5,
+                        pos.getZ() + 0.5,
+                        SoundEvents.ENTITY_GENERIC_EXPLODE,
+                        SoundCategory.BLOCKS,
+                        0.8f, 1.2f
+                );
+                TheAlchemistsTouch.LOGGER.warn("Le cercle rituel s'est désintégré (plus de sang).");
+            }
+
+            TheAlchemistsTouch.LOGGER.info("Rituel terminé !");
+        }
+    }
+
+    private void finishRitual() {
+        this.isPerforming = false;
+        this.currentRitual = null;
+        this.ritualTicks = 0;
+
         syncToClient();
+        markDirty();
     }
+
 
     // =============================================
     // =============== DATA & SYNC =================
     // =============================================
 
-    public boolean isRunning() { return isRunning; }
-    public float getProgressPercent() { return maxProgress == 0 ? 0 : (float) progress / maxProgress; }
-
     @Override
     public DefaultedList<ItemStack> getItems() { return inventory; }
+
+    public Item getIngredient() { return inventory.getFirst().getItem();}
 
     @Override
     public boolean isEmpty() {
@@ -189,17 +167,7 @@ public class RitualCircleBlockEntity extends BlockEntity
 
     public void addBlood(int amount) { setBlood(this.bloodAmount + amount); }
 
-    public boolean consumeBlood(int amount) {
-        if (this.bloodAmount >= amount) {
-            this.bloodAmount -= amount;
-            markDirty();
-            return true;
-        }
-        return false;
-    }
-
     public int getMaxBlood() { return MAX_BLOOD; }
-    public float getBloodPercent() { return (float) bloodAmount / MAX_BLOOD; }
 
     public void syncToClient() {
         if (!(world instanceof ServerWorld serverWorld)) return;
@@ -210,6 +178,18 @@ public class RitualCircleBlockEntity extends BlockEntity
             ServerPlayNetworking.send(player, payload);
     }
 
+    @Override
+    public void markDirty() {
+        super.markDirty();
+
+        if (!this.isPerforming && world instanceof ServerWorld serverWorld && !inventory.getFirst().isEmpty()) {
+            PlayerEntity nearest = serverWorld.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 6, false);
+            if (nearest != null)
+                tryTriggerRitual(serverWorld, this, nearest);
+        }
+    }
+
+
     // =============================================
     // ================ SERIALISATION ===============
     // =============================================
@@ -219,14 +199,32 @@ public class RitualCircleBlockEntity extends BlockEntity
         super.writeData(view);
         Inventories.writeData(view, inventory);
         view.putInt("Blood", bloodAmount);
+
+        // Sauvegarde de l'état du rituel
+        view.putBoolean("IsPerforming", isPerforming);
+        if (currentRitual != null) {
+            Identifier id = RitualRegistry.RITUAL.getId(currentRitual);
+            if (id != null)
+                view.putString("CurrentRitual", id.toString());
+            view.putInt("RitualTicks", ritualTicks);
+        }
     }
+
 
     @Override
     protected void readData(ReadView view) {
         super.readData(view);
         Inventories.readData(view, inventory);
         this.bloodAmount = view.getInt("Blood", 0);
+
+        this.isPerforming = view.getBoolean("IsPerforming", false);
+        if (isPerforming) {
+            String id = view.getString("CurrentRitual", "");
+            currentRitual = RitualRegistry.RITUAL.get(Identifier.tryParse(id));
+            this.ritualTicks = view.getInt("RitualTicks", 0);
+        }
     }
+
 
     // =============================================
     // ================ UI / NETWORK ================

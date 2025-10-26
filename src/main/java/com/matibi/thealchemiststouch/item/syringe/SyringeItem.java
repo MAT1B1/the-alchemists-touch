@@ -5,6 +5,7 @@ import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import com.matibi.thealchemiststouch.item.ModItems;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.Monster;
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class SyringeItem extends Item {
 
     public SyringeItem(Settings settings) {
-        super(settings);
+        super(settings.maxDamage(20));
     }
 
     @Override
@@ -37,7 +38,7 @@ public class SyringeItem extends Item {
         if (pcc == null) return ActionResult.FAIL;
 
         user.damage(sw, world.getDamageSources().mobAttack(user), 1.0f);
-        is.decrementUnlessCreative(1, user);
+        is.damage(1, user, EquipmentSlot.MAINHAND);
 
         if (pcc.hasEffects())
             pcc.getEffects().forEach(instance -> {
@@ -54,58 +55,7 @@ public class SyringeItem extends Item {
             });
 
         else if (!user.getActiveStatusEffects().isEmpty()) {
-            ItemStack nis = new ItemStack(ModItems.SYRINGE);
-            List<StatusEffectInstance> effects = new ArrayList<>();
-
-            var activeEffects = new ArrayList<>(user.getActiveStatusEffects().entrySet());
-
-            for (var entry : activeEffects) {
-                var type = entry.getKey();
-                var instance = entry.getValue();
-
-                int oldDuration = instance.getDuration();
-                int maxTransfer = Math.min(oldDuration, 20 * 10);
-                int remaining = Math.max(0, oldDuration - maxTransfer);
-
-                user.removeStatusEffect(type);
-
-                if (remaining > 0) {
-                    user.addStatusEffect(new StatusEffectInstance(
-                            type,
-                            remaining,
-                            instance.getAmplifier(),
-                            instance.isAmbient(),
-                            instance.shouldShowParticles(),
-                            instance.shouldShowIcon()
-                    ));
-                }
-
-                if (maxTransfer > 0) {
-                    effects.add(new StatusEffectInstance(
-                            type,
-                            maxTransfer,
-                            instance.getAmplifier(),
-                            instance.isAmbient(),
-                            instance.shouldShowParticles(),
-                            instance.shouldShowIcon()
-                    ));
-                }
-            }
-
-            pcc = new PotionContentsComponent(
-                    Optional.empty(),
-                    Optional.empty(),
-                    effects,
-                    Optional.empty()
-            );
-
-            String translationKey = "item.the-alchemists-touch.syringe." +
-                    effects.getFirst().getEffectType().value().getTranslationKey();
-            nis.set(DataComponentTypes.CUSTOM_NAME,
-                    Text.empty().append(Text.translatable(translationKey)).styled(style -> style.withItalic(false)));
-
-            nis.set(DataComponentTypes.POTION_CONTENTS, pcc);
-            user.giveOrDropStack(nis);
+            setSyringeWithEffect(is, user);
         } else {
             ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
             nis.set(ModDataComponents.BLOOD_TYPE, BloodType.HUMAN);
@@ -119,21 +69,76 @@ public class SyringeItem extends Item {
         PotionContentsComponent pcc = stack.get(DataComponentTypes.POTION_CONTENTS);
 
         if (pcc == null) return;
-        stack.decrementUnlessCreative(1, attacker);
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND);
 
         if (pcc.hasEffects())
             pcc.getEffects().forEach(target::addStatusEffect);
-        else if (target instanceof Monster) {
-                ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
-                nis.set(ModDataComponents.BLOOD_TYPE, BloodType.MONSTER);
-                attacker.giveOrDropStack(nis);
-            } else if (target instanceof PlayerEntity || target instanceof VillagerEntity) {
-                ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
-                nis.set(ModDataComponents.BLOOD_TYPE, BloodType.HUMAN);
-                attacker.giveOrDropStack(nis);
-            } else
-                attacker.giveOrDropStack(new ItemStack(ModItems.BLOOD_BAG));
+        else if (!target.getActiveStatusEffects().isEmpty()) {
+            setSyringeWithEffect(stack, target);
+        } else if (target instanceof Monster) {
+            ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
+            nis.set(ModDataComponents.BLOOD_TYPE, BloodType.MONSTER);
+            attacker.giveOrDropStack(nis);
+        } else if (target instanceof PlayerEntity || target instanceof VillagerEntity) {
+            ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
+            nis.set(ModDataComponents.BLOOD_TYPE, BloodType.HUMAN);
+            attacker.giveOrDropStack(nis);
+        } else
+            attacker.giveOrDropStack(new ItemStack(ModItems.BLOOD_BAG));
 
         super.postHit(stack, target, attacker);
+    }
+
+    private void setSyringeWithEffect(ItemStack is, LivingEntity target) {
+        List<StatusEffectInstance> effects = new ArrayList<>();
+
+        var activeEffects = new ArrayList<>(target.getActiveStatusEffects().entrySet());
+
+        for(var entry :activeEffects) {
+            var type = entry.getKey();
+            var instance = entry.getValue();
+
+            int oldDuration = instance.getDuration();
+            int maxTransfer = Math.min(oldDuration, 20 * 10);
+            int remaining = Math.max(0, oldDuration - maxTransfer);
+
+            target.removeStatusEffect(type);
+
+            if (remaining > 0) {
+                target.addStatusEffect(new StatusEffectInstance(
+                        type,
+                        remaining,
+                        instance.getAmplifier(),
+                        instance.isAmbient(),
+                        instance.shouldShowParticles(),
+                        instance.shouldShowIcon()
+                ));
+            }
+
+            if (maxTransfer > 0) {
+                effects.add(new StatusEffectInstance(
+                        type,
+                        maxTransfer,
+                        instance.getAmplifier(),
+                        instance.isAmbient(),
+                        instance.shouldShowParticles(),
+                        instance.shouldShowIcon()
+                ));
+            }
+        }
+
+        PotionContentsComponent pcc = new PotionContentsComponent(
+                Optional.empty(),
+                Optional.empty(),
+                effects,
+                Optional.empty()
+        );
+
+        String translationKey = "item.the-alchemists-touch.syringe." +
+                effects.getFirst().getEffectType().value().getTranslationKey();
+        is.set(DataComponentTypes.CUSTOM_NAME,
+                Text.empty().append(Text.translatable(translationKey)).styled(style -> style.withItalic(false)));
+
+        is.set(DataComponentTypes.POTION_CONTENTS, pcc);
     }
 }
