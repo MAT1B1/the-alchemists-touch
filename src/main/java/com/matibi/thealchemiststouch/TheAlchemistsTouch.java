@@ -10,7 +10,6 @@ import com.matibi.thealchemiststouch.group.ModItemGroups;
 import com.matibi.thealchemiststouch.item.ModItems;
 import com.matibi.thealchemiststouch.loottable.ModLootTable;
 import com.matibi.thealchemiststouch.network.ModNetworking;
-import com.matibi.thealchemiststouch.particle.ModParticle;
 import com.matibi.thealchemiststouch.potion.ModPotions;
 import com.matibi.thealchemiststouch.recipe.ModRecipeSerializer;
 import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
@@ -40,7 +39,6 @@ public class TheAlchemistsTouch implements ModInitializer {
 		ModRecipeSerializer.register();
         ModItemGroups.register();
         ModDataComponents.register();
-        ModParticle.register();
         ModLootTable.register();
         ModEvent.register();
         ModBlocks.register();
