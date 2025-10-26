@@ -35,7 +35,7 @@ public interface Ritual {
     }
 
     /** Visual or particle effects played during the ritual */
-    default void playEffects(ServerWorld serverWorld, BlockPos pos, float progress) {};
+    default void playEffects(ServerWorld serverWorld, BlockPos pos, float progress) {}
 
     default void playRoundParticleEffect(ServerWorld world, BlockPos pos, float progress, int color) {
         double centerX = pos.getX() + 0.5;

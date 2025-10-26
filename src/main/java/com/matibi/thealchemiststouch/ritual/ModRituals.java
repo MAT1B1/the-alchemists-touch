@@ -13,6 +13,7 @@ public class ModRituals {
     public static final Ritual HEALTH = register("health_ritual", new HealthRitual());
     public static final Ritual STRENGTH = register("strength_ritual", new StrengthRitual());
     public static final Ritual SPEED = register("speed_ritual", new SpeedRitual());
+    public static final Ritual INFINITY = register("infinity_ritual", new SpeedRitual());
     public static final Ritual ZOMBIE = register("zombie_ritual", new ZombieRitual());
 
 
