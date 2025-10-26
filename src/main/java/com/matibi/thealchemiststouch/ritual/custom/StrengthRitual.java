@@ -53,7 +53,7 @@ public class StrengthRitual implements Ritual {
     }
 
     @Override
-    public void completeRitual(ServerWorld world, BlockPos pos, PlayerEntity player) {
+    public void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player) {
         player.damage(world, world.getDamageSources().magic(), 4.0f);
 
         ItemStack potionStack = new ItemStack(Items.POTION);
@@ -73,7 +73,7 @@ public class StrengthRitual implements Ritual {
     }
 
     @Override
-    public void onFailure(ServerWorld world, BlockPos pos, @Nullable PlayerEntity player) {
+    public void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         if (player != null) {
             player.damage(world, world.getDamageSources().magic(), 6.0f);
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 20 * 10, 1));

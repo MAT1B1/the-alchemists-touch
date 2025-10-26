@@ -7,27 +7,50 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.world.World;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class InvocationZombie extends ZombieEntity {
     private final PlayerEntity owner;
-
-    public InvocationZombie(EntityType<? extends ZombieEntity> type, World world) {
-        super(type, world);
-        this.owner = null;
-    }
 
     public InvocationZombie(World world, PlayerEntity owner) {
         super(EntityType.ZOMBIE, world);
         this.owner = owner;
 
-        this.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
-        this.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
-        this.equipStack(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS));
-        this.equipStack(EquipmentSlot.FEET, new ItemStack(Items.IRON_BOOTS));
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+        maybeEquipArmor(EquipmentSlot.HEAD, Items.IRON_HELMET, Items.GOLDEN_HELMET, 0.85f);
+        maybeEquipArmor(EquipmentSlot.CHEST, Items.IRON_CHESTPLATE, Items.GOLDEN_CHESTPLATE, 0.6f);
+        maybeEquipArmor(EquipmentSlot.LEGS, Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, 0.6f);
+        maybeEquipArmor(EquipmentSlot.FEET, Items.IRON_BOOTS, Items.GOLDEN_BOOTS, 0.6f);
+
+        maybeEquip(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD), 0.8f);
+    }
+
+    private void maybeEquipArmor(EquipmentSlot slot, Item ironItem, Item goldItem, float chance) {
+        ItemStack is = randomChance(0.5) ? new ItemStack(ironItem) : new ItemStack(goldItem);
+        maybeEquip(slot, is, chance);
+    }
+
+    private void maybeEquip(EquipmentSlot slot, ItemStack stack, float chance) {
+        if (randomChance(chance)) {
+            setRandomDurability(stack);
+            this.equipStack(slot, stack);
+        }
+    }
+
+    private void setRandomDurability(ItemStack stack) {
+        if (!stack.isDamageable()) return;
+
+        int max = stack.getMaxDamage();
+        int damage = (int) (max * ThreadLocalRandom.current().nextDouble(0.7, 0.9));
+        stack.setDamage(damage);
+    }
+
+    private boolean randomChance(double probability) {
+        return ThreadLocalRandom.current().nextDouble() < probability;
     }
 
     @Override
@@ -40,7 +63,9 @@ public class InvocationZombie extends ZombieEntity {
                 10,
                 true,
                 false,
-                (target, source) -> target != owner
+                (target, source) ->
+                        target != owner
+                                && (!(target instanceof InvocationZombie ally) || ally.getOwner() != owner)
         ));
     }
 

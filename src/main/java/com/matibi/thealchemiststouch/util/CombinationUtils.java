@@ -43,4 +43,10 @@ public class CombinationUtils {
                 ? cleaned
                 : List.of(new StatusEffectInstance(ModEffects.UNSTABLE, 1));
     }
+
+    public static int combineTime(List<StatusEffectInstance> effects) {
+        AtomicInteger res = new AtomicInteger();
+        effects.forEach(e -> res.addAndGet(e.getDuration()));
+        return res.get();
+    }
 }

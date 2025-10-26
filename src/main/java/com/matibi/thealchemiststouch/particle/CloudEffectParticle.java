@@ -10,11 +10,8 @@ public class CloudEffectParticle extends BillboardParticle {
     private static final float DRAG = 0.98f;          // frottements plus forts → ralentit
     private static final float BUOYANCY = 0.0002f;    // monte très doucement
     private static final float WOBBLE = 0.015f;       // wobble réduit
-    private static final float ROT_SPEED_MAX = 0.008f;// rotation très lente
 
-    private final SpriteProvider sprites;
     private final float baseScale;
-    private final float spin;
     private final float wobblePhaseX;
     private final float wobblePhaseZ;
     private final double windX;
@@ -23,7 +20,6 @@ public class CloudEffectParticle extends BillboardParticle {
     public CloudEffectParticle(ClientWorld world, double x, double y, double z,
                                double vx, double vy, double vz, int color, SpriteProvider sprites) {
         super(world, x, y, z, vx, vy, vz, sprites.getFirst());
-        this.sprites = sprites;
 
         float r = ((color >> 16) & 0xFF) / 255f;
         float g = ((color >> 8) & 0xFF) / 255f;
@@ -46,7 +42,6 @@ public class CloudEffectParticle extends BillboardParticle {
         this.windX = Math.cos(windAngle) * windMag;
         this.windZ = Math.sin(windAngle) * windMag;
 
-        this.spin = (random.nextFloat() * 2f - 1f) * ROT_SPEED_MAX;
         this.wobblePhaseX = random.nextFloat() * (float) Math.PI * 2f;
         this.wobblePhaseZ = random.nextFloat() * (float) Math.PI * 2f;
 
@@ -81,7 +76,7 @@ public class CloudEffectParticle extends BillboardParticle {
 
     @Override
     protected RenderType getRenderType() {
-        return null;
+        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
     }
 
     public record Factory(SpriteProvider sprites) implements ParticleFactory<CloudEffectData> {

@@ -56,7 +56,7 @@ public class InfinityRitual implements Ritual {
     }
 
     @Override
-    public void completeRitual(ServerWorld world, BlockPos pos, PlayerEntity player) {
+    public void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player) {
         float damage = player.getMaxHealth() * 0.75f;
         player.damage(world, world.getDamageSources().magic(), damage);
 
@@ -79,7 +79,7 @@ public class InfinityRitual implements Ritual {
     }
 
     @Override
-    public void onFailure(ServerWorld world, BlockPos pos, @Nullable PlayerEntity player) {
+    public void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         if (player != null) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 20 * 15, 2));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20 * 10, 1));

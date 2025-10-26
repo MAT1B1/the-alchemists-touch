@@ -46,7 +46,7 @@ public class SpeedRitual implements Ritual {
     }
 
     @Override
-    public void completeRitual(ServerWorld world, BlockPos pos, PlayerEntity player) {
+    public void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player) {
         ItemStack potionStack = new ItemStack(Items.POTION);
         potionStack.set(DataComponentTypes.POTION_CONTENTS,
                 new PotionContentsComponent(ModPotions.PERMANENT_SPEED));
@@ -64,7 +64,7 @@ public class SpeedRitual implements Ritual {
     }
 
    @Override
-    public void onFailure(ServerWorld world, BlockPos pos, @Nullable PlayerEntity player) {
+    public void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         if (player != null) {
             player.damage(world, world.getDamageSources().magic(), 2 * 2f);
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 10, 2));

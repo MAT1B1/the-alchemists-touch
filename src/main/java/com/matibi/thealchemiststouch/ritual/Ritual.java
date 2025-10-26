@@ -18,10 +18,10 @@ public interface Ritual {
     boolean checkConditions(ServerWorld world, RitualCircleBlockEntity blockEntity, PlayerEntity player);
 
     /** Main execution of the ritual */
-    void completeRitual(ServerWorld world, BlockPos pos, PlayerEntity player);
+    void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player);
 
     /** Executed if the ritual fails */
-    default void onFailure(ServerWorld world, BlockPos pos, @Nullable PlayerEntity player) {
+    default void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         world.playSound(null, pos, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.BLOCKS, 0.3f, 2.0f);
 
         world.spawnParticles(net.minecraft.particle.ParticleTypes.SMOKE,

@@ -32,7 +32,7 @@ public class ZombieRitual implements Ritual {
     }
 
     @Override
-    public void completeRitual(ServerWorld world, BlockPos pos, PlayerEntity player) {
+    public void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player) {
         Vec3d spawnPos = new Vec3d(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
 
         InvocationZombie zombie = new InvocationZombie(world, player);
@@ -60,7 +60,7 @@ public class ZombieRitual implements Ritual {
     }
 
     @Override
-    public void onFailure(ServerWorld world, BlockPos pos, @Nullable PlayerEntity player) {
+    public void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         Vec3d spawnPos = new Vec3d(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
 
         ZombieEntity failed = new ZombieEntity(world);
@@ -84,14 +84,10 @@ public class ZombieRitual implements Ritual {
         world.spawnParticles(ParticleTypes.FLAME,
                 spawnPos.x, spawnPos.y + 0.5, spawnPos.z,
                 20, 0.3, 0.3, 0.3, 0.02);
-
-        if (player != null)
-            player.damage(world, world.getDamageSources().magic(), 4f);
     }
 
     @Override
     public void playEffects(ServerWorld world, BlockPos pos, float progress) {
-        // Particules rouges métalliques
         playRoundParticleEffect(world, pos, progress, 0xc7c7c7);
     }
 }

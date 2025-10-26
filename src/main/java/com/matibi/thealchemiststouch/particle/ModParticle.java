@@ -12,16 +12,12 @@ import net.minecraft.util.Identifier;
 public final class ModParticle {
 
     public static final ParticleType<CloudEffectData> CLOUD_EFFECT =
-            register("cloud_effect",
+            Registry.register(Registries.PARTICLE_TYPE, Identifier.of(TheAlchemistsTouch.MOD_ID, "cloud_effect"),
                     new ParticleType<>(false) {
                         @Override public MapCodec<CloudEffectData> getCodec() { return CloudEffectData.CODEC; }
                         @Override public PacketCodec<? super RegistryByteBuf, CloudEffectData> getPacketCodec() { return CloudEffectData.PACKET_CODEC; }
                     }
             );
-
-    private static ParticleType<CloudEffectData> register(String name, ParticleType<CloudEffectData> type) {
-        return Registry.register(Registries.PARTICLE_TYPE, Identifier.of(TheAlchemistsTouch.MOD_ID, name), type);
-    }
 
     public static void register()  {
         TheAlchemistsTouch.LOGGER.info("Registering mod particles for " + TheAlchemistsTouch.MOD_ID);

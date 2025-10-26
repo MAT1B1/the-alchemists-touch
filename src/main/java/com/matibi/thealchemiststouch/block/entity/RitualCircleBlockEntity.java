@@ -47,7 +47,6 @@ public class RitualCircleBlockEntity extends BlockEntity
     private int ritualTicks = 0;
     private boolean isPerforming = false;
 
-
     public RitualCircleBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RITUAL_CIRCLE_BE, pos, state);
     }
@@ -83,17 +82,14 @@ public class RitualCircleBlockEntity extends BlockEntity
         if (!(world instanceof ServerWorld serverWorld)) return;
         PlayerEntity ritualPlayer = serverWorld.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 6, false);
         if (ritualPlayer == null) {
-            circle.currentRitual.onFailure(serverWorld, pos, null);
-            circle.finishRitual();
+            circle.finishRitual(serverWorld, pos, state, null, false);
             return;
         }
 
-        // Vérifie si le rituel est encore valide
         if (!circle.currentRitual.checkConditions(serverWorld, circle, ritualPlayer)) {
             serverWorld.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                     2.5f, World.ExplosionSourceType.BLOCK);
-            circle.currentRitual.onFailure(serverWorld, pos, ritualPlayer);
-            circle.finishRitual();
+            circle.finishRitual(serverWorld, pos, state, ritualPlayer, false);
             return;
         }
 
@@ -105,43 +101,58 @@ public class RitualCircleBlockEntity extends BlockEntity
         circle.currentRitual.playEffects(serverWorld, pos, progress);
 
         if (circle.ritualTicks >= circle.currentRitual.duration()) {
-            if (world.random.nextFloat() <= circle.currentRitual.successChance(serverWorld, ritualPlayer))
-                circle.currentRitual.completeRitual(serverWorld, pos, ritualPlayer);
-            else
-                circle.currentRitual.onFailure(serverWorld, pos, ritualPlayer);
-
-            if (circle.currentRitual.consumeItem())
-                circle.inventory.getFirst().decrement(1);
-
-            circle.finishRitual();
-            serverWorld.syncWorldEvent(WorldEvents.END_PORTAL_FRAME_FILLED, pos, 0);
-
-            if (circle.getBlood() <= 0) {
-                serverWorld.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state));
-                serverWorld.removeBlock(pos, false);
-                serverWorld.playSound(
-                        null,
-                        pos.getX() + 0.5,
-                        pos.getY() + 0.5,
-                        pos.getZ() + 0.5,
-                        SoundEvents.ENTITY_GENERIC_EXPLODE,
-                        SoundCategory.BLOCKS,
-                        0.8f, 1.2f
-                );
-                TheAlchemistsTouch.LOGGER.warn("Le cercle rituel s'est désintégré (plus de sang).");
-            }
-
-            TheAlchemistsTouch.LOGGER.info("Rituel terminé !");
+            boolean success = world.random.nextFloat() <= circle.currentRitual.successChance(serverWorld, ritualPlayer);
+            circle.finishRitual(serverWorld, pos, state, ritualPlayer, success);
         }
     }
 
-    private void finishRitual() {
+    private void finishRitual(ServerWorld world, BlockPos pos, BlockState state, @Nullable PlayerEntity player, boolean success) {
+        if (currentRitual == null) return;
+
+        int bloodCost = currentRitual.bloodCost();
+        int xpCost = currentRitual.xpLvlCost();
+
+        if (player != null) {
+            int xpToConsume = Math.min(player.experienceLevel, xpCost);
+            player.addExperienceLevels(-xpToConsume);
+        }
+
+        int bloodToConsume = Math.min(this.getBlood(), bloodCost);
+        this.setBlood(this.getBlood() - bloodToConsume);
+
+        if (currentRitual.consumeItem())
+            this.inventory.getFirst().decrement(1);
+
+        if (success) {
+            currentRitual.completeRitual(world, pos, this, player);
+            TheAlchemistsTouch.LOGGER.info("Rituel réussi : {}", currentRitual.getClass().getSimpleName());
+        } else {
+            currentRitual.onFailure(world, pos, this, player);
+            TheAlchemistsTouch.LOGGER.info("Rituel échoué : {} ",
+                    currentRitual.getClass().getSimpleName());
+        }
+
+        // --- Effet visuel/sonore générique de fin ---
+        world.syncWorldEvent(WorldEvents.END_PORTAL_FRAME_FILLED, pos, 0);
+
+        // --- Si plus de sang → le cercle se détruit ---
+        if (this.getBlood() <= 0) {
+            world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state));
+            world.removeBlock(pos, false);
+            world.playSound(
+                    null,
+                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    SoundEvents.ENTITY_GENERIC_EXPLODE,
+                    SoundCategory.BLOCKS,
+                    0.8f, 1.2f
+            );
+        }
+
+        // --- Réinitialisation ---
         this.isPerforming = false;
         this.currentRitual = null;
         this.ritualTicks = 0;
-
-        syncToClient();
-        markDirty();
+        this.markDirty();
     }
 
 
@@ -170,17 +181,20 @@ public class RitualCircleBlockEntity extends BlockEntity
     public int getMaxBlood() { return MAX_BLOOD; }
 
     public void syncToClient() {
-        if (!(world instanceof ServerWorld serverWorld)) return;
-        RitualCircleSyncS2CPayload payload =
-                new RitualCircleSyncS2CPayload(pos, inventory.getFirst(), bloodAmount);
 
-        for (ServerPlayerEntity player : PlayerLookup.tracking(serverWorld, pos))
-            ServerPlayNetworking.send(player, payload);
     }
 
     @Override
     public void markDirty() {
         super.markDirty();
+
+        if (world instanceof ServerWorld serverWorld) {
+            RitualCircleSyncS2CPayload payload =
+                    new RitualCircleSyncS2CPayload(pos, inventory.getFirst(), bloodAmount);
+
+            for (ServerPlayerEntity player : PlayerLookup.tracking(serverWorld, pos))
+                ServerPlayNetworking.send(player, payload);
+        }
 
         if (!this.isPerforming && world instanceof ServerWorld serverWorld && !inventory.getFirst().isEmpty()) {
             PlayerEntity nearest = serverWorld.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 6, false);

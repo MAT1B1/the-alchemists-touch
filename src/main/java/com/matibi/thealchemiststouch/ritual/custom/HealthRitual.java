@@ -55,7 +55,7 @@ public class HealthRitual implements Ritual {
     }
 
     @Override
-    public void completeRitual(ServerWorld world, BlockPos pos, PlayerEntity player) {
+    public void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player) {
         player.removeStatusEffect(ModEffects.RESURRECTION);
 
         float damage = player.getHealth() / 2f;
@@ -78,7 +78,7 @@ public class HealthRitual implements Ritual {
     }
 
     @Override
-    public void onFailure(ServerWorld world, BlockPos pos, @Nullable PlayerEntity player) {
+    public void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         if (player != null) {
             player.removeStatusEffect(ModEffects.RESURRECTION);
             player.damage(world, world.getDamageSources().magic(), 3 * 2f);
