@@ -7,6 +7,7 @@ import com.matibi.thealchemiststouch.util.TickUtil;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -19,12 +20,6 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 public class ZombieRitual implements Ritual {
-
-    @Override
-    public boolean checkConditions(ServerWorld world, RitualCircleBlockEntity blockEntity, PlayerEntity player) {
-        return blockEntity.getIngredient() == Items.ZOMBIE_HEAD;
-    }
-
     @Override
     public float successChance(ServerWorld world, PlayerEntity player) {
         float healthRatio = player.getHealth() / player.getMaxHealth();
@@ -57,6 +52,11 @@ public class ZombieRitual implements Ritual {
                         30, 0.4, 0.4, 0.4, 0.02);
             }
         });
+    }
+
+    @Override
+    public Item getIngredient() {
+        return Items.ROTTEN_FLESH;
     }
 
     @Override

@@ -12,6 +12,9 @@ import net.minecraft.util.math.BlockPos;
 public class RitualCircleScreenHandler extends ScreenHandler {
     private final Inventory inventory;
 
+    private int blood = 0;
+    private int maxBlood = 1000;
+
     public RitualCircleScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
         this(syncId, playerInventory, playerInventory.player.getEntityWorld().getBlockEntity(pos));
     }
@@ -19,19 +22,24 @@ public class RitualCircleScreenHandler extends ScreenHandler {
     public RitualCircleScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity) {
         super(ModScreenHandlers.RITUAL_CIRCLE_SCREEN_HANDLER, syncId);
 
-        inventory = (Inventory) blockEntity;
+        this.inventory = (Inventory) blockEntity;
 
-        this.addSlot(new Slot(inventory, 0, 80, 35) {
-            @Override
-            public int getMaxItemCount() {
-                return 1;
-            }
+        if (blockEntity instanceof com.matibi.thealchemiststouch.block.entity.RitualCircleBlockEntity circle) {
+            this.blood = circle.getBlood();
+            this.maxBlood = circle.getMaxBlood();
+        }
+
+        this.addSlot(new Slot(inventory, 0, 59, 36) {
+            @Override public int getMaxItemCount() { return 1; }
         });
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-
     }
+
+    public int getBlood() { return blood; }
+    public int getMaxBlood() { return maxBlood; }
+    public void syncBlood(int blood, int max) { this.blood = blood; this.maxBlood = max; }
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int invSlot) {

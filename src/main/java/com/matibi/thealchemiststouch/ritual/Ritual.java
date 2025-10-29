@@ -2,6 +2,7 @@ package com.matibi.thealchemiststouch.ritual;
 
 import com.matibi.thealchemiststouch.block.entity.RitualCircleBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -13,12 +14,15 @@ import org.jetbrains.annotations.Nullable;
  * Base interface for a ritual, purely in code.
  */
 public interface Ritual {
-
-    /** Checks if the ritual can be started */
-    boolean checkConditions(ServerWorld world, RitualCircleBlockEntity blockEntity, PlayerEntity player);
-
     /** Main execution of the ritual */
     void completeRitual(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, PlayerEntity player);
+
+    Item getIngredient();
+
+    /** Checks if the ritual can be started */
+    default boolean checkConditions(ServerWorld world, RitualCircleBlockEntity blockEntity, PlayerEntity player) {
+        return blockEntity.getIngredient().getItem() == this.getIngredient();
+    }
 
     /** Executed if the ritual fails */
     default void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {

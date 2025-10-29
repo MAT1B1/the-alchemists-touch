@@ -40,7 +40,7 @@ public class SyringeItem extends Item {
         user.damage(sw, world.getDamageSources().mobAttack(user), 1.0f);
         is.damage(1, user, EquipmentSlot.MAINHAND);
 
-        if (pcc.hasEffects())
+        if (pcc.hasEffects()) {
             pcc.getEffects().forEach(instance -> {
                 StatusEffectInstance statusEffect = user.getStatusEffect(instance.getEffectType());
                 int dur = statusEffect == null ? 0 : statusEffect.getDuration();
@@ -53,8 +53,8 @@ public class SyringeItem extends Item {
                         instance.shouldShowIcon()
                 ));
             });
-
-        else if (!user.getActiveStatusEffects().isEmpty()) {
+            resetSyringeEffect(is);
+        } else if (!user.getActiveStatusEffects().isEmpty()) {
             setSyringeWithEffect(is, user);
         } else {
             ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
@@ -71,9 +71,10 @@ public class SyringeItem extends Item {
         if (pcc == null) return;
         stack.damage(1, attacker, EquipmentSlot.MAINHAND);
 
-        if (pcc.hasEffects())
+        if (pcc.hasEffects()) {
             pcc.getEffects().forEach(target::addStatusEffect);
-        else if (!target.getActiveStatusEffects().isEmpty()) {
+            resetSyringeEffect(stack);
+        } else if (!target.getActiveStatusEffects().isEmpty()) {
             setSyringeWithEffect(stack, target);
         } else if (target instanceof Monster) {
             ItemStack nis = new ItemStack(ModItems.BLOOD_BAG);
@@ -87,6 +88,16 @@ public class SyringeItem extends Item {
             attacker.giveOrDropStack(new ItemStack(ModItems.BLOOD_BAG));
 
         super.postHit(stack, target, attacker);
+    }
+
+    private void resetSyringeEffect(ItemStack is) {
+        PotionContentsComponent pcc = new PotionContentsComponent(
+                Optional.empty(),
+                Optional.empty(),
+                List.of(),
+                Optional.empty()
+        );
+        is.set(DataComponentTypes.POTION_CONTENTS, pcc);
     }
 
     private void setSyringeWithEffect(ItemStack is, LivingEntity target) {

@@ -9,6 +9,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -22,8 +23,6 @@ public class InfinityRitual implements Ritual {
 
     @Override
     public boolean checkConditions(ServerWorld world, RitualCircleBlockEntity blockEntity, PlayerEntity player) {
-        if (blockEntity.getIngredient() != Items.NETHER_STAR) return false;
-
         long time = world.getTimeOfDay() % 24000L;
 
         if (time < 18000 || time > 20000) return false;
@@ -76,6 +75,11 @@ public class InfinityRitual implements Ritual {
         world.spawnParticles(ParticleTypes.END_ROD,
                 pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
                 40, 0.6, 0.6, 0.6, 0.02);
+    }
+
+    @Override
+    public Item getIngredient() {
+        return Items.NETHER_STAR;
     }
 
     @Override

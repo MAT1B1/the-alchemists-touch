@@ -14,7 +14,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -32,6 +31,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +41,9 @@ public class RitualCircleBlockEntity extends BlockEntity
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private int bloodAmount = 1; // initial amount
-    private static final int MAX_BLOOD = 1000;
+    private static final int MAX_BLOOD = 300;
+    private Direction facing = Direction.NORTH;
+
 
     private Ritual currentRitual = null;
     private int ritualTicks = 0;
@@ -57,12 +59,10 @@ public class RitualCircleBlockEntity extends BlockEntity
 
     public void tryTriggerRitual(ServerWorld world, RitualCircleBlockEntity circle, PlayerEntity player) {
         for (Ritual ritual : RitualRegistry.RITUAL) {
-            if (ritual.checkConditions(world, circle, player)) {
+            if (ritual.checkConditions(world, circle, player)
+                    && ritual.getIngredient() == circle.getIngredient().getItem()) {
                 if (circle.getBlood() < ritual.bloodCost() || player.experienceLevel < ritual.xpLvlCost())
                     continue;
-
-                this.bloodAmount -= ritual.bloodCost();
-                player.addExperienceLevels(-ritual.xpLvlCost());
 
                 // Démarre le rituel
                 this.currentRitual = ritual;
@@ -155,7 +155,6 @@ public class RitualCircleBlockEntity extends BlockEntity
         this.markDirty();
     }
 
-
     // =============================================
     // =============== DATA & SYNC =================
     // =============================================
@@ -163,7 +162,7 @@ public class RitualCircleBlockEntity extends BlockEntity
     @Override
     public DefaultedList<ItemStack> getItems() { return inventory; }
 
-    public Item getIngredient() { return inventory.getFirst().getItem();}
+    public ItemStack getIngredient() { return inventory.getFirst();}
 
     @Override
     public boolean isEmpty() {
@@ -180,8 +179,13 @@ public class RitualCircleBlockEntity extends BlockEntity
 
     public int getMaxBlood() { return MAX_BLOOD; }
 
-    public void syncToClient() {
+    public Direction getFacing() {
+        return facing;
+    }
 
+    public void setFacing(Direction facing) {
+        this.facing = facing;
+        markDirty();
     }
 
     @Override
@@ -213,7 +217,7 @@ public class RitualCircleBlockEntity extends BlockEntity
         super.writeData(view);
         Inventories.writeData(view, inventory);
         view.putInt("Blood", bloodAmount);
-
+        view.putInt("Facing", this.facing.getIndex());
         // Sauvegarde de l'état du rituel
         view.putBoolean("IsPerforming", isPerforming);
         if (currentRitual != null) {
@@ -230,6 +234,7 @@ public class RitualCircleBlockEntity extends BlockEntity
         super.readData(view);
         Inventories.readData(view, inventory);
         this.bloodAmount = view.getInt("Blood", 0);
+        this.facing = Direction.byIndex(view.getInt("Facing", 0));
 
         this.isPerforming = view.getBoolean("IsPerforming", false);
         if (isPerforming) {

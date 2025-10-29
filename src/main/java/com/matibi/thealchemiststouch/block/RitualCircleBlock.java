@@ -64,6 +64,7 @@ public class RitualCircleBlock extends BlockWithEntity implements BlockEntityPro
 
         if (world.getBlockEntity(pos) instanceof RitualCircleBlockEntity circleEntity) {
             ItemStack circleStack = circleEntity.getStack(0);
+            circleEntity.setFacing(player.getHorizontalFacing());
 
             // --- Ouvrir GUI ---
             if (player.isInSneakingPose() || (circleEntity.isEmpty() && stack.isEmpty())) {
@@ -145,7 +146,6 @@ public class RitualCircleBlock extends BlockWithEntity implements BlockEntityPro
             world.playSound(placer, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1f, 2f);
 
         be.markDirty();
-        be.syncToClient();
         world.updateListeners(pos, state, state, 3);
         world.emitGameEvent(GameEvent.BLOCK_ACTIVATE, pos, GameEvent.Emitter.of(state));
     }

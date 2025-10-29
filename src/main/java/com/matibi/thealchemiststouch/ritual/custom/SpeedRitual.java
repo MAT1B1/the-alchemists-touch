@@ -9,6 +9,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -22,8 +23,6 @@ public class SpeedRitual implements Ritual {
 
     @Override
     public boolean checkConditions(ServerWorld world, RitualCircleBlockEntity blockEntity, PlayerEntity player) {
-        if (blockEntity.getIngredient() != Items.SUGAR) return false;
-
         long time = world.getTimeOfDay() % 24000L;
         if (time >= 12000) return false;
 
@@ -63,7 +62,12 @@ public class SpeedRitual implements Ritual {
                 20, 0.5, 0.5, 0.5, 0.01);
     }
 
-   @Override
+    @Override
+    public Item getIngredient() {
+        return Items.FEATHER;
+    }
+
+    @Override
     public void onFailure(ServerWorld world, BlockPos pos, RitualCircleBlockEntity circle, @Nullable PlayerEntity player) {
         if (player != null) {
             player.damage(world, world.getDamageSources().magic(), 2 * 2f);
