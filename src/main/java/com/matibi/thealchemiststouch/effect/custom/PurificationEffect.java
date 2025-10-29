@@ -14,7 +14,7 @@ public class PurificationEffect extends StatusEffect {
 
     @Override
     public boolean applyUpdateEffect(ServerWorld world, LivingEntity entity, int amplifier) {
-        if (!entity.getWorld().isClient) {
+        if (!entity.getEntityWorld().isClient()) {
             for (StatusEffectInstance effect : entity.getStatusEffects()) {
                 if (effect.getEffectType().value().getCategory() == StatusEffectCategory.HARMFUL) {
                     entity.removeStatusEffect(effect.getEffectType());

@@ -1,16 +1,24 @@
 package com.matibi.thealchemiststouch;
 
+import com.matibi.thealchemiststouch.block.ModBlocks;
+import com.matibi.thealchemiststouch.block.entity.ModBlockEntities;
+import com.matibi.thealchemiststouch.client.modmenu.config.ModConfig;
 import com.matibi.thealchemiststouch.datacomponent.ModDataComponents;
 import com.matibi.thealchemiststouch.effect.ModEffects;
+import com.matibi.thealchemiststouch.event.ModEvent;
 import com.matibi.thealchemiststouch.group.ModItemGroups;
 import com.matibi.thealchemiststouch.item.ModItems;
+import com.matibi.thealchemiststouch.loottable.ModLootTable;
 import com.matibi.thealchemiststouch.network.ModNetworking;
-import com.matibi.thealchemiststouch.potion.ModPotion;
+import com.matibi.thealchemiststouch.potion.ModPotions;
 import com.matibi.thealchemiststouch.recipe.ModRecipeSerializer;
-import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
+import com.matibi.thealchemiststouch.ritual.ModRituals;
+import com.matibi.thealchemiststouch.screen.ModScreenHandlers;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Items;
 import org.slf4j.Logger;
@@ -24,18 +32,27 @@ public class TheAlchemistsTouch implements ModInitializer {
 	@Override
 	public void onInitialize() {
         ModNetworking.init();
-        ModPotion.register();
+        ModPotions.register();
 		ModEffects.register();
 		ModItems.register();
-		ModRunes.register();
+		ModAlchemicalStone.register();
 		ModRecipeSerializer.register();
         ModItemGroups.register();
         ModDataComponents.register();
+        ModLootTable.register();
+        ModEvent.register();
+        ModBlocks.register();
+        ModBlockEntities.register();
+        ModScreenHandlers.register();
+        ModRituals.register();
 
 		// max stack des potions
 		DefaultItemComponentEvents.MODIFY.register(context -> context.modify(item ->
                         item == Items.POTION || item == Items.SPLASH_POTION || item == Items.LINGERING_POTION,
                 (builder, item) -> builder.add(DataComponentTypes.MAX_STACK_SIZE, 16)
         ));
+
+        var cfgDir = FabricLoader.getInstance().getConfigDir().toFile();
+        ModConfig.init(cfgDir);
 	}
 }

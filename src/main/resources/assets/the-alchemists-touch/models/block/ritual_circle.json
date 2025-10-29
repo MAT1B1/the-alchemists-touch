@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.9",
+  "credit": "Made with Blockbench",
+  "textures": {
+    "0": "the-alchemists-touch:block/ritual_circle",
+    "particle": "the-alchemists-touch:block/ritual_circle"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 0.1, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 0.1], "texture": "#0"},
+        "east": {"uv": [0, 0, 16, 0.1], "texture": "#0"},
+        "south": {"uv": [0, 0, 16, 0.1], "texture": "#0"},
+        "west": {"uv": [0, 0, 16, 0.1], "texture": "#0"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+      }
+    }
+  ]
+}

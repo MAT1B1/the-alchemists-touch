@@ -2,7 +2,10 @@ package com.matibi.thealchemiststouch.datagen.language;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -41,45 +44,81 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
         register("frost", "Givre");
         register("death", "Mort");
         register("double_health", "Double vie");
-        register("resurrection", "Résurrection");
         register("infinity", "Infinité","d'Infinité");
-        register("vitality", "Vitalité");
         register("long_cooldown", "Cooldown allongé");
         register("short_cooldown", "Cooldown réduit");
         register("masking", "Voile d'oublie");
         register("unstable", "Instable", "Instable");
         register("vampirism", "Vampirisme");
+        register("stun", "Étourdissement", "d'Étourdissement");
+        register("no_interaction", "Mains liées");
+        register("aftermath", "Contrecoup");
+        register("berserk", "Berserk");
+        register("ghost_walk", "Marche spectral");
+        register("dwarf", "Nanisme");
+        register("photosynthesis", "Photosynthèse");
+        register("oblivion", "Oubli", "d'Oubli");
+        register("adhesion", "Adhésion", "d'Adhésion");
+        register("rust", "Rouille");
+
+        // Potions permanentes
+        register("perm_health", "Vie Permanente");
+        register("perm_strength", "Force Permanente");
+        register("perm_speed", "Vitesse Permanente");
 
         // Effets custom avec rune
-        registerWithRune("petrification", "Pétrification");
-        registerWithRune("acid", "Acidité", "d'Acidité");
-        registerWithRune("ignition", "Ignition", "d'Ignition");
-        registerWithRune("alchemist", "Alchimiste", "de l'Alchimiste");
+        registerWithAlchemicalStone("resurrection", "Résurrection");
+        registerWithAlchemicalStone("giant", "Géant");
+        registerWithAlchemicalStone("petrification", "Pétrification");
+        registerWithAlchemicalStone("acid", "Acidité", "d'Acidité");
+        registerWithAlchemicalStone("ignition", "Ignition", "d'Ignition");
+        registerWithAlchemicalStone("alchemist", "Alchimiste", "de l'Alchimiste");
 
         // ---- Autres items qui ne sont pas des effets ----
         t.add("item.the-alchemists-touch.poisonous_carrot", "Carotte empoisonnée");
         t.add("item.the-alchemists-touch.poisonous_beetroot", "Betterave empoisonnée");
         t.add("item.the-alchemists-touch.alchemist_core", "Noyau d'Alchimiste");
-        t.add("item.the-alchemists-touch.rune.effect.empty", "Pierre alchimique");
-        t.add("item.the-alchemists-touch.rune.effect.mixed", "Pierre alchimique multi-effest");
+        t.add("item.the-alchemists-touch.claw", "Griffe");
+        t.add("item.the-alchemists-touch.zombie_brain", "Cerveau de zombie");
+        t.add("item.the-alchemists-touch.leaf", "Feuille");
+        t.add("item.the-alchemists-touch.witch_finger", "Doigt de sorcière");
+        t.add("item.the-alchemists-touch.blood_bag", "Poche de sang");
+        t.add("item.the-alchemists-touch.oxydation", "Fragment d'oxydation");
+        t.add("item.the-alchemists-touch.charged_copper", "Cuivre chargé");
+        t.add("item.the-alchemists-touch.alchemical_stone.effect.isEmpty", "Pierre alchimique");
+        t.add("item.the-alchemists-touch.alchemical_stone.effect.mixed", "Pierre alchimique multi-effest");
         registerVanilla("mixed", "multi-effets");
 
+        // Seringue
+        for (var entry : Registries.STATUS_EFFECT) {
+            Identifier id = Registries.STATUS_EFFECT.getId(entry);
+            if (id == null || !id.getNamespace().equals("minecraft")) continue;
+            String translationKey = "item.the-alchemists-touch.syringe.effect." + id.toTranslationKey();
+            String effectName = Text.translatable(entry.getTranslationKey()).getString();
+            t.add(translationKey, "Seringue de " + effectName);
+        }
+        t.add("item.the-alchemists-touch.syringe", "Seringue");
+        t.add("item.the-alchemists-touch.syringe.effect.isEmpty", "Seringue");
+        t.add("the-alchemists-touch.blood_type.unknown", "Inconnu");
+        t.add("the-alchemists-touch.blood_type.human", "Sang humain");
+        t.add("the-alchemists-touch.blood_type.monster", "Sang de monstre");
+
         // Messages spéciaux
-        t.add("item.the-alchemists-touch.rune.block_only", "Les pierres alchimiques ne peuvent être utilisées que sur des blocs");
-        t.add("item.the-alchemists-touch.rune.block_not_good", "Le bloc n'est pas compatible");
+        t.add("item.the-alchemists-touch.alchemical_stone.block_only", "Les pierres alchimiques ne peuvent être utilisées que sur des blocs");
+        t.add("item.the-alchemists-touch.alchemical_stone.block_not_good", "Le bloc n'est pas compatible");
         t.add("itemGroup.the-alchemists-touch.alchemy", "Alchimie");
         t.add("splash.the-alchemists-touch.magic", "L'Alchimie c'est le pouvoir !!!");
         t.add("splash.the-alchemists-touch.thanks", "Merci de me supporter LivelyBadGood");
         t.add("tooltip.the-alchemists-touch.imbued_line", "%s (%s coups restants)");
     }
 
-    private void registerWithRune(String id, String name) {
-        registerWithRune(id, name, "de " + name);
+    private void registerWithAlchemicalStone(String id, String name) {
+        registerWithAlchemicalStone(id, name, "de " + name);
     }
 
-    private void registerWithRune(String id, String effect_name, String name) {
+    private void registerWithAlchemicalStone(String id, String effect_name, String name) {
         register(id, effect_name, name);
-        t.add("item.the-alchemists-touch.rune.effect." + id, "Pierre alchimique " + name);
+        t.add("item.the-alchemists-touch.alchemical_stone.effect." + id, "Pierre " + name);
     }
 
     private void registerVanilla(String id, String name) {
@@ -96,5 +135,6 @@ public class ModFrenchLanguageProvider extends FabricLanguageProvider {
     private void register(String id, String effect_name, String name) {
         registerVanilla(id, name);
         t.add("effect.the-alchemists-touch." + id, effect_name);
+        t.add("item.the-alchemists-touch.syringe.effect.the-alchemists-touch." + id, "Seringue " + name);
     }
 }

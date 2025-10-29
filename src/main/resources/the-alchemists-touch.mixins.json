@@ -3,33 +3,36 @@
   "package": "com.matibi.thealchemiststouch.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AcidMixin",
-    "HungerManagerAccessor",
-    "IgnitionMixin",
-    "LiquidWalkerMixin",
-    "MaskingMixin",
-    "MerchantEntityMixin",
-    "MobEntityMixin",
-    "MouseMixin",
-    "PlayerInputMixin",
-    "ReactivationMixin",
-    "ResurrectionMixin",
-    "VampirismMixin",
+    "brewingNpotion.BrewingRecipeRegistryMixin",
     "brewingNpotion.BrewingStandAccessor",
     "brewingNpotion.BrewingStandBlockEntityMixin",
     "brewingNpotion.LingeringPotionItemMixin",
     "brewingNpotion.SplashPotionItemMixin",
-    "imbuedWeapon.ItemPostHitMixin",
-    "petrification.PetrificationMixin",
-    "petrification.PetrifiedTrackedFlagMixin"
+    "effect.AcidMixin",
+    "effect.BerserkMixin",
+    "effect.BrainWashingMixin",
+    "effect.GhostWalkMixin",
+    "effect.HungerManagerAccessor",
+    "effect.IgnitionFrostMixin",
+    "effect.LiquidWalkerMixin",
+    "effect.MaskingMixin",
+    "effect.MerchantEntityMixin",
+    "effect.MobEntityMixin",
+    "effect.MouseMixin",
+    "effect.ReactivationMixin",
+    "effect.VampirismMixin",
+    "effect.petrification.PetrificationMixin",
+    "effect.petrification.PetrifiedTrackedFlagMixin",
+    "imbuedWeapon.ItemPostHitMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "FrostMixin",
-    "petrification.PetrificationArmMixin",
-    "petrification.PetrifiedStateDuck",
-    "petrification.PetrifiedTextureMixin"
+    "effect.FrostMixin",
+    "effect.OreSenseMixin",
+    "effect.petrification.PetrificationArmMixin",
+    "effect.petrification.PetrifiedStateDuck",
+    "effect.petrification.PetrifiedTextureMixin"
   ]
 }

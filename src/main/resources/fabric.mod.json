@@ -24,18 +24,21 @@
 		],
 		"fabric-datagen": [
 			"com.matibi.thealchemiststouch.TheAlchemistsTouchDataGenerator"
-		]
+		],
+        "modmenu": [
+          "com.matibi.thealchemiststouch.client.modmenu.ModMenuIntegration"
+        ]
 	},
 	"mixins": [
 		"the-alchemists-touch.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.14",
-		"minecraft": ">=1.21.6 <=1.21.8",
+		"minecraft": "<=1.21.10 >=1.21.9",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"modmenu": ">15.0.0"
 	}
 }

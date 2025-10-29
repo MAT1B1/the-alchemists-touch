@@ -1,13 +1,18 @@
 package com.matibi.thealchemiststouch.effect.custom;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public class TeleportationEffect extends StatusEffect {
     public TeleportationEffect() {
@@ -35,6 +40,24 @@ public class TeleportationEffect extends StatusEffect {
     }
 
     private static void applyEffect(ServerWorld world, @Nullable Entity effectEntity, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
+        if (target instanceof ServerPlayerEntity sp && amplifier > 0) {
+            ServerPlayerEntity.Respawn r = sp.getRespawn();
+
+            if (r != null) {
+                MinecraftServer serv = sp.getEntityWorld().getServer();
+                var targetWorld = serv.getWorld(r.respawnData().getDimension());
+                if (targetWorld != null) {
+                    BlockPos p = r.respawnData().getPos();
+                    double x = p.getX() + 0.5;
+                    double y = p.getY();
+                    double z = p.getZ() + 0.5;
+                    sp.teleport(targetWorld, x, y + 1, z, Set.of(), sp.getYaw(), sp.getPitch(), false);
+                    world.sendEntityStatus(sp, EntityStatuses.ADD_PORTAL_PARTICLES);
+                    return;
+                }
+            }
+        }
+
         double radius = 8.0 + world.random.nextDouble() * 8.0;
         double angle = world.random.nextDouble() * 2 * Math.PI;
         double dx = Math.cos(angle) * radius;

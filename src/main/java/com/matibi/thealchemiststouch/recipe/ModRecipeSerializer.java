@@ -7,8 +7,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModRecipeSerializer {
-    public static final SpecialCraftingRecipe.SpecialRecipeSerializer<RuneRecipe> RUNE_FROM_POTION =
-            new SpecialCraftingRecipe.SpecialRecipeSerializer<>(RuneRecipe::new);
+    public static final SpecialCraftingRecipe.SpecialRecipeSerializer<AlchemicalStoneRecipe> RUNE_FROM_POTION =
+            new SpecialCraftingRecipe.SpecialRecipeSerializer<>(AlchemicalStoneRecipe::new);
 
     public static final SpecialCraftingRecipe.SpecialRecipeSerializer<CombinationRecipe> COMBINATION =
             new SpecialCraftingRecipe.SpecialRecipeSerializer<>(CombinationRecipe::new);

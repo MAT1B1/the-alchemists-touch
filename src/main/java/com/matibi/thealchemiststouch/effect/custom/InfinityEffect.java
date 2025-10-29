@@ -1,7 +1,7 @@
 package com.matibi.thealchemiststouch.effect.custom;
 
 import com.matibi.thealchemiststouch.effect.ModEffects;
-import com.matibi.thealchemiststouch.util.HealthUtils;
+import com.matibi.thealchemiststouch.util.AttributeUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -47,7 +47,7 @@ public class InfinityEffect extends StatusEffect {
         for (StatusEffectInstance effect : target.getStatusEffects()) {
             if (BLACKLISTED_EFFECTS.contains(effect.getEffectType().value())) continue;
             if (target instanceof PlayerEntity player)
-                HealthUtils.changeHealthBy(player, -2.0f);
+                AttributeUtils.changeHealthBy(player, -2.0f);
             StatusEffectInstance infinite = new StatusEffectInstance(
                     effect.getEffectType(),
                     -1,

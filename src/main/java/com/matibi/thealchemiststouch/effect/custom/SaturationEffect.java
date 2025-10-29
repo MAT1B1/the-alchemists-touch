@@ -1,6 +1,6 @@
 package com.matibi.thealchemiststouch.effect.custom;
 
-import com.matibi.thealchemiststouch.mixin.HungerManagerAccessor;
+import com.matibi.thealchemiststouch.mixin.effect.HungerManagerAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;

@@ -4,8 +4,8 @@ import com.matibi.thealchemiststouch.item.ModItems;
 import com.matibi.thealchemiststouch.recipe.CombinationRecipe;
 import com.matibi.thealchemiststouch.recipe.FoodWithEffectRecipe;
 import com.matibi.thealchemiststouch.recipe.ImbuedEffectRecipe;
-import com.matibi.thealchemiststouch.recipe.RuneRecipe;
-import com.matibi.thealchemiststouch.rune.ModRunes;
+import com.matibi.thealchemiststouch.recipe.AlchemicalStoneRecipe;
+import com.matibi.thealchemiststouch.item.alchemicalStone.ModAlchemicalStone;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipe.ComplexRecipeJsonBuilder;
@@ -14,6 +14,7 @@ import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -36,13 +37,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input(Items.FERMENTED_SPIDER_EYE)
                         .input(Items.BONE_MEAL)
                         .input(Items.ROTTEN_FLESH)
-                        .input(Items.RESIN_CLUMP)
-                        .criterion(hasItem(ModItems.POISONOUS_BEETROOT), conditionsFromItem(ModItems.POISONOUS_BEETROOT))
-                        .criterion(hasItem(ModItems.POISONOUS_CARROT), conditionsFromItem(ModItems.POISONOUS_CARROT))
-                        .criterion(hasItem(Items.POISONOUS_POTATO), conditionsFromItem(Items.POISONOUS_POTATO))
+                        .input(ModItems.WITCH_S_FINGER)
+                        .criterion(hasItem(ModItems.WITCH_S_FINGER), conditionsFromItem(ModItems.WITCH_S_FINGER))
                         .offerTo(exporter);
 
-                createShaped(RecipeCategory.BREWING, ModRunes.RUNE, 8)
+                createShaped(RecipeCategory.BREWING, ModAlchemicalStone.ALCHEMICAL_STONE, 8)
                         .pattern("SSS")
                         .pattern("SAS")
                         .pattern("SSS")
@@ -51,8 +50,33 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(hasItem(ModItems.ALCHEMIST_CORE), conditionsFromItem(ModItems.ALCHEMIST_CORE))
                         .offerTo(exporter);
 
+                createShaped(RecipeCategory.BREWING, ModAlchemicalStone.ALCHEMICAL_STONE, 8)
+                        .pattern("SSS")
+                        .pattern("SAS")
+                        .pattern("SSS")
+                        .input('A', Items.NETHER_WART)
+                        .input('S', Items.COBBLESTONE)
+                        .criterion(hasItem(ModItems.ALCHEMIST_CORE), conditionsFromItem(ModItems.ALCHEMIST_CORE))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.BREWING, ModItems.SYRINGE)
+                        .input(Items.GLASS_BOTTLE)
+                        .input(Items.IRON_NUGGET)
+                        .criterion(hasItem(Items.GLASS_BOTTLE), conditionsFromItem(Items.GLASS_BOTTLE))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, ModItems.LEAF, 9)
+                        .input(ItemTags.LEAVES)
+                        .criterion("has_leaves", conditionsFromTag(ItemTags.LEAVES))
+                        .offerTo(exporter);
+
+                createShapeless(RecipeCategory.MISC, Items.LEAF_LITTER, 1)
+                        .input(ModItems.LEAF, 9)
+                        .criterion(hasItem(ModItems.LEAF), conditionsFromItem(ModItems.LEAF))
+                        .offerTo(exporter);
+
                 // Génère la recette spéciale pour la rune à partir d'une potion
-                ComplexRecipeJsonBuilder.create(RuneRecipe::new)
+                ComplexRecipeJsonBuilder.create(AlchemicalStoneRecipe::new)
                         .offerTo(exporter, "rune_recipe");
                 ComplexRecipeJsonBuilder.create(CombinationRecipe::new)
                         .offerTo(exporter, "combination_recipe");
